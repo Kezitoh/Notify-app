@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  url: 'https://notify.admyst.com'
-  // url: 'http://192.168.3.104'
-  // url: 'http://localhost'
-};
+  // url: 'https://notify.admyst.com'
+  url: 'http://192.168.3.104:8000'
+  // url: 'http://localhost:8000'
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
