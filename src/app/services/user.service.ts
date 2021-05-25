@@ -18,7 +18,8 @@ export class UserService {
   token: string = null;
 
   usuario$: EventEmitter<User> = new EventEmitter<User>();
-  usuario: User = {};
+  usuario: any;
+  
 
   constructor(private http: HttpClient,
     private storage: Storage, private navCtrl: NavController, private uiService: UiService) {
@@ -34,7 +35,7 @@ export class UserService {
 
     const data = { user, password };
 
-    return new Promise<boolean>(resolve => {
+    return new Promise<any>(resolve => {
 
       this.http.post(`${URL}/login`, data).subscribe(async resp => {
 
@@ -45,7 +46,16 @@ export class UserService {
           resolve(false);
         }
 
-        await this.guardarToken(resp['token']);
+        await this.guardarToken(resp['token']).then(()=> {
+          if(!this.usuario.has_logged) {
+            const header = "¡Hola, "+this.usuario.name+"!"
+            const subheader = "Vemos que eres nuevo por aquí"
+            const message = "Para continuar, cambia tu contraseña por una más segura a continuación."
+            this.uiService.presentAlert(header,subheader,message);
+            resolve("newbie");
+          }
+        });
+
         resolve(true);
 
       });
@@ -55,8 +65,6 @@ export class UserService {
   }
 
   register(user: User) {
-
-    console.log("ROL:",user.id_role);
     
     // return new Promise<boolean>(resolve => {
       this.http.post(`${URL}/register`, {id_group: user.id_group, id_role: user.id_role, is_active: user.is_activated, user: user.user, name: user.name, surname: user.surname, email: user.email})
@@ -85,9 +93,10 @@ export class UserService {
   async guardarToken(token: string) {
     this.token = token;
 
+    await this.validaToken();
     await this.storage.set('token', token);
 
-    await this.validaToken();
+    
 
   }
 
