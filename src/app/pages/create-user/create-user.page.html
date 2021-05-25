@@ -1,0 +1,52 @@
+<app-header title="Create User"></app-header>
+
+<ion-content>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" #fUser="ngForm">
+
+    <ion-item>
+      <ion-label position="floating">Rol<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="group" value="" multiple="false" placeholder="Selecciona un rol">
+        <ion-select-option  value="1" >Administrador</ion-select-option>
+        <ion-select-option  value="2" >Usuario</ion-select-option>
+      </ion-select>     
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Grupo<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="group" value="" multiple="false" placeholder="Selecciona un grupo">
+        <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
+      </ion-select>    
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Usuario<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="user" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nombre<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Apellidos<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="surname" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="email" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Active</ion-label>
+      <ion-toggle required formControlName="active"checked="true" ></ion-toggle>
+    </ion-item>
+
+    <ion-button block color="primary" type="submit" [disabled]="userForm.invalid">
+      Login
+    </ion-button>
+  </form>
+
+</ion-content>

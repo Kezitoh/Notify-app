@@ -1,0 +1,7 @@
+<ion-list lines="none">
+
+  <ion-card *ngFor="let n of notifications" (click)="open_modal(n)" class="ion-padding-bottom">
+    <app-notification [notification]="n" ></app-notification>
+  </ion-card>
+
+</ion-list>

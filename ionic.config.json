@@ -1,0 +1,7 @@
+{
+  "name": "comms-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

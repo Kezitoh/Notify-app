@@ -1,0 +1,17 @@
+[
+    {
+        "title": "Outbox",
+        "url": "/outbox",
+        "icon": "send"
+    },
+    {
+        "title": "Create notification",
+        "url": "/create-notification",
+        "icon": "notifications"
+    },
+    {
+        "title": "Create new user",
+        "url": "/create-user",
+        "icon": "person-add"
+    }
+]

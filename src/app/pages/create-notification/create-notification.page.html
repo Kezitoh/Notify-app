@@ -1,0 +1,110 @@
+<app-header title="Create Notification"></app-header>
+
+<ion-content>
+
+  <form [formGroup]="notificationForm" (ngSubmit)="onSubmit()" #fNotification="ngForm">
+    <ion-item>
+      <ion-label position="floating">Title <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="title" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Body <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-textarea required formControlName="text" type="text"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Type <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select required formControlName="type" value="" multiple="false" placeholder="Select type">
+        <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Recievers</ion-label>
+      </ion-list-header>
+      
+      <ion-item>
+        <ion-label position="floating">Groups</ion-label>
+        <ion-select formControlName="groups" value="" multiple="true" placeholder="Select groups">
+          <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="floating">Users</ion-label>
+        <ion-select formControlName="users" value="" multiple="true" placeholder="Select users">
+          <ion-select-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+    </ion-list>
+
+    <ion-list>
+    
+      <ion-list-header>
+        <ion-label>Attachment</ion-label>
+        <ion-button *ngIf="cordova" (click)="addAttachment()">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+    
+        <div *ngIf="!cordova" class="ion-padding">
+          <label for="file-upload" class="custom-file-upload">Add Attachment</label>
+          <input id="file-upload" type="file" />
+        </div>
+      </ion-list-header>
+    
+      <ion-item-sliding >
+        <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
+    
+          <ion-img class="file-icon"
+            src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+          </ion-img>
+          <ion-text color="primary">
+            {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
+          </ion-text>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option (click)="delete()" color="light">
+            <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    
+    
+      <!-- Selección múltiple de attachments -->
+      <!-- <ion-item-sliding *ngFor="let attachment of attachments; let item = index">
+        
+        <ng-container *ngIf="attachments.length != 0">
+          <ion-item (click)="preview(attachment.path)">
+    
+            <ion-img class="file-icon"
+              src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+            </ion-img>
+            <ion-text color="primary">
+              {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
+            </ion-text>
+    
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="delete(item)" color="light">
+              <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+    
+        </ng-container>
+      </ion-item-sliding> -->
+    </ion-list>
+    
+    <ion-button expand="block" color="primary" type="submit" [disabled]="notificationForm.invalid">
+      Crear notificación
+    </ion-button>
+    
+  </form>
+  
+</ion-content>

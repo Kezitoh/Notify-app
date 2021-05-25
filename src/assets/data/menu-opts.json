@@ -1,0 +1,24 @@
+
+    [
+        {
+            "title": "Inbox",
+            "url": "/inbox",
+            "icon": "mail"
+        },
+        {
+            "title": "Favorites",
+            "url": "/favorites",
+            "icon": "heart"
+        },
+        {
+            "title": "Archived",
+            "url": "/archived",
+            "icon": "archive"
+        },
+        {
+            "title": "Trash",
+            "url": "/trash",
+            "icon": "trash"
+        }
+    ]
+  
