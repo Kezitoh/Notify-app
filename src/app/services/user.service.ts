@@ -56,9 +56,11 @@ export class UserService {
 
   register(user: User) {
 
+    console.log("ROL:",user.id_role);
+    
     // return new Promise<boolean>(resolve => {
       this.http.post(`${URL}/register`, {id_group: user.id_group, id_role: user.id_role, is_active: user.is_activated, user: user.user, name: user.name, surname: user.surname, email: user.email})
-        .subscribe(async resp => {
+      .subscribe( resp => {
 
           console.log(resp);
 
@@ -71,10 +73,11 @@ export class UserService {
           // resolve(this.login(user.user, user.password));
 
 
-        }, error => {
-          console.log(error);
-
         });
+        // , error => {
+        //   console.log(error);
+
+        // });
     // });
 
   }
