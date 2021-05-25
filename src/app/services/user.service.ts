@@ -141,6 +141,13 @@ export class UserService {
   }
 
   async logout() {
+
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+
+    this.http.post(`${URL}/logout`, {}, {headers:headers}).subscribe()
+    
     this.token = null;
     this.usuario = null;
     await this.storage.clear();
