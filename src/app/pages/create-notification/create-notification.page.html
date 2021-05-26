@@ -1,24 +1,24 @@
-<app-header title="Create Notification"></app-header>
+<app-header title="Crear Notificación"></app-header>
 
 <ion-content>
 
   <form [formGroup]="notificationForm" (ngSubmit)="onSubmit()" #fNotification="ngForm">
     <ion-item>
-      <ion-label position="floating">Title <ion-text color="danger">*</ion-text>
+      <ion-label position="floating">Título <ion-text color="danger">*</ion-text>
       </ion-label>
       <ion-input required formControlName="title" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Body <ion-text color="danger">*</ion-text>
+      <ion-label position="stacked">Cuerpo <ion-text color="danger">*</ion-text>
       </ion-label>
       <ion-textarea required formControlName="text" type="text"></ion-textarea>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Type <ion-text color="danger">*</ion-text>
+      <ion-label position="floating">Tipo <ion-text color="danger">*</ion-text>
       </ion-label>
-      <ion-select required formControlName="type" value="" multiple="false" placeholder="Select type">
+      <ion-select required formControlName="type" value="" multiple="false" placeholder="Selecciona tipo">
         <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -26,19 +26,19 @@
     
     <ion-list>
       <ion-list-header>
-        <ion-label>Recievers</ion-label>
+        <ion-label>Destinatarios</ion-label>
       </ion-list-header>
       
       <ion-item>
-        <ion-label position="floating">Groups</ion-label>
-        <ion-select formControlName="groups" value="" multiple="true" placeholder="Select groups">
+        <ion-label position="floating">Grupos</ion-label>
+        <ion-select formControlName="groups" value="" multiple="true" placeholder="Selecciona grupos">
           <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
         </ion-select>
       </ion-item>
       
       <ion-item>
-        <ion-label position="floating">Users</ion-label>
-        <ion-select formControlName="users" value="" multiple="true" placeholder="Select users">
+        <ion-label position="floating">Usuarios</ion-label>
+        <ion-select formControlName="users" value="" multiple="true" placeholder="Selecciona usuarios">
           <ion-select-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-select-option>
         </ion-select>
       </ion-item>
@@ -48,13 +48,13 @@
     <ion-list>
     
       <ion-list-header>
-        <ion-label>Attachment</ion-label>
+        <ion-label>Adjunto</ion-label>
         <ion-button *ngIf="cordova" (click)="addAttachment()">
           <ion-icon slot="icon-only" name="add"></ion-icon>
         </ion-button>
     
         <div *ngIf="!cordova" class="ion-padding">
-          <label for="file-upload" class="custom-file-upload">Add Attachment</label>
+          <label for="file-upload" class="custom-file-upload">Añadir adjunto</label>
           <input id="file-upload" type="file" />
         </div>
       </ion-list-header>
