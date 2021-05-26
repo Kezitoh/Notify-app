@@ -169,6 +169,19 @@ export class UserService {
   });
 }
 
+getAdminNotifications() {
+  return new Promise<any>(resolve => {
+    this.getHttpHeader().then( header => {
+       
+      this.http.get<Notification[]>(`${URL}/notifications?creator=${this.usuario.id}`, { headers: header }).subscribe( res => {
+        resolve(res);
+
+      });
+    });
+});
+}
+
+
 getResetMail(user) {
 
   return new Promise<any>(resolve => {

@@ -24,7 +24,7 @@ export class NotificationService {
         const headers = new HttpHeaders({
           'x-token': token
         });
-        console.log("AWWWW",notification);
+        // console.log("AWWWW",notification);
         
         this.http.post(`${URL}/notifications/create`, {'type': notification.id_type,'title': notification.title,'text': notification.text,'attachment': notification.attachment,'user': notification.users, 'group': notification.groups}, {headers: headers }).subscribe( res => {
           

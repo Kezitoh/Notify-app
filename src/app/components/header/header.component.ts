@@ -8,9 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   @Input("title") titulo: string;
-
+  @Input("filter") filter: boolean = false;
   constructor() { }
 
   ngOnInit() {}
+
+  // TODO: Filtrar, valga la redundancia, las páginas que tendrán la opción a filtro.
 
 }

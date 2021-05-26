@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Notification } from '../../interfaces/interfaces';
@@ -13,11 +13,21 @@ import { NotificationModalPage } from '../../modals/notification-modal/notificat
 })
 export class NotificationsComponent implements OnInit {
 
+  @Input('admin') admin: any
+
   notifications : Notification[];
   
   constructor(private userService: UserService, private modalCtrl:ModalController) { }
 
    ngOnInit() {
+     if(this.admin) {
+       console.log("outbox");
+       
+       this.userService.getAdminNotifications().then(notifications => {
+        this.notifications = notifications;
+      });
+      return;
+     }
     this.userService.getUserNotifications().then(notifications => {
       this.notifications = notifications;
     });
