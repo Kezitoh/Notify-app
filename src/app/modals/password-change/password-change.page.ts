@@ -30,8 +30,9 @@ export class PasswordChangePage implements OnInit {
   }
 
   dismiss() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(false);
   }
+
 
   onSubmit() {
 
@@ -43,7 +44,7 @@ export class PasswordChangePage implements OnInit {
         return;
       }
       this.router.navigate(['']);
-      this.modalCtrl.dismiss();
+      this.modalCtrl.dismiss(true);
     }, error => {
       this.uiService.presentToast('Formato de contraseña incorrecto', 'danger');
     });
