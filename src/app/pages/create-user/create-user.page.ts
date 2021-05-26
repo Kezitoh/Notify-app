@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/interfaces';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-create-user',
@@ -15,7 +16,8 @@ export class CreateUserPage implements OnInit {
   groups: any[];
   roles: any[];
 
-  constructor(private dataService:DataService, private userService:UserService) { }
+  constructor(private dataService:DataService, private userService:UserService,
+    private uiService: UiService) { }
 
   ngOnInit() {
     this.userForm = new FormGroup({
@@ -54,6 +56,9 @@ export class CreateUserPage implements OnInit {
     };
 
     this.userService.register(usuario);
+
+    this.userForm.reset();
+    this.uiService.presentToast("Usuario creado correctamente", "success");
 
   }
 

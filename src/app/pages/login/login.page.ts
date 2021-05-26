@@ -71,9 +71,9 @@ export class LoginPage implements OnInit {
   }
 
   async propFirstTimeAlert() {
-    const header = "¡Hola, " + this.userService.usuario.name + "!"
-    const subheader = "Vemos que eres nuevo por aquí"
-    const message = "Para continuar, cambia tu contraseña por una más segura a continuación."
+    const header = "¡Hola, " + this.userService.usuario.name + "!";
+    const subheader = "Vemos que eres nuevo por aquí";
+    const message = "Para continuar, cambia tu contraseña por una más segura a continuación.";
     let res;
     const alert = await this.alertCtrl.create({
       header: header,

@@ -68,7 +68,6 @@ export class CreateNotificationPage implements OnInit {
     const type_name = this.notificationForm.get('type').value;
 
     const type = this.types.find(nombre => nombre.name == type_name);
-
     
     let attachment = this.attachment;
     if(attachment != undefined) {
