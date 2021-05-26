@@ -1,17 +1,33 @@
-[
-    {
-        "title": "Outbox",
-        "url": "/outbox",
-        "icon": "send"
-    },
-    {
-        "title": "Create notification",
-        "url": "/create-notification",
-        "icon": "notifications"
-    },
-    {
-        "title": "Create new user",
-        "url": "/create-user",
-        "icon": "person-add"
-    }
+[
+
+    {
+
+        "title": "Bandeja de salida",
+
+        "url": "/outbox",
+
+        "icon": "send"
+
+    },
+
+    {
+
+        "title": "Crear notificación",
+
+        "url": "/create-notification",
+
+        "icon": "notifications"
+
+    },
+
+    {
+
+        "title": "Crear nuevo usuario",
+
+        "url": "/create-user",
+
+        "icon": "person-add"
+
+    }
+
 ]

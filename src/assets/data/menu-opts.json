@@ -1,24 +1,47 @@
-
-    [
-        {
-            "title": "Inbox",
-            "url": "/inbox",
-            "icon": "mail"
-        },
-        {
-            "title": "Favorites",
-            "url": "/favorites",
-            "icon": "heart"
-        },
-        {
-            "title": "Archived",
-            "url": "/archived",
-            "icon": "archive"
-        },
-        {
-            "title": "Trash",
-            "url": "/trash",
-            "icon": "trash"
-        }
-    ]
+
+
+    [
+
+        {
+
+            "title": "Bandeja de Entrada",
+
+            "url": "/inbox",
+
+            "icon": "mail"
+
+        },
+
+        {
+
+            "title": "Favoritos",
+
+            "url": "/favorites",
+
+            "icon": "heart"
+
+        },
+
+        {
+
+            "title": "Archivados",
+
+            "url": "/archived",
+
+            "icon": "archive"
+
+        },
+
+        {
+
+            "title": "Papelera",
+
+            "url": "/trash",
+
+            "icon": "trash"
+
+        }
+
+    ]
+
   
