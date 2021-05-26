@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UiService } from '../../services/ui.service';
-import { MenuController, NavController, ModalController } from '@ionic/angular';
-import { PasswordChangePage } from '../../modals/password-change/password-change.page';
+import { MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,7 @@ export class LoginPage implements OnInit {
 
   constructor(private userService: UserService,
     private uiService: UiService, private navCtrl: NavController,
-    private menuController:MenuController, private modalCtrl:ModalController) {
+    private menuController:MenuController) {
     this.loginForm = new FormGroup({
       user: new FormControl(),
       password: new FormControl()
@@ -53,13 +52,7 @@ export class LoginPage implements OnInit {
     }else if( res == "newbie" ) {
       console.log("entro");
       
-      const modal = await this.modalCtrl.create({
-        component: PasswordChangePage,
-        componentProps: {
-          'user': this.userService.usuario.user
-        }
-      });
-      return modal.present();
+      
     }
 
     this.navCtrl.navigateRoot( '/inbox', { animated: true } );

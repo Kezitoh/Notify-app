@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, ModalController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UiService {
 
-  constructor( private toastCtrl: ToastController,
-    private alertCtrl:AlertController ) { }
+  constructor(private toastCtrl: ToastController,
+    private alertCtrl: AlertController, private modalCtrl: ModalController) {
+  }
 
-  async presentToast( msg: string, color?: string ) {
+  // Crea un toast con el mensaje y el color 
+  async presentToast(msg: string, color?: string) {
     const toast = await this.toastCtrl.create({
       message: msg,
       duration: 2000,
@@ -19,9 +21,9 @@ export class UiService {
     toast.present();
   }
 
-  async presentAlert(header,subheader,message) {
+  async presentAlert(header, subheader, message) {
     const alert = await this.alertCtrl.create({
-      header:header,
+      header: header,
       subHeader: subheader,
       message: message,
       backdropDismiss: false,

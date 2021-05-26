@@ -3,9 +3,9 @@ import { environment } from '../../environments/environment';
 import { Notification, User } from '../interfaces/interfaces';
 import { Storage } from '@ionic/storage-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { NavController, ModalController } from '@ionic/angular';
 import { UiService } from './ui.service';
+import { PasswordChangePage } from '../modals/password-change/password-change.page';
 
 
 const URL = environment.url;
@@ -22,7 +22,7 @@ export class UserService {
   
 
   constructor(private http: HttpClient,
-    private storage: Storage, private navCtrl: NavController, private uiService: UiService) {
+    private storage: Storage, private navCtrl: NavController, private uiService: UiService, public modalCtrl: ModalController) {
     this.initStorage();
 
   }
@@ -51,7 +51,15 @@ export class UserService {
             const header = "¡Hola, "+this.usuario.name+"!"
             const subheader = "Vemos que eres nuevo por aquí"
             const message = "Para continuar, cambia tu contraseña por una más segura a continuación."
-            this.uiService.presentAlert(header,subheader,message);
+            this.uiService.presentAlert(header,subheader,message).then( async () => {
+              const modal = await this.modalCtrl.create({
+                component: PasswordChangePage,
+                componentProps: {
+                  'user': this.usuario.user
+                }
+              });
+              return modal.present();
+            });
             resolve("newbie");
           }
         });
