@@ -237,7 +237,7 @@ resetPassword(user, password, passwordConfirmation, code) {
       resolve(res);
     }, error => {
 
-      console.log(error);
+      console.log(error);   
       reject(true);
 
     });
