@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DataService } from '../../services/data.service';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-create-group',
@@ -10,7 +12,8 @@ export class CreateGroupPage implements OnInit {
 
   groupForm: FormGroup;
 
-  constructor() { }
+  constructor(private dataService:DataService,
+    private uiService:UiService) { }
 
   ngOnInit() {
     this.groupForm = new FormGroup({
@@ -28,7 +31,10 @@ export class CreateGroupPage implements OnInit {
       description: description
     }
 
-    
+    this.dataService.createGroup(group);
+
+    this.groupForm.reset();
+    this.uiService.presentToast("Grupo creado correctamente", "success");
 
   }
 

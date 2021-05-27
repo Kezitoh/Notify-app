@@ -21,7 +21,7 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
 
   constructor(private http: HttpClient, private userService: UserService,
     private transfer: FileTransfer, private file: File,
-    private fileChooser: FileChooser, private filePath: FilePath, private androidPermissions:AndroidPermissions, public loadingCtrl:LoadingController) {
+    private fileChooser: FileChooser, private filePath: FilePath, private androidPermissions: AndroidPermissions, public loadingCtrl: LoadingController) {
 
   }
 
@@ -84,42 +84,81 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
 
   }
 
+
+  createGroup(group) {
+
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/groups/create`, { 'name': group.name, 'description': group.description }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+
+  }
+
+  createType(type) {
+
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/types/create`, { 'name': type.name, 'description': type.description, 'active': type.active }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+
+
+  }
+
+
   upload(file, date?) {
     this.userService.cargarToken();
     const token = this.userService.token;
     const fileTransfer: FileTransferObject = this.transfer.create();
     let options: FileUploadOptions = {
       fileKey: 'file',
-      fileName: date+file.substr(file.lastIndexOf('/') + 1),
-      headers: {'x-token': token }
+      fileName: date + file.substr(file.lastIndexOf('/') + 1),
+      headers: { 'x-token': token }
     }
 
     console.warn(file.substr(file.lastIndexOf('/') + 1));
-    
+
 
     fileTransfer.upload(file, `${URL}/upload`, options)
       .then((data) => {
         // success
         console.log(data.response);
-          
+
 
       }, (err) => {
         // error
         console.error(err);
-        
+
       })
   }
   getPermission(url: string) {
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
       .then(status => {
         if (status.hasPermission) {
-        this.Download(url);  
-        } 
+          this.Download(url);
+        }
         else {
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
             .then(status => {
-              if(status.hasPermission) {
-                this.Download(url);  
+              if (status.hasPermission) {
+                this.Download(url);
               }
             });
         }
@@ -130,35 +169,35 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
     this.userService.cargarToken();
     const token = this.userService.token;
     const options = {
-      headers: {'x-token' : token}
+      headers: { 'x-token': token }
     }
 
     const fileTransfer: FileTransferObject = this.transfer.create();
-    url = (URL+url).replace(/ /g, '%20');  
-      
-    
-    fileTransfer.download(url, this.file.externalRootDirectory+'Download/' + url.substr(url.lastIndexOf("=")+13), false, options).then((entry) => {
+    url = (URL + url).replace(/ /g, '%20');
+
+
+    fileTransfer.download(url, this.file.externalRootDirectory + 'Download/' + url.substr(url.lastIndexOf("=") + 13), false, options).then((entry) => {
       console.log('download complete: ' + entry.toURL());
       this.openFile(entry.toURL());
     }, (error) => {
       // handle error
       console.error(error);
-      
+
     });
   }
-  async openFile(file:string) {
-      const loading = await this.loadingCtrl.create({
-        spinner: null,
-        message: 'Click the backdrop to dismiss early...',
-        translucent: true,
-        cssClass: 'custom-class custom-loading',
-        backdropDismiss: true
-      });
-      await loading.present();
-  
-      
-    
-    file = file.replace(/ /g,'%20');
+  async openFile(file: string) {
+    const loading = await this.loadingCtrl.create({
+      spinner: null,
+      message: 'Click the backdrop to dismiss early...',
+      translucent: true,
+      cssClass: 'custom-class custom-loading',
+      backdropDismiss: true
+    });
+    await loading.present();
+
+
+
+    file = file.replace(/ /g, '%20');
 
     window.PreviewAnyFile.previewPath(win => {
       if (win == "SUCCESS") {
@@ -171,7 +210,7 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
         console.log('error')
       }
       loading.dismiss();
-      
+
     },
       error => console.error("open failed", error),
       file
