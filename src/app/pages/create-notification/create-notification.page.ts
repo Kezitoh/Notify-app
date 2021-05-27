@@ -4,8 +4,18 @@ import { DataService } from '../../services/data.service';
 import { NotificationService } from '../../services/notification.service';
 import { Notification } from '../../interfaces/interfaces';
 import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { UiService } from '../../services/ui.service';
+
+
+
+
+import { Plugins } from '@capacitor/core'; 
+const { FileSelector } = Plugins; 
+import 'capacitor-file-selector' // Comment out this line when building android/iOS app<br/>
+
+
+
 
 declare var window: any;
 
@@ -25,10 +35,11 @@ export class CreateNotificationPage implements OnInit {
   // attachments: any[] = [];
   attachment: any;
   previews: any[] = [];
+  base:any;
 
   constructor(private dataService: DataService,
     private notificationService: NotificationService,
-    private uiService: UiService) {
+    private uiService: UiService, public platform:Platform) {
     this.notificationForm = new FormGroup({
       title: new FormControl(),
       text: new FormControl(),
@@ -37,6 +48,50 @@ export class CreateNotificationPage implements OnInit {
       users: new FormControl(),
     });
   }
+  async prueba(){
+    let multiple_selection = false 
+    // let ext = ["jpg","png","pdf","jpeg"] // list of extensions
+    // let ext = ["MP3", "ImaGes"] // combination of extensions or category 
+    // //let ext = ["videos", "audios", "images"] // list of all category
+    let ext = ["*"] // Allow any file type
+    ext = ext.map(v => v.toLowerCase()); 
+    let formData = new FormData(); 
+    let selectedFile = await FileSelector.fileSelector({ 
+      multiple_selection: multiple_selection, 
+      ext: ext 
+    });
+      FileSelector.addListener("onFilesSelected", (data:FileList) => { 
+        console.log(data[0].name);
+        this.getBase64(data);
+
+        
+            for(var i = 0; i < data.length; i++) 
+            { 
+              formData.append( 
+                "myfile[]", 
+                data.item(i), 
+                data.item(i).name + data.item(i).type  
+              );
+              
+              
+            }
+        }); 
+    
+  }
+  getBase64(event) {
+    let me = this;
+    let file = event[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    this.base =  reader.onload = function () {
+      //me.modelvalue = reader.result;
+      console.log(reader.result);
+      return reader.result
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
 
   ngOnInit() {
     this.dataService.getTypes().then(types => {
