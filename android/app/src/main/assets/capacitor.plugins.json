@@ -1,0 +1,6 @@
+[
+	{
+		"pkg": "capacitor-file-chooser",
+		"classpath": "org.dmartinlozano.capacitorFileChooser.CapacitorFileChooser"
+	}
+]

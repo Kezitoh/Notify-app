@@ -56,6 +56,10 @@
         <div *ngIf="!cordova" class="ion-padding">
           <label for="file-upload" class="custom-file-upload">Añadir adjunto</label>
           <input id="file-upload" type="file" />
+
+          <ion-button (click)="prueba()" expand="block" fill="clear" shape="round">
+            Click me
+          </ion-button>
         </div>
       </ion-list-header>
     
