@@ -20,7 +20,6 @@ export class AppComponent implements OnInit{
 
   appPages: Observable<Componente[]>;
   adminPages: Observable<Componente[]>;
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   
   
   constructor(private userService:UserService,
