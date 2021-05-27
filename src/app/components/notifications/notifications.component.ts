@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Notification } from '../../interfaces/interfaces';
 import { UserService } from '../../services/user.service';
 import { ModalController } from '@ionic/angular';
 import { NotificationModalPage } from '../../modals/notification-modal/notification-modal.page';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-notifications',
@@ -17,9 +16,23 @@ export class NotificationsComponent implements OnInit {
 
   notifications : Notification[];
   
-  constructor(private userService: UserService, private modalCtrl:ModalController) { }
-
+  constructor(private userService: UserService, private modalCtrl:ModalController,
+    public filterComponent:FilterComponent) { }
+    ionViewWillEnter(){
+      this.filterComponent.data$.subscribe(res => {
+        this.notifications = res;
+        console.log("filtro aplicado?");
+        this.userService.setUserNotifications(res);
+        this.userService.getUserNotifications().then(notifications => {
+          this.notifications = notifications;
+        });
+        
+      });
+    }
    ngOnInit() {
+
+    
+
      if(this.admin) {
        console.log("outbox");
        
@@ -33,6 +46,9 @@ export class NotificationsComponent implements OnInit {
     });
     
   }
+  ion
+
+
  
   async open_modal(notification: Notification) {
     const modal = await this.modalCtrl.create({

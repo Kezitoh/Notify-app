@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { PopoverController } from '@ionic/angular';
 
@@ -9,31 +9,38 @@ import { PopoverController } from '@ionic/angular';
 })
 export class FilterPopoverComponent implements OnInit {
 
-  types: any[] = []
+  @Input('filterType') filterType: string = "";
+
+  data: any[] = []
   allButtonDisabled = false;
 
   constructor(private dataService:DataService,
     public popoverCtrl:PopoverController) { }
 
   ngOnInit() {
-    this.dataService.getTypes().then( types => {
-      this.types = types;
-    });
+
+    if(this.filterType == "" || this.filterType == "admin") {
+      this.dataService.getTypes().then( types => {
+        this.data = types;
+      });
+    }else {
+
+    }
   }
 
   filtrar() {
-    this.popoverCtrl.dismiss(this.types);
+    this.popoverCtrl.dismiss(this.data);
   }
 
   selectAll() {
-    for(let type of this.types) {
-      type.checked = true;
+    for(let item of this.data) {
+      item.checked = true;
     }
     this.allButtonDisabled = true;
   }
 
   checked(event) {
-    this.types[event.detail.value -1].checked =  event.detail.checked;      
+    this.data[event.detail.value -1].checked =  event.detail.checked;      
 
     if(this.isAllCheck()) {
       this.allButtonDisabled = true;
@@ -44,8 +51,8 @@ export class FilterPopoverComponent implements OnInit {
   }
 
   isAllCheck() {
-    for(let type of this.types) {
-      if(!type.checked) {
+    for(let item of this.data) {
+      if(!item.checked) {
         return false;
       }
     }

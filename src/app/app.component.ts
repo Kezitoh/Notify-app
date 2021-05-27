@@ -3,7 +3,6 @@ import { UserService } from './services/user.service';
 import { User, Componente } from './interfaces/interfaces';
 import { DataService } from './services/data.service';
 import { Observable } from 'rxjs';
-import { UsuarioGuard } from './guards/usuario.guard';
 import { PushService } from './services/push.service';
 import { MenuController } from '@ionic/angular';
 
@@ -26,7 +25,6 @@ export class AppComponent implements OnInit{
   
   constructor(private userService:UserService,
     private dataService:DataService, 
-    private usuarioGuard: UsuarioGuard,
     private pushService: PushService,
     private menuController: MenuController) {
 

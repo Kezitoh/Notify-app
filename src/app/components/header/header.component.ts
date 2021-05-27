@@ -9,6 +9,8 @@ export class HeaderComponent implements OnInit {
 
   @Input("title") titulo: string;
   @Input("filter") filter: boolean = false;
+  @Input ('filterType') filterType: string = "";
+  
   constructor() { }
 
   ngOnInit() {}
