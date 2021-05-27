@@ -18,6 +18,6 @@ import { ComponentsModule } from '../../components/components.module';
     ComponentsModule,
     ReactiveFormsModule
   ],
-  declarations: [CreateUserPage]
+  declarations: [CreateUserPage] 
 })
 export class CreateUserPageModule {}
