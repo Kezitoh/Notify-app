@@ -35,6 +35,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.userService.usuario$.subscribe( resp => {
       this.usuario = resp;
+      
       if(this.usuario.id_role == '1') {
         this.adminPages = this.dataService.getAdminOpts();
       }else {

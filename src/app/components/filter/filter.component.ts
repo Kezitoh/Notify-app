@@ -29,28 +29,11 @@ export class FilterComponent implements OnInit {
         filters.push(filter.id);
       }
     }
-
-    switch (this.filterType) {
-      case "user":
-        this.userService.getUsers(filters).then( res => {
-          console.log(res);
-          this.data$.emit(res);
-        });
-        break;
-      case "admin":
-        this.userService.getAdminNotifications(filters).then(res => {
-          console.log(res);
-          this.data$.emit(res);
-        });
-        break;
-      default:
-        this.userService.getUserNotifications(filters).then(res => {
-          console.log(res);
-          this.data$.emit(res);
-        });
-
-        break;
+    const returned = {
+      filters: filters,
+      filterType: this.filterType
     }
+    this.data$.emit(returned);
 
   }
 

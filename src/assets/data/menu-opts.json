@@ -31,15 +31,10 @@
             "icon": "archive"
 
         },
-
         {
-
-            "title": "Papelera",
-
-            "url": "/trash",
-
-            "icon": "trash"
-
+            "title": "Descargas",
+            "url": "/downloaded",
+            "icon": "download"
         }
 
     ]

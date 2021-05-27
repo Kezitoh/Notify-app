@@ -121,7 +121,7 @@ export class UserService {
           }
 
           this.usuario = resp;
-          this.usuario$.emit(this.usuario)//Emite al usuario al menú en app component para que muestre su nombre
+          this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre
 
           console.log(this.usuario);
 

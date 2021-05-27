@@ -1,8 +1,7 @@
 
 <ion-card-header>
   <ion-card-subtitle>
-    <span class="noticia-source-name">{{notification.nametype}}</span>
-
+    <span class="noticia-source-name">{{notification.nametype}} | {{notification.created}}</span>
     <div class="noticia-opciones">
       <ion-button (click)="lanzarMenu()" fill="clear" >
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>

@@ -1,7 +1,18 @@
-<ion-list lines="none">
-
-  <ion-card *ngFor="let n of notifications" (click)="open_modal(n)" class="ion-padding-bottom">
-    <app-notification [notification]="n" ></app-notification>
-  </ion-card>
-
-</ion-list>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Estira para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Refrescando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-list lines="none">
+  
+    <ion-card *ngFor="let n of notifications" (click)="open_modal(n)" class="ion-padding-bottom">
+      <app-notification [notification]="n" ></app-notification>
+    </ion-card>
+  
+  </ion-list>
+</ion-content>

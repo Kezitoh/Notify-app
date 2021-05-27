@@ -16,6 +16,7 @@ export class NotificationModalPage implements OnInit {
 
   // attachments : any[] = [];
   attachment: any;
+  terminosAceptados: boolean = false;
 
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService,
     private dataService: DataService) { }
@@ -39,6 +40,14 @@ export class NotificationModalPage implements OnInit {
       'dismissed': true
     });
   }
+
+  
+  checkboxChanged(event) {
+    
+    this.terminosAceptados = event.detail.checked;
+    
+  }
+
 
   download(index?) {
 
