@@ -28,6 +28,27 @@
 
         "icon": "person-add"
 
+    },
+
+    {
+
+        "title": "Crear nuevo grupo",
+
+        "url": "/create-group",
+
+        "icon": "people"
+
+    },
+
+    {
+
+        "title": "Crear nuevo tipo",
+
+        "url": "/create-type",
+
+        "icon": "layers"
+
     }
+
 
 ]

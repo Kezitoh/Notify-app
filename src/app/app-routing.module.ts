@@ -48,7 +48,19 @@ const routes: Routes = [
     path: 'create-user',
     loadChildren: () => import('./pages/create-user/create-user.module').then( m => m.CreateUserPageModule),
     canLoad: [UsuarioGuard]
+  },  {
+    path: 'create-group',
+    loadChildren: () => import('./pages/create-group/create-group.module').then( m => m.CreateGroupPageModule)
   },
+  {
+    path: 'create-type',
+    loadChildren: () => import('./pages/create-type/create-type.module').then( m => m.CreateTypePageModule)
+  },
+  {
+    path: 'downloads',
+    loadChildren: () => import('./pages/downloads/downloads.module').then( m => m.DownloadsPageModule)
+  },
+
 
 ];
 
