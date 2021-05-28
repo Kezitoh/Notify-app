@@ -17,8 +17,8 @@ export class UserService {
   token: string = null;
 
   usuario$: EventEmitter<User> = new EventEmitter<User>();
-  usuario: any;
   notifications: any;
+  usuario: any;
 
 
   constructor(private http: HttpClient,
@@ -44,11 +44,37 @@ export class UserService {
           this.token = null;
           this.storage.clear();
           resolve(false);
+        }else{
+          
+          this.guardarToken(resp['token']).then(()=>{
+            const headers = new HttpHeaders({
+              'x-token': this.token
+            });
+            
+            this.http.get(`${URL}/me`, { headers }).subscribe(resp => {          
+                if (resp['error']) {
+                  this.navCtrl.navigateRoot('/login');
+                }
+                
+                this.usuario = resp;
+                
+                this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre
+                this.cargarToken().then((e)=>{
+                  this.validaToken().then(()=>{
+                    resolve(true);
+                  });
+                  
+                });
+
+         
+              });
+          });
+
+          
         }
 
-        await this.guardarToken(resp['token']);
 
-        resolve(true);
+
 
       });
 
@@ -62,7 +88,6 @@ export class UserService {
     this.http.post(`${URL}/register`, { id_group: user.id_group, id_role: user.id_role, is_active: user.is_activated, user: user.user, name: user.name, surname: user.surname, email: user.email })
       .subscribe(resp => {
 
-        console.log(resp);
 
         // if (resp['error']) {
         //   this.token = null;
@@ -84,62 +109,29 @@ export class UserService {
 
   async guardarToken(token: string) {
     this.token = token;
-
     await this.validaToken();
     await this.storage.set('token', token);
-
-
-
   }
 
   async cargarToken() {
-
-    this.token = await this.storage.get('token') || null;
-
+    this.token = await this.storage.get('token') || null;    
+    return this.token
   }
 
   async validaToken() {
-
-    await this.cargarToken();
-
-    if (!this.token) {
-      this.navCtrl.navigateRoot('/login');
-      return Promise.resolve(false);
-    }
-
     return new Promise<boolean>(resolve => {
-
-      const headers = new HttpHeaders({
-        'x-token': this.token
-      });
-
-      this.http.get(`${URL}/me`, { headers })
-        .subscribe(resp => {
-          if (resp['error']) {
-            this.navCtrl.navigateRoot('/login');
-            resolve(false);
-          }
-
-          this.usuario = resp;
-          this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre
-
-          console.log(this.usuario);
-
-          resolve(true);
-        });
+      if (!this.token) {
+        this.navCtrl.navigateRoot('/login');
+        return Promise.resolve(false);
+      }else{
+          resolve(true)
+      }
     });
+      
 
   }
 
-  getUsuario() {
 
-    if (!this.usuario.id) {
-      this.validaToken();
-    }
-
-    return { ...this.usuario };
-
-  }
 
   async logout() {
 
@@ -239,7 +231,6 @@ setUserNotifications(notificationsuser){
 
       this.http.post(`${URL}/sendReset`, { user: user }).subscribe(res => {
 
-        console.log(res);
 
 
         if (!res['ok']) {
@@ -270,7 +261,6 @@ setUserNotifications(notificationsuser){
 
       this.http.get(`${URL}/reset?user=${user}&code=${code}`).subscribe(res => {
 
-        console.log(res);
 
         resolve(res);
 
@@ -287,7 +277,6 @@ setUserNotifications(notificationsuser){
     return new Promise<any>((resolve, reject) => {
 
       this.http.post(`${URL}/reset`, data).subscribe(res => {
-        console.log(res);
 
         resolve(res);
       }, error => {

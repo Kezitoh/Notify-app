@@ -27,6 +27,7 @@ export class CreateNotificationPage implements OnInit {
   attachment: any;
   previews: any[] = [];
   base:any;
+  attachpc: any;
 
   constructor(private dataService: DataService,
     private notificationService: NotificationService,
@@ -41,14 +42,17 @@ export class CreateNotificationPage implements OnInit {
   }
 
   
-  async prueba(){
-  
+   prueba(file){
+    var peerImage = (< HTMLFormElement > document.getElementById('file-upload')).files[0];     
+    this.attachpc = peerImage.name
+    this.getBase64(peerImage);
+    
     
   }
 
   getBase64(event) {
     let me = this;
-    let file = event[0];
+    let file = event;
     let reader = new FileReader();
     reader.readAsDataURL(file);
     this.base =  reader.onload = function () {

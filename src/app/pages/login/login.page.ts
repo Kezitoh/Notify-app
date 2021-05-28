@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { UiService } from '../../services/ui.service';
 import { AlertController, MenuController, NavController, ModalController } from '@ionic/angular';
 import { PasswordChangePage } from '../../modals/password-change/password-change.page';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,8 @@ export class LoginPage implements OnInit {
     allowTouchMove: false
   };
 
-  constructor(private userService: UserService,
-    private uiService: UiService, private navCtrl: NavController,
-    private menuController: MenuController, private alertCtrl: AlertController,
-    private modalCtrl: ModalController) {
+  constructor(private userService: UserService, private uiService: UiService, private navCtrl: NavController, private menuController: MenuController, private alertCtrl: AlertController, private modalCtrl: ModalController, public loadingController: LoadingController) {
+
     this.loginForm = new FormGroup({
       user: new FormControl(),
       password: new FormControl()
@@ -35,12 +34,27 @@ export class LoginPage implements OnInit {
 
 
   async login(fLogin: NgForm) {
+    const loadingLogin = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loadingLogin.present();
 
     let user = this.loginForm.get('user').value;
     let password = this.loginForm.get('password').value;
-    await this.userService.login(user, password).then(res => {
+    this.userService.login(user, password).then((res) => {
 
-      this.responseForm(res, "Usuario y/o contraseña incorrectos");
+      loadingLogin.dismiss().then(()=>{
+        if (res) {
+              console.log("entro por aqui");
+            this.navCtrl.navigateRoot('/inbox', { animated: true,replaceUrl:true });
+        }
+        
+        // this.responseForm(res, "Usuario y/o contraseña incorrectos");
+
+      });
+      
 
     });
   }
@@ -91,7 +105,6 @@ export class LoginPage implements OnInit {
               }
             });
             modal.onDidDismiss().then(data => {
-              console.log(data.data);
               res = data.data;
             });
             return await modal.present();

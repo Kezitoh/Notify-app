@@ -1,6 +1,6 @@
 {
-  "appId": "com.example.app",
-  "appName": "comms-app",
+  "appId": "com.tsiberia.notify",
+  "appName": "MyApp",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -9,5 +9,11 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {}
+  "cordova": {},
+  "server": {
+    "url": "http://192.168.3.153:8100",
+    "cleartext": true,
+    "originalUrl": "http://192.168.3.153:8100",
+    "originalCleartext": true
+  }
 }

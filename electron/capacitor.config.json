@@ -1,5 +1,5 @@
 {
-  "appId": "com.example.app",
+  "appId": "com.tsiberia.notify",
   "appName": "comms-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",

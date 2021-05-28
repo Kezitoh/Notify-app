@@ -1,4 +1,4 @@
-package com.example.app;
+package com.tsiberia.notify;
 
 import com.getcapacitor.BridgeActivity;
 
