@@ -177,14 +177,12 @@ setUserNotifications(notificationsuser){
     });
   }
 
-  getAdminNotifications(filters?: any[]) {
+  getNotifications(filters?: any[]) {
 
     let params: any = {
-      creator: this.usuario.id
     }
     if (filters) {
       params = {
-        creator: this.usuario.id,
         'filters[]': filters
       }
     }

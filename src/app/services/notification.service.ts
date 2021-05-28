@@ -37,6 +37,24 @@ export class NotificationService {
 
   }
 
+  delete(notification) {
+    return new Promise<any>(resolve => {
+
+      this.getToken().then(token => {
+        const headers = new HttpHeaders({
+          'x-token': token
+        });
+
+        this.http.post(`${URL}/notifications/delete`, {id: notification.id}, {headers: headers}).subscribe( res => {
+          resolve(res);
+        });
+
+      });
+
+    });
+  }
+
+
   getAttachments(notification:Notification) {
     // let attachments = notification.attachments.split('|');
     // attachments.forEach((attachment, i)=>{

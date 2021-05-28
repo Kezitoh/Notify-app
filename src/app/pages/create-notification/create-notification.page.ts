@@ -7,7 +7,6 @@ import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
 import { MenuController, Platform } from '@ionic/angular';
 import { UiService } from '../../services/ui.service';
 
-
 declare var window: any;
 
 @Component({
@@ -26,12 +25,16 @@ export class CreateNotificationPage implements OnInit {
   // attachments: any[] = [];
   attachment: any;
   previews: any[] = [];
+<<<<<<< HEAD
   base:any;
   attachpc: any;
+=======
+  base: any;
+>>>>>>> origin/acciones-de-notificacion
 
   constructor(private dataService: DataService,
     private notificationService: NotificationService,
-    private uiService: UiService, public platform:Platform) {
+    private uiService: UiService, public platform: Platform) {
     this.notificationForm = new FormGroup({
       title: new FormControl(),
       text: new FormControl(),
@@ -55,7 +58,7 @@ export class CreateNotificationPage implements OnInit {
     let file = event;
     let reader = new FileReader();
     reader.readAsDataURL(file);
-    this.base =  reader.onload = function () {
+    this.base = reader.onload = function () {
       //me.modelvalue = reader.result;
       console.log(reader.result);
       return reader.result
@@ -63,7 +66,7 @@ export class CreateNotificationPage implements OnInit {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
- }
+  }
 
   ngOnInit() {
     this.dataService.getTypes().then(types => {
@@ -95,9 +98,9 @@ export class CreateNotificationPage implements OnInit {
     const type_name = this.notificationForm.get('type').value;
 
     const type = this.types.find(nombre => nombre.name == type_name);
-    
+
     let attachment = this.attachment;
-    if(attachment != undefined) {
+    if (attachment != undefined) {
       const path = attachment.path;
       let name: string = attachment.path;
       name = name.substr(name.lastIndexOf('/') + 1);
@@ -106,11 +109,11 @@ export class CreateNotificationPage implements OnInit {
       const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
 
       attachment = now + name;
-  
-      this.dataService.upload(path , now);
+
+      this.dataService.upload(path, now);
 
     }
-    
+
 
 
     // SELECCIÓN MÚLTIPLE DE ATTACHMENTS
@@ -148,6 +151,7 @@ export class CreateNotificationPage implements OnInit {
   }
 
   async addAttachment() {
+
     this.dataService.chooseFile().then(file => {
 
       this.attachment = file

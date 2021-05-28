@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Notification } from '../../interfaces/interfaces';
 import { UserService } from '../../services/user.service';
 import { ModalController } from '@ionic/angular';
-import { NotificationModalPage } from '../../modals/notification-modal/notification-modal.page';
 import { FilterComponent } from '../filter/filter.component';
 
 @Component({
@@ -16,7 +15,7 @@ export class NotificationsComponent implements OnInit {
 
   notifications : Notification[];
   
-  constructor(private userService: UserService, private modalCtrl:ModalController,
+  constructor(private userService: UserService,
     public filterComponent:FilterComponent) { }
 
    ngOnInit() {
@@ -32,7 +31,7 @@ export class NotificationsComponent implements OnInit {
            });
            break;
          case "admin":
-           this.userService.getAdminNotifications(filtros.filters).then(res => {
+           this.userService.getNotifications(filtros.filters).then(res => {
              console.log(res);
              this.notifications = res;
            });
@@ -66,22 +65,11 @@ export class NotificationsComponent implements OnInit {
     }, 2000);
   }
 
- 
-  async open_modal(notification: Notification) {
-    const modal = await this.modalCtrl.create({
-      component: NotificationModalPage,
-      componentProps:{
-        'notification': notification
-      }
-    });
-    return await modal.present();
-  }
-
   getNotifications() {
     if(this.admin) {
       console.log("outbox");
       
-      this.userService.getAdminNotifications().then(notifications => {
+      this.userService.getNotifications().then(notifications => {
        this.notifications = notifications;
      });
      return;

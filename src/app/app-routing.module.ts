@@ -61,6 +61,10 @@ const routes: Routes = [
     path: 'downloads',
     loadChildren: () => import('./pages/downloads/downloads.module').then( m => m.DownloadsPageModule)
   },
+  {
+    path: 'notification-tracking-modal',
+    loadChildren: () => import('./modals/notification-tracking-modal/notification-tracking-modal.module').then( m => m.NotificationTrackingModalPageModule)
+  },
 
 
 ];
