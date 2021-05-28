@@ -1,0 +1,27 @@
+<app-header title="Crear nuevo tipo"></app-header>
+
+<ion-content>
+
+  <form [formGroup]="typeForm" (ngSubmit)="onSubmit()" #fType="ngForm">
+
+    <ion-item>
+      <ion-label position="floating">Nombre <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="name" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="description" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label >Activo <ion-text color="danger">*</ion-text></ion-label>
+      <ion-toggle required formControlName="active" checked="true" ></ion-toggle>
+    </ion-item>
+
+    <ion-button block color="primary" type="submit" [disabled]="typeForm.invalid">
+      Crear tipo
+    </ion-button>
+  </form>
+
+</ion-content>
