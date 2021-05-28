@@ -1,0 +1,16 @@
+<ion-list lines="none">
+  <ion-item button (click)="tracking()">
+    <ion-label>Seguimiento</ion-label>
+    <ion-icon slot="end" name="ellipsis-horizontal"></ion-icon>
+  </ion-item>
+  <ion-item button (click)="edit()">
+    <ion-label>Editar</ion-label>
+    <ion-icon slot="end" name="pencil"></ion-icon>
+  </ion-item>
+  <ion-item button (click)="delet()">
+    <ion-label >
+      <ion-text color="danger">Eliminar</ion-text>
+    </ion-label>
+    <ion-icon slot="end" name="trash" color="danger"></ion-icon>
+  </ion-item>
+</ion-list>

@@ -1,28 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Notification } from '../../interfaces/interfaces';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { NotificationService } from '../../services/notification.service';
-import { DataService } from '../../services/data.service';
-import { NotificationModalPage } from '../../modals/notification-modal/notification-modal.page';
-import { ModalController } from '@ionic/angular';
+import { NotificationTrackingModalPage } from '../../modals/notification-tracking-modal/notification-tracking-modal.page';
+import { NotificationPopoverComponent } from '../notification-popover/notification-popover.component';
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+  selector: 'app-notification-admin',
+  templateUrl: './notification-admin.component.html',
+  styleUrls: ['./notification-admin.component.scss'],
 })
-export class NotificationComponent implements OnInit {
+export class NotificationAdminComponent implements OnInit {
 
-  @Input('notification') notification: Notification;
+  @Input('notification') notification:any;
 
-  favorito: boolean = false;
 
-  // attachments : any[] = [];
   attachment :any ;
 
   content: string;
 
   constructor(private notificationService:NotificationService,
-    private modalCtrl: ModalController) { }
+    private modalCtrl: ModalController, private popoverCtrl:PopoverController) { }
 
   ngOnInit() {
     // console.log("a", this.notification.attachment);
@@ -41,13 +38,22 @@ export class NotificationComponent implements OnInit {
 
   }
 
-  favorite() {
-    this.favorito = !this.favorito;
+  async open_menu(event) {
+    const popover = await this.popoverCtrl.create({
+      component: NotificationPopoverComponent,
+      event: event,
+      componentProps: {
+        notification: this.notification
+      }
+    });
+
+    await popover.present();
+
   }
 
   async open_modal(notification: Notification) {
     const modal = await this.modalCtrl.create({
-      component: NotificationModalPage,
+      component: NotificationTrackingModalPage,
       componentProps:{
         'notification': notification
       }
