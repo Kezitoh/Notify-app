@@ -18,7 +18,7 @@
     <ion-item>
       <ion-label position="floating">Tipo <ion-text color="danger">*</ion-text>
       </ion-label>
-      <ion-select required formControlName="type" value="" multiple="false" placeholder="Selecciona tipo">
+      <ion-select required  interface="popover" formControlName="type" value="" multiple="false" placeholder="Selecciona tipo">
         <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -26,19 +26,19 @@
     
     <ion-list>
       <ion-list-header>
-        <ion-label>Destinatarios</ion-label>
+        <ion-label>Destinatarios <ion-text color="danger">*</ion-text></ion-label>
       </ion-list-header>
       
       <ion-item>
         <ion-label position="floating">Grupos</ion-label>
-        <ion-select formControlName="groups" value="" multiple="true" placeholder="Selecciona grupos">
+        <ion-select [required] formControlName="groups" value="" multiple="true" placeholder="Selecciona grupos">
           <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
         </ion-select>
       </ion-item>
       
       <ion-item>
         <ion-label position="floating">Usuarios</ion-label>
-        <ion-select formControlName="users" value="" multiple="true" placeholder="Selecciona usuarios">
+        <ion-select  [required] formControlName="users" value="" multiple="true" placeholder="Selecciona usuarios">
           <ion-select-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-select-option>
         </ion-select>
       </ion-item>
