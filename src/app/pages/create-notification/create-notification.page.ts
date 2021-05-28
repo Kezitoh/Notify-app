@@ -25,12 +25,8 @@ export class CreateNotificationPage implements OnInit {
   // attachments: any[] = [];
   attachment: any;
   previews: any[] = [];
-<<<<<<< HEAD
   base:any;
   attachpc: any;
-=======
-  base: any;
->>>>>>> origin/acciones-de-notificacion
 
   constructor(private dataService: DataService,
     private notificationService: NotificationService,
