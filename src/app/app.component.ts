@@ -27,7 +27,7 @@ export class AppComponent implements OnInit{
     private pushService: PushService,
     private menuController: MenuController) {
 
-      this.pushService.configuracionInicial();
+      // this.pushService.configuracionInicial();
       
     
   }
