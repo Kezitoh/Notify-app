@@ -10,9 +10,9 @@ import { UiService } from '../../services/ui.service';
 
 
 
-import { Plugins } from '@capacitor/core'; 
-const { FileSelector } = Plugins; 
-import 'capacitor-file-selector' // Comment out this line when building android/iOS app<br/>
+// import { Plugins } from '@capacitor/core'; 
+// const { FileSelector } = Plugins; 
+// import 'capacitor-file-selector' // Comment out this line when building android/iOS app<br/>
 
 
 
@@ -49,33 +49,33 @@ export class CreateNotificationPage implements OnInit {
     });
   }
   async prueba(){
-    let multiple_selection = false 
-    // let ext = ["jpg","png","pdf","jpeg"] // list of extensions
-    // let ext = ["MP3", "ImaGes"] // combination of extensions or category 
-    // //let ext = ["videos", "audios", "images"] // list of all category
-    let ext = ["*"] // Allow any file type
-    ext = ext.map(v => v.toLowerCase()); 
-    let formData = new FormData(); 
-    let selectedFile = await FileSelector.fileSelector({ 
-      multiple_selection: multiple_selection, 
-      ext: ext 
-    });
-      FileSelector.addListener("onFilesSelected", (data:FileList) => { 
-        console.log(data[0].name);
-        this.getBase64(data);
+    // let multiple_selection = false 
+    // // let ext = ["jpg","png","pdf","jpeg"] // list of extensions
+    // // let ext = ["MP3", "ImaGes"] // combination of extensions or category 
+    // // //let ext = ["videos", "audios", "images"] // list of all category
+    // let ext = ["*"] // Allow any file type
+    // ext = ext.map(v => v.toLowerCase()); 
+    // let formData = new FormData(); 
+    // let selectedFile = await FileSelector.fileSelector({ 
+    //   multiple_selection: multiple_selection, 
+    //   ext: ext 
+    // });
+    //   FileSelector.addListener("onFilesSelected", (data:FileList) => { 
+    //     console.log(data[0].name);
+    //     this.getBase64(data);
 
         
-            for(var i = 0; i < data.length; i++) 
-            { 
-              formData.append( 
-                "myfile[]", 
-                data.item(i), 
-                data.item(i).name + data.item(i).type  
-              );
+    //         for(var i = 0; i < data.length; i++) 
+    //         { 
+    //           formData.append( 
+    //             "myfile[]", 
+    //             data.item(i), 
+    //             data.item(i).name + data.item(i).type  
+    //           );
               
               
-            }
-        }); 
+    //         }
+    //     }); 
     
   }
   getBase64(event) {

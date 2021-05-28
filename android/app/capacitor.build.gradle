@@ -9,7 +9,7 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
-    implementation project(':capacitor-file-chooser')
+    implementation project(':capacitor-file-selector')
     implementation "androidx.appcompat:appcompat:+"
     implementation "com.onesignal:OneSignal:3.15.7"
 }
