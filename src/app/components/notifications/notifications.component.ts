@@ -57,7 +57,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   //TODO: Conseguir recargar la lista de notificaciones al borrar notificacion
-  prueba() {
+  async actualizarLista() {
     var event = new Event('ionRefresh');
     this.refresher.dispatchEvent(event);
     // this.zone.run((e)=>{

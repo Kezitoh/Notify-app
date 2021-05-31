@@ -1,5 +1,5 @@
 import { Injectable, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AlertController, ModalController, PopoverController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController, LoadingController } from '@ionic/angular';
 import { NotificationTrackingModalPage } from '../../modals/notification-tracking-modal/notification-tracking-modal.page';
 import { NotificationService } from '../../services/notification.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
@@ -22,7 +22,8 @@ export class NotificationPopoverComponent implements OnInit {
     private notificationService:NotificationService,
     private alertCtrl: AlertController,
     private popoverCtrl: PopoverController,
-    public notificationsComponent:NotificationsComponent) { }
+    public notificationsComponent:NotificationsComponent,
+    private loadingCtrl:LoadingController) { }
 
   ngOnInit() {}
 
@@ -45,9 +46,18 @@ export class NotificationPopoverComponent implements OnInit {
       buttons: [
         {
           text: 'Ok',
-          handler: () => {
+          handler: async () => {
+            const loader = await this.loadingCtrl.create({
+              duration:2000,
+              translucent: true,
+              spinner: 'bubbles',
+              showBackdrop: false
+            });
+            await loader.present();
             this.notificationService.delete(this.notification).then(()=>{
-              this.notificationsComponent.prueba();
+              this.notificationsComponent.actualizarLista().then(()=> {
+                loader.dismiss();
+              });
             });
             console.log("Borrado");
             
