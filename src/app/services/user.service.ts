@@ -16,7 +16,7 @@ export class UserService {
 
   token: string = null;
 
-  usuario$: EventEmitter<User> = new EventEmitter<User>();
+  usuario$: EventEmitter<any> = new EventEmitter<any>();
   notifications: any;
   usuario: any;
 

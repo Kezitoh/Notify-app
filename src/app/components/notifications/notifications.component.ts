@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Notification } from '../../interfaces/interfaces';
 import { UserService } from '../../services/user.service';
-import { ModalController } from '@ionic/angular';
 import { FilterComponent } from '../filter/filter.component';
-import { NotificationAdminComponent } from '../notification-admin/notification-admin.component';
+
 
 @Component({
   selector: 'app-notifications',
@@ -15,12 +14,15 @@ export class NotificationsComponent implements OnInit {
   @Input('admin') admin: any
 
   notifications: Notification[];
+  refresher: any;
 
   constructor(private userService: UserService,
-    public filterComponent: FilterComponent, public notificationAdminComponent:NotificationAdminComponent) { }
+    public filterComponent: FilterComponent) { 
+      this.refresher = document.getElementById('refresh');
+    }
 
   ngOnInit() {
-
+    
     this.filterComponent.data$.subscribe(filtros => {
       console.log("alwlo");
 
@@ -50,19 +52,30 @@ export class NotificationsComponent implements OnInit {
 
     });
 
-
-    this.notificationAdminComponent.notifications$.subscribe( res => {
-      console.log(res);
-      
-    });
-
     this.getNotifications();
+
+  }
+
+  //TODO: Conseguir recargar la lista de notificaciones al borrar notificacion
+  prueba() {
+    var event = new Event('ionRefresh');
+    this.refresher.dispatchEvent(event);
+    // this.zone.run((e)=>{
+    this.getNotifications();
+
+    console.log("actualizado!");
+
+    // });
+
+
 
   }
 
 
   doRefresh(event) {
     console.log('Begin async operation');
+
+    console.log(event);
 
     this.getNotifications();
 
@@ -80,12 +93,13 @@ export class NotificationsComponent implements OnInit {
         this.notifications = notifications;
       });
       return;
-    }
-    this.userService.getUserNotifications().then(notifications => {
-      this.notifications = notifications;
-      console.log(notifications);
+    } else {
+      this.userService.getUserNotifications().then(notifications => {
+        this.notifications = notifications;
+        console.log(notifications);
 
-    });
+      });
+    }
   }
 
 }

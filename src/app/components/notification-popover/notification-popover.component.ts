@@ -1,7 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Injectable, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { NotificationTrackingModalPage } from '../../modals/notification-tracking-modal/notification-tracking-modal.page';
 import { NotificationService } from '../../services/notification.service';
+import { NotificationsComponent } from '../notifications/notifications.component';
+
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-notification-popover',
@@ -15,12 +21,13 @@ export class NotificationPopoverComponent implements OnInit {
   constructor(private modalCtrl: ModalController,
     private notificationService:NotificationService,
     private alertCtrl: AlertController,
-    private popoverCtrl: PopoverController) { }
+    private popoverCtrl: PopoverController,
+    public notificationsComponent:NotificationsComponent) { }
 
   ngOnInit() {}
 
 
-  delet() {
+  async delet() {
     this.showDeleteAlert();
     this.popoverCtrl.dismiss();
   }
@@ -39,10 +46,13 @@ export class NotificationPopoverComponent implements OnInit {
         {
           text: 'Ok',
           handler: () => {
-            this.notificationService.delete(this.notification);
+            this.notificationService.delete(this.notification).then(()=>{
+              this.notificationsComponent.prueba();
+            });
             console.log("Borrado");
             
-          }
+          },
+          
         },
         {
           text: 'Cancelar',
@@ -52,6 +62,7 @@ export class NotificationPopoverComponent implements OnInit {
     });
     
     await alert.present();
+    
     
   }
 
