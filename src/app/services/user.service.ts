@@ -38,43 +38,15 @@ export class UserService {
     return new Promise<any>(resolve => {
 
       this.http.post(`${URL}/login`, data).subscribe(async resp => {
-
-
+        
         if (!resp['ok']) {
           this.token = null;
           this.storage.clear();
           resolve(false);
-        }else{
-          
-          this.guardarToken(resp['token']).then(()=>{
-            const headers = new HttpHeaders({
-              'x-token': this.token
-            });
-            
-            this.http.get(`${URL}/me`, { headers }).subscribe(resp => {          
-                if (resp['error']) {
-                  this.navCtrl.navigateRoot('/login');
-                }
-                
-                this.usuario = resp;
-                
-                this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre
-                this.cargarToken().then((e)=>{
-                  this.validaToken().then(()=>{
-                    resolve(true);
-                  });
-                  
-                });
-
-         
-              });
-          });
-
-          
         }
 
-
-
+        await this.guardarToken(resp['token']);
+        resolve(true);
 
       });
 
@@ -109,25 +81,44 @@ export class UserService {
 
   async guardarToken(token: string) {
     this.token = token;
-    await this.validaToken();
     await this.storage.set('token', token);
+    await this.validaToken();
   }
 
   async cargarToken() {
-    this.token = await this.storage.get('token') || null;    
+    this.token = await this.storage.get('token') || null;
     return this.token
   }
 
   async validaToken() {
+
+    await this.cargarToken();
+
+    if (!this.token) {
+      this.navCtrl.navigateRoot('/login');
+      return Promise.resolve(false);
+    }
+
     return new Promise<boolean>(resolve => {
-      if (!this.token) {
-        this.navCtrl.navigateRoot('/login');
-        return Promise.resolve(false);
-      }else{
-          resolve(true)
-      }
+
+      const headers = new HttpHeaders({
+        'x-token': this.token
+      });
+
+      this.http.get(`${URL}/me`, { headers }).subscribe(resp => {
+
+        if (resp['error']) {
+          this.navCtrl.navigateRoot('/login');
+          resolve(false);
+        }
+        this.usuario = resp;
+
+        this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre
+
+        resolve(true);
+      });
+
     });
-      
 
   }
 
@@ -147,11 +138,15 @@ export class UserService {
 
     this.navCtrl.navigateRoot("/login", { animated: true });
   }
-setUserNotifications(notificationsuser){
-  this.notifications = notificationsuser
 
-}
+  setUserNotifications(notificationsuser) {
+    this.notifications = notificationsuser
+
+  }
   getUserNotifications(filters?: any[]) {
+    
+    
+    
 
     let params: any = {
       user: this.usuario.id
@@ -199,7 +194,7 @@ setUserNotifications(notificationsuser){
   }
 
 
-  getUsers(filters? : any[]) {
+  getUsers(filters?: any[]) {
 
     let params: any = {
     }
@@ -213,10 +208,10 @@ setUserNotifications(notificationsuser){
 
       this.getHttpHeader().then(header => {
 
-        this.http.get<User[]>(`${URL}/users`, { headers: header , params: params }).subscribe( res => {
+        this.http.get<User[]>(`${URL}/users`, { headers: header, params: params }).subscribe(res => {
           resolve(res);
         });
-      
+
       });
     });
 

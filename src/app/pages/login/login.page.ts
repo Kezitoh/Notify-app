@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
             this.navCtrl.navigateRoot('/inbox', { animated: true,replaceUrl:true });
         }
         
-        // this.responseForm(res, "Usuario y/o contraseña incorrectos");
+        this.responseForm(res, "Usuario y/o contraseña incorrectos");
 
       });
       
