@@ -35,28 +35,28 @@ export class LoginPage implements OnInit {
 
   async login(fLogin: NgForm) {
     const loadingLogin = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
+      message: 'Por favor espere...',
       duration: 2000
     });
-    await loadingLogin.present();
-
-    let user = this.loginForm.get('user').value;
-    let password = this.loginForm.get('password').value;
-    this.userService.login(user, password).then((res) => {
-
-      loadingLogin.dismiss().then(()=>{
+    loadingLogin.present().then(() => {
+      let user = this.loginForm.get('user').value;
+      let password = this.loginForm.get('password').value;
+      this.userService.login(user, password).then((res) => {
+  
+        loadingLogin.dismiss();
         if (res) {
-              console.log("entro por aqui");
-            this.navCtrl.navigateRoot('/inbox', { animated: true,replaceUrl:true });
+          console.log("entro por aqui");
+          this.navCtrl.navigateRoot('/inbox', { animated: true, replaceUrl: true });
         }
-        
+  
         this.responseForm(res, "Usuario y/o contraseña incorrectos");
-
+  
+  
+  
       });
-      
-
     });
+
+    
   }
 
 
@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
     }
 
     if (! await this.userService.usuario.has_logged) {
-      if(! await this.propFirstTimeAlert()) {
+      if (! await this.propFirstTimeAlert()) {
         return false;
       }
       // TODO: Actualizar has_logged a 1
