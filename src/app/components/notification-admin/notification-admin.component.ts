@@ -13,8 +13,6 @@ export class NotificationAdminComponent implements OnInit {
 
   @Input('notification') notification:any;
 
-  aaa:any;
-
   attachment :any ;
 
   content: string;
