@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { NotificationService } from '../../services/notification.service';
 import { NotificationTrackingModalPage } from '../../modals/notification-tracking-modal/notification-tracking-modal.page';
@@ -17,6 +17,9 @@ export class NotificationAdminComponent implements OnInit {
   attachment :any ;
 
   content: string;
+
+  notifications$: EventEmitter<any> = new EventEmitter<any>();
+
 
   constructor(private notificationService:NotificationService,
     private modalCtrl: ModalController, private popoverCtrl:PopoverController) { }
@@ -45,6 +48,10 @@ export class NotificationAdminComponent implements OnInit {
       componentProps: {
         notification: this.notification
       }
+    });
+
+    popover.onDidDismiss().then(()=>{
+      this.notifications$.emit("Hola");
     });
 
     await popover.present();

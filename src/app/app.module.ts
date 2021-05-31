@@ -17,12 +17,13 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FilterComponent } from './components/filter/filter.component';
+import { NotificationAdminComponent } from './components/notification-admin/notification-admin.component';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage, FileTransfer, File, FileChooser, FilePath, PreviewAnyFile, AndroidPermissions, FilterComponent],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage, FileTransfer, File, FileChooser, FilePath, PreviewAnyFile, AndroidPermissions, FilterComponent, NotificationAdminComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
