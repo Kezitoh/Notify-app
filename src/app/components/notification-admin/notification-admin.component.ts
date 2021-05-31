@@ -3,6 +3,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { NotificationService } from '../../services/notification.service';
 import { NotificationTrackingModalPage } from '../../modals/notification-tracking-modal/notification-tracking-modal.page';
 import { NotificationPopoverComponent } from '../notification-popover/notification-popover.component';
+import { NotificationAdminModalPage } from '../../modals/notification-admin-modal/notification-admin-modal.page';
 
 @Component({
   selector: 'app-notification-admin',
@@ -57,7 +58,7 @@ export class NotificationAdminComponent implements OnInit {
 
   async open_modal(notification: Notification) {
     const modal = await this.modalCtrl.create({
-      component: NotificationTrackingModalPage,
+      component: NotificationAdminModalPage,
       componentProps:{
         'notification': notification
       }

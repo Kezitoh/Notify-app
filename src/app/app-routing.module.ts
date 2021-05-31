@@ -64,7 +64,11 @@ const routes: Routes = [
   {
     path: 'notification-tracking-modal',
     loadChildren: () => import('./modals/notification-tracking-modal/notification-tracking-modal.module').then( m => m.NotificationTrackingModalPageModule)
+  },  {
+    path: 'notification-admin-modal',
+    loadChildren: () => import('./modals/notification-admin-modal/notification-admin-modal.module').then( m => m.NotificationAdminModalPageModule)
   },
+
 
 
 ];

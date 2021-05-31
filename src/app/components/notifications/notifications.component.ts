@@ -13,16 +13,18 @@ export class NotificationsComponent implements OnInit {
 
   @Input('admin') admin: any
 
+  @Input() enFavoritos: boolean = false;
+
   notifications: Notification[];
   refresher: any;
 
   constructor(private userService: UserService,
-    public filterComponent: FilterComponent) { 
-      this.refresher = document.getElementById('refresh');
-    }
+    public filterComponent: FilterComponent) {
+    this.refresher = document.getElementById('refresh');
+  }
 
   ngOnInit() {
-    
+
     this.filterComponent.data$.subscribe(filtros => {
       console.log("alwlo");
 
@@ -52,7 +54,9 @@ export class NotificationsComponent implements OnInit {
 
     });
 
+
     this.getNotifications();
+
 
   }
 
@@ -90,11 +94,18 @@ export class NotificationsComponent implements OnInit {
       console.log("outbox");
 
       this.userService.getNotifications().then(notifications => {
-        this.notifications = notifications;
+        
+        this.notifications = notifications
       });
       return;
     } else {
       this.userService.getUserNotifications().then(notifications => {
+        
+        if (this.enFavoritos) {
+          notifications = notifications.filter(notification => notification.fav === 1);
+
+        }
+
         this.notifications = notifications;
         console.log(notifications);
 

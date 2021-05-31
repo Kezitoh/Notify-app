@@ -12,63 +12,80 @@ const URL = environment.url;
 })
 export class NotificationService {
 
-  constructor (private http:HttpClient, private userService:UserService,
-    private uiService:UiService) { }
+  constructor(private http: HttpClient, private userService: UserService,
+    private uiService: UiService) { }
 
-  create( notification:Notification) {
+  create(notification: Notification) {
 
     return new Promise<any>(resolve => {
-      
-      this.getToken().then( token => {
-        
+
+      this.getToken().then(token => {
+
         const headers = new HttpHeaders({
           'x-token': token
         });
         // console.log("AWWWW",notification);
-        
-        this.http.post(`${URL}/notifications/create`, {'type': notification.id_type,'title': notification.title,'text': notification.text,'attachment': notification.attachment,'user': notification.users, 'group': notification.groups}, {headers: headers }).subscribe( res => {
-          
+
+        this.http.post(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
+
           resolve(res);
 
         });
       });
-      
+
     });
 
   }
 
-  delete(notification) {
+  setFavorite(notification, value) {
     return new Promise<any>(resolve => {
-
       this.getToken().then(token => {
         const headers = new HttpHeaders({
           'x-token': token
         });
-
-        this.http.post(`${URL}/notifications/delete`, {id: notification.id}, {headers: headers}).subscribe( res => {
+        console.log("value:",value);
+        
+        this.http.post(`${URL}/notifications/fav`, {notification_id: notification.id_notification, value: value}, { headers: headers }).subscribe( res => {
+          console.log(res);
+          
           resolve(res);
         });
-
       });
-
     });
   }
 
+  delete (notification) {
+      return new Promise<any>(resolve => {
 
-  getAttachments(notification:Notification) {
-    // let attachments = notification.attachments.split('|');
-    // attachments.forEach((attachment, i)=>{
-    //   attachments[i] = attachment.substr(12)
-    // });
-    // return attachments;
-    let attachment = notification.attachment
+        this.getToken().then(token => {
+          const headers = new HttpHeaders({
+            'x-token': token
+          });
+
+          this.http.post(`${URL}/notifications/delete`, { id: notification.id }, { headers: headers }).subscribe(res => {
+            resolve(res);
+          });
+
+        });
+
+      });
+    }
+
+
+  getAttachments(notification: Notification) {
+      // let attachments = notification.attachments.split('|');
+      // attachments.forEach((attachment, i)=>{
+      //   attachments[i] = attachment.substr(12)
+      // });
+      // return attachments;
+      let attachment = notification.attachment
     return attachment;
-  }
+    }
 
   async getToken() {
-    await this.userService.cargarToken()
+      await this.userService.cargarToken()
     
     return this.userService.token;
-  }
+    }
 
 }

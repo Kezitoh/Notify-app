@@ -4,6 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { DataService } from '../../services/data.service';
 import { NotificationModalPage } from '../../modals/notification-modal/notification-modal.page';
 import { ModalController } from '@ionic/angular';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-notification',
@@ -12,43 +13,63 @@ import { ModalController } from '@ionic/angular';
 })
 export class NotificationComponent implements OnInit {
 
-  @Input('notification') notification: Notification;
+  @Input('notification') notification: any;
 
-  favorito: boolean = false;
+  favorito: boolean;
 
   // attachments : any[] = [];
-  attachment :any ;
+  attachment: any;
 
   content: string;
 
-  constructor(private notificationService:NotificationService,
-    private modalCtrl: ModalController) { }
+  constructor(private notificationService: NotificationService,
+    private modalCtrl: ModalController, private uiService: UiService) { }
 
   ngOnInit() {
-    // console.log("a", this.notification.attachment);
-    
-    if(this.notification.attachment != null){
+
+    this.favorito = this.notification.fav;
+
+    if (this.notification.attachment != null) {
       // this.attachments = this.notificationService.getAttachments(this.notification);
       this.attachment = this.notificationService.getAttachments(this.notification);
     }
 
-    if(this.notification.text.length > 180) {
-      this.content = (this.notification.text.slice(0,180)+"... Leer más");
-    }else{
+    if (this.notification.text.length > 180) {
+      this.content = (this.notification.text.slice(0, 180) + "... Leer más");
+    } else {
       this.content = (this.notification.text);
     }
-    
+
 
   }
 
   favorite() {
+
+    let fav
+
     this.favorito = !this.favorito;
+
+    if (this.favorito) {
+      fav = 1;
+    } else {
+      fav = 0
+    }
+
+    this.notificationService.setFavorite(this.notification, fav).then(() => {
+      if (fav) {
+        this.uiService.presentToast('Añadida noticia a favoritos', 'warning');
+        return;
+      }
+
+      this.uiService.presentToast('Eliminada noticia de favoritos', 'light')
+
+    });
   }
 
   async open_modal(notification: Notification) {
     const modal = await this.modalCtrl.create({
       component: NotificationModalPage,
-      componentProps:{
+      componentProps: {
         'notification': notification
       }
     });

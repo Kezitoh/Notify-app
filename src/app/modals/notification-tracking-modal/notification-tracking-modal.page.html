@@ -1,26 +1,66 @@
 <ion-header>
-  <ion-toolbar >
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="dismiss()"> <ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title  >{{notification['nametype']}}</ion-title>
+    <ion-title>{{notification['title']}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding-end ion-padding-start">
-  <ion-text class="ion-text-center" color="primary">
-    <h1>{{notification.title}}</h1>
-  </ion-text>
-  <ion-text class="ion-text-justify" text-wrap>
-    {{notification.text}}
-  </ion-text>
-  <ion-list *ngIf="attachment != null">
-    
-    <ion-item lines="none" (click)="download()"  text-wrap>
-      <ion-img slot="start" class="file-icon" src="../../../assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
-      <ion-label >{{attachment.substr(12)}}</ion-label>
-      
-    </ion-item>
+<ng-template #cabeceraTabla >
+  <ion-row>
+    <ion-col size="2"><b>Usuario</b></ion-col>
+    <ion-col size="2"><b>Leído</b></ion-col>
+    <ion-col size="3"><b>Fecha lectura</b> </ion-col>
+    <ion-col size="2"><b>Descarga</b></ion-col>
+    <ion-col size="3"><b>Fecha descarga</b> </ion-col>
+  </ion-row>
+</ng-template>
 
-  </ion-list>
+<ion-content>
+
+  <ion-grid >
+    <ion-item>
+      <ion-label>
+        <h1>No Leídos - 2</h1>
+      </ion-label>
+    </ion-item>
+    <ng-container *ngTemplateOutlet="cabeceraTabla"></ng-container>
+    <ion-row>
+      <ion-col size="2">Alejandro Debén Duque</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-label>
+        <h1>Leídos - 2</h1>
+      </ion-label>
+    </ion-item>
+    <ng-container *ngTemplateOutlet="cabeceraTabla"></ng-container>
+    <ion-row>
+      <ion-col size="2">Jose Javier Sánchez Piedras</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-label>
+        <h1>Descargados - 2</h1>
+      </ion-label>
+    </ion-item>
+    <ng-container *ngTemplateOutlet="cabeceraTabla"></ng-container>
+    <ion-row>
+      <ion-col size="2">12345678a</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+      <ion-col size="2">Sí</ion-col>
+      <ion-col size="3">3-10-2020 21:12</ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

@@ -182,10 +182,10 @@ export class UserService {
       }
     }
 
-    return new Promise<any>(resolve => {
+    return new Promise<any[]>(resolve => {
       this.getHttpHeader().then(header => {
 
-        this.http.get<Notification[]>(`${URL}/notifications`, { headers: header, params: params }).subscribe(res => {
+        this.http.get<any[]>(`${URL}/notifications`, { headers: header, params: params }).subscribe(res => {
           resolve(res);
 
         });

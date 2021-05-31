@@ -79,6 +79,7 @@ export class NotificationPopoverComponent implements OnInit {
   async tracking() {
     const modal = await this.modalCtrl.create({
       component: NotificationTrackingModalPage,
+      cssClass: 'fullscreen',
       componentProps: {
         notification: this.notification
       }
