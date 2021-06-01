@@ -64,10 +64,35 @@ const routes: Routes = [
   {
     path: 'notification-tracking-modal',
     loadChildren: () => import('./modals/notification-tracking-modal/notification-tracking-modal.module').then( m => m.NotificationTrackingModalPageModule)
-  },  {
+  },
+  {
     path: 'notification-admin-modal',
     loadChildren: () => import('./modals/notification-admin-modal/notification-admin-modal.module').then( m => m.NotificationAdminModalPageModule)
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./pages/users/users.module').then( m => m.UsersPageModule)
+  },
+  {
+    path: 'types',
+    loadChildren: () => import('./pages/types/types.module').then( m => m.TypesPageModule)
+  },
+  {
+    path: 'groups',
+    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
+  },  {
+    path: 'type-modal',
+    loadChildren: () => import('./modals/type-modal/type-modal.module').then( m => m.TypeModalPageModule)
+  },
+  {
+    path: 'group-modal',
+    loadChildren: () => import('./modals/group-modal/group-modal.module').then( m => m.GroupModalPageModule)
+  },
+  {
+    path: 'user-modal',
+    loadChildren: () => import('./modals/user-modal/user-modal.module').then( m => m.UserModalPageModule)
+  },
+
 
 
 

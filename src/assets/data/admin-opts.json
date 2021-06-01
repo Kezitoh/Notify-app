@@ -22,19 +22,19 @@
 
     {
 
-        "title": "Crear nuevo usuario",
+        "title": "Usuarios",
 
-        "url": "/create-user",
+        "url": "/users",
 
-        "icon": "person-add"
+        "icon": "person"
 
     },
 
     {
 
-        "title": "Crear nuevo grupo",
+        "title": "Grupos",
 
-        "url": "/create-group",
+        "url": "/groups",
 
         "icon": "people"
 
@@ -42,9 +42,9 @@
 
     {
 
-        "title": "Crear nuevo tipo",
+        "title": "Tipos",
 
-        "url": "/create-type",
+        "url": "/types",
 
         "icon": "layers"
 

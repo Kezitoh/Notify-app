@@ -1,0 +1,11 @@
+<app-header title="Tipos"></app-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item (click)="open_modal(type)" *ngFor="let type of types">
+      <ion-label>{{type.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

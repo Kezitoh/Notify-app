@@ -108,12 +108,6 @@ export class NotificationAdminModalPage implements OnInit {
     
   }
 
-  edit() {
-
-  }
-
-
-
   download(index?) {
 
     const url = "/download?filename=" + this.attachment;

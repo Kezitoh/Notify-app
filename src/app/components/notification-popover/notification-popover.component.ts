@@ -33,11 +33,6 @@ export class NotificationPopoverComponent implements OnInit {
     this.popoverCtrl.dismiss();
   }
 
-  edit() {
-
-    this.popoverCtrl.dismiss();
-  }
-
   async showDeleteAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Borrar notificación',

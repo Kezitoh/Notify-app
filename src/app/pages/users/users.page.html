@@ -1,0 +1,11 @@
+<app-header title="Usuarios"></app-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item (click)="open_modal(user)" *ngFor="let user of users">
+      <ion-label>{{user.name +" "+user.surname}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
