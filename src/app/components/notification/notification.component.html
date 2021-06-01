@@ -1,7 +1,7 @@
 
 <ion-card-header>
   <ion-card-subtitle>
-    <span class="notification-source-name">{{notification.nametype}} | {{notification.created}}</span>
+    <span (click)="open_modal(notification)" class="notification-source-name">{{notification.nametype}} | {{notification.created}}</span>
     <div class="notification-opciones">
       <ion-button (click)="favorite()" color="warning" fill="clear" >
         <ion-icon slot="icon-only" [name]="favorito? 'star' : 'star-outline'"></ion-icon>
@@ -9,7 +9,7 @@
     </div>
     
   </ion-card-subtitle>
-  <ion-card-title>{{notification.title}}</ion-card-title>
+  <ion-card-title (click)="open_modal(notification)" >{{notification.title}}</ion-card-title>
 </ion-card-header>
 <!-- <ion-card-title class="ion-padding">{{notification.title}}</ion-card-title>
 <ion-card-subtitle class="ion-text-justify ion-padding-start ion-padding-end" text-wrap>{{content}}</ion-card-subtitle> -->

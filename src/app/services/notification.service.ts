@@ -54,6 +54,52 @@ export class NotificationService {
     });
   }
 
+  setDownloaded(user_notification_id: Number) {
+    return new Promise<any>(resolve => {
+      this.getToken().then(token => {
+        const headers = new HttpHeaders({
+          'x-token': token
+        });
+        
+        this.http.post(`${URL}/users_notifications/download`, {id: user_notification_id}, { headers: headers }).subscribe( res => {
+          console.log(res);
+          
+          resolve(res);
+        });
+      });
+    });
+  }
+
+  setRead(user_notification_id: Number) {
+    return new Promise<any>(resolve => {
+      this.getToken().then(token => {
+        const headers = new HttpHeaders({
+          'x-token': token
+        });
+        this.http.post(`${URL}/users_notifications/read`, {id: user_notification_id}, { headers: headers }).subscribe( res => {
+          console.log(res);
+          
+          resolve(res);
+        });
+      });
+    });
+  }
+
+  getUsers_NotificationsByNotifications(id) {
+    return new Promise<any>(resolve => {
+      this.getToken().then(token => {
+        const headers = new HttpHeaders({
+          'x-token': token
+        });
+        this.http.get(`${URL}/users_notifications`,{ headers: headers, params:{id: id} }).subscribe( res => {
+          console.log(res);
+          
+          resolve(res);
+        });
+      });
+    });
+  }
+
   delete (notification) {
       return new Promise<any>(resolve => {
 

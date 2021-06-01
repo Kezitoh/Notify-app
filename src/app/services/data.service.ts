@@ -148,24 +148,24 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
 
       })
   }
-  getPermission(url: string) {
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-      .then(status => {
+  async getPermission(url: string) {
+    await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+      .then(async status => {
         if (status.hasPermission) {
-          this.Download(url);
+          await this.download(url);
         }
         else {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-            .then(status => {
+          await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
+            .then(async status => {
               if (status.hasPermission) {
-                this.Download(url);
+                await this.download(url);
               }
             });
         }
       });
   }
 
-  Download(url: string) {
+  async download(url: string) {
     this.userService.cargarToken();
     const token = this.userService.token;
     const options = {
@@ -176,15 +176,16 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
     url = (URL + url).replace(/ /g, '%20');
 
 
-    fileTransfer.download(url, this.file.externalRootDirectory + 'Download/' + url.substr(url.lastIndexOf("=") + 13), false, options).then((entry) => {
+    await fileTransfer.download(url, this.file.externalRootDirectory + 'Download/' + url.substr(url.lastIndexOf("=") + 13), false, options).then(async (entry) => {
       console.log('download complete: ' + entry.toURL());
-      this.openFile(entry.toURL());
+      await this.openFile(entry.toURL());
     }, (error) => {
       // handle error
       console.error(error);
 
     });
   }
+
   async openFile(file: string) {
     const loading = await this.loadingCtrl.create({
       spinner: null,
@@ -194,7 +195,6 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
       backdropDismiss: true
     });
     await loading.present();
-
 
 
     file = file.replace(/ /g, '%20');
@@ -215,6 +215,7 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
       error => console.error("open failed", error),
       file
     );
+
   }
 
   async getHttpHeader() {

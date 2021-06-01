@@ -12,7 +12,7 @@ import { DataService } from '../../services/data.service';
 })
 export class NotificationModalPage implements OnInit {
 
-  @Input() notification: Notification;
+  @Input() notification: any;
 
   // attachments : any[] = [];
   attachment: any;
@@ -55,7 +55,12 @@ export class NotificationModalPage implements OnInit {
     // const url = "/download?filename="+this.attachments[index];
 
 
-    return this.dataService.getPermission(url);
+    return this.dataService.getPermission(url).then(() => {
+      if(!this.notification.is_downloaded) {
+        this.notificationService.setDownloaded(this.notification.user_notification_id);
+      }
+
+    });
   }
 
 }

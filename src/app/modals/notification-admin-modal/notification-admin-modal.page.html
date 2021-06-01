@@ -16,19 +16,28 @@
   </ion-text>
   <ion-list *ngIf="attachment != null">
     
-    <ion-item lines="none" (click)="download()"  text-wrap>
+    <ion-item button lines="none" (click)="download()"  text-wrap>
       <ion-img slot="start" class="file-icon" src="../../../assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
       <ion-label >{{attachment.substr(12)}}</ion-label>
       
     </ion-item>
 
-  </ion-list>
-  <ion-item lines="none">
-    <ion-button (click)="onClick()" expand="block" fill="clear" shape="round">
-      Click me
-    </ion-button>
-    <ion-button (click)="onClick()" expand="block" fill="clear" shape="round">
-      Click me
-    </ion-button>    
-  </ion-item>
+  </ion-list >
+  <ion-row class="footer" lines="none">
+    <ion-col size="4">
+      <ion-button (click)="tracking()" expand="block" fill="clear" shape="round">
+        Seguimiento
+      </ion-button>
+    </ion-col>
+    <ion-col size="4">
+      <ion-button (click)="edit()" expand="block" fill="clear" shape="round">
+        Editar y reenviar
+      </ion-button> 
+    </ion-col>
+    <ion-col size="4">
+      <ion-button (click)="delet()" expand="block" fill="clear" color="danger" shape="round">
+        Eliminar
+      </ion-button>   
+    </ion-col>
+  </ion-row>
 </ion-content>

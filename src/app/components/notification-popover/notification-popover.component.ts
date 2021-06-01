@@ -28,7 +28,7 @@ export class NotificationPopoverComponent implements OnInit {
   ngOnInit() {}
 
 
-  async delet() {
+  delet() {
     this.showDeleteAlert();
     this.popoverCtrl.dismiss();
   }
@@ -77,6 +77,9 @@ export class NotificationPopoverComponent implements OnInit {
   }
 
   async tracking() {
+    const loading = await this.loadingCtrl.create({
+      duration: 2000
+    });
     const modal = await this.modalCtrl.create({
       component: NotificationTrackingModalPage,
       cssClass: 'fullscreen',
@@ -86,7 +89,7 @@ export class NotificationPopoverComponent implements OnInit {
     });
 
     await modal.present();
-
+    loading.dismiss();
     this.popoverCtrl.dismiss();
   }
 

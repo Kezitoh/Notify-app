@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { NotificationService } from '../../services/notification.service';
 import { DataService } from '../../services/data.service';
+
 
 @Component({
   selector: 'app-notification-tracking-modal',
@@ -12,24 +13,32 @@ export class NotificationTrackingModalPage implements OnInit {
 
   @Input() notification: any;
 
-  // attachments : any[] = [];
-  attachment: any;
-  terminosAceptados: boolean = false;
+  
+  users_notifications: any[] = [];
+  no_leidos : any[] = [];
+  leidos: any[] = [];
+  dests:number;
 
-  constructor(private modalCtrl: ModalController, private notificationService: NotificationService,
-    private dataService: DataService) { }
+  constructor(private modalCtrl: ModalController,
+    private notificationService: NotificationService,
+    private loadingController:LoadingController) { }
 
-  ngOnInit() {
+  ngOnInit() { 
 
-    const attachments = this.notificationService.getAttachments(this.notification);
-    // console.log(attachments);
+    //TODO: Mostrar loading mientras carga
 
-    if (attachments != null) {
-      this.attachment = this.notificationService.getAttachments(this.notification);
-      //   this.attachments = attachments;
-      //   console.log("att",this.attachments);
-    }
-
+    this.notificationService.getUsers_NotificationsByNotifications(this.notification.id).then( resp => {
+      this.users_notifications = resp.Users_Notifications;
+      this.dests = this.users_notifications.length;
+      console.log(this.users_notifications.length);
+      
+      const copy = resp.Users_Notifications;
+      
+      const cut = copy.findIndex(element => element.datetime_read != null);
+      this.leidos = copy.splice(cut);
+      this.no_leidos = copy;
+    });
+    
 
   }
 
@@ -39,21 +48,6 @@ export class NotificationTrackingModalPage implements OnInit {
     });
   }
 
-  
-  checkboxChanged(event) {
-    
-    this.terminosAceptados = event.detail.checked;
-    
-  }
 
-
-  download(index?) {
-
-    const url = "/download?filename=" + this.attachment;
-    // const url = "/download?filename="+this.attachments[index];
-
-
-    return this.dataService.getPermission(url);
-  }
 
 }

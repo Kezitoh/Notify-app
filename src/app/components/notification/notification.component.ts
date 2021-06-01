@@ -66,13 +66,22 @@ export class NotificationComponent implements OnInit {
     });
   }
 
-  async open_modal(notification: Notification) {
+  async open_modal(notification: any) {
     const modal = await this.modalCtrl.create({
       component: NotificationModalPage,
       componentProps: {
         'notification': notification
       }
     });
+
+    modal.onDidDismiss().then(() => {
+      if(!notification.is_read) {
+        
+        this.notificationService.setRead(notification.user_notification_id);
+
+      }
+    });
+
     return await modal.present();
   }
 
