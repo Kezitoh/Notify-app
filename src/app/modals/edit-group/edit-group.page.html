@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"> <ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Editar Grupo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="edit_groupForm" (ngSubmit)="onSubmit()" #fGroup="ngForm">
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name" type="text" [(ngModel)]="group.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input formControlName="description" type="text" [(ngModel)]="group.description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label >Activo</ion-label>
+      <ion-toggle formControlName="active" [(ngModel)]="group.is_active" ></ion-toggle>
+    </ion-item>
+
+    <ion-button class="footer" block color="primary" type="submit" [disabled]="edit_groupForm.invalid">
+      Editar grupo
+    </ion-button>
+  </form>
+</ion-content>

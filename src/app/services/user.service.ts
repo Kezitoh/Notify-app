@@ -280,8 +280,57 @@ export class UserService {
       });
 
     });
+  }
 
 
+  deleteUser(id: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/users/delete`, { 'id': id }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+
+  
+  editUser(id:number, user: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/users/edit`, { id: id, values: user  }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+
+
+  toggleActiveUser(id: any, value: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/users/toggleActive`, { 'id': id, 'value': value }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
   }
 
 }

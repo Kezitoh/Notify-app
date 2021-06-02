@@ -3,6 +3,10 @@
     <ion-label>Seguimiento</ion-label>
     <ion-icon slot="end" name="ellipsis-horizontal"></ion-icon>
   </ion-item>
+  <ion-item button (click)="toggleActive()">
+    <ion-label>{{notification.is_active? 'Desactivar':'Activar'}}</ion-label>
+    <ion-icon style="color: {{notification.is_active? '#c50000' : '#008000'}}" slot="end" name="{{notification.is_active? 'close-circle':'checkmark-circle'}}"></ion-icon>
+  </ion-item>
   <ion-item button (click)="delet()">
     <ion-label >
       <ion-text color="danger">Eliminar</ion-text>

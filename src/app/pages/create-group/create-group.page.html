@@ -14,6 +14,11 @@
       <ion-input required formControlName="description" type="text"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label >Activo</ion-label>
+      <ion-toggle required formControlName="active" checked="true" ></ion-toggle>
+    </ion-item>
+
     <ion-button class="footer" block color="primary" type="submit" [disabled]="groupForm.invalid">
       Crear grupo
     </ion-button>
