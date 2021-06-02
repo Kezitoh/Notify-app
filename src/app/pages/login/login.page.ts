@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
   }
 
 
-  async login(fLogin: NgForm) {
+  async login() {
     const loadingLogin = await this.loadingController.create({
       message: 'Por favor espere...',
       duration: 2000

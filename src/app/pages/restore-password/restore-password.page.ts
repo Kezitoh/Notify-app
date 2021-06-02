@@ -26,7 +26,7 @@ export class RestorePasswordPage implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(fRestore: NgForm ) {
+  onSubmit() {
     const user = this.restoreForm.get('user').value;
     this.userService.getResetMail(user).then(res => {
 
