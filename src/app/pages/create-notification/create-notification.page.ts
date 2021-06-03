@@ -79,13 +79,31 @@ export class CreateNotificationPage implements OnInit {
 
   }
 
-  onSubmit() {
-    console.log(this.notificationForm.get('type').value);
+  async onSubmit() {
     
 
-    const groups = this.notificationForm.get('groups').value;
-    const users = this.notificationForm.get('users').value;
+    const groups: any[] = this.notificationForm.get('groups').value;
+    const users: any[] = this.notificationForm.get('users').value;
+    
+    let user_ids = [];
 
+    if(users != null) {
+      users.forEach((user) => {
+        user_ids.push(user.id);
+      });
+
+    }
+    
+    let group_ids = [];
+
+    if(groups != null) {
+      groups.forEach((group) => {
+        group_ids.push(group.id);
+      });
+
+    }
+
+    
     console.debug("groups", groups);
     console.log("users", users);
 
@@ -93,10 +111,7 @@ export class CreateNotificationPage implements OnInit {
     // this.notificationForm.get();
     const title = this.notificationForm.get('title').value;
     const text = this.notificationForm.get('text').value;
-    const type_name = this.notificationForm.get('type').value;
-
-    const type = this.types.find(nombre => nombre.name == type_name);
-    console.log("tipooooooo", type_name);
+    const type = this.notificationForm.get('type').value;
     
 
     let attachment = this.attachment;
@@ -133,16 +148,20 @@ export class CreateNotificationPage implements OnInit {
 
 
     this.notification = {
-      id_type: type_name.id,
+      id_type: type.id,
       text: text,
       title: title,
-      users: (users != undefined) ? users : [],
-      groups: (groups != undefined) ? groups : [],
+      users: (users != undefined) ? user_ids : [],
+      groups: (groups != undefined) ? group_ids : [],
       attachment: (attachment != undefined) ? attachment : ''
       // attachments: this.attachments.join('|')
     };
 
-    this.notificationService.create(this.notification);
+    const res = await this.notificationService.create(this.notification);
+    if(!res) {
+      this.uiService.presentToast('Error creando notificación', 'danger');
+      return false;  
+    }
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();
