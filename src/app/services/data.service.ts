@@ -31,11 +31,11 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
   }
 
   getMenuOpts() { //Obtiene opciones para usuarios generales
-    return this.http.get<Componente[]>('../../assets/data/menu-opts.json');
+    return this.http.get<Componente[]>('assets/data/menu-opts.json');
   }
 
   getAdminOpts() { //Obtiene opciones para admins
-    return this.http.get<Componente[]>('../../assets/data/admin-opts.json');
+    return this.http.get<Componente[]>('assets/data/admin-opts.json');
   }
 
   getTypes() { //Obtiene los tipos de notificaciones
