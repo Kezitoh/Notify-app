@@ -16,13 +16,16 @@ export class EditUserPage implements OnInit {
 
   edit_userForm: FormGroup;
   groups: any[];
+  group: any;
+  compareWith : any ;
 
   constructor(private modalCtrl: ModalController,
     private userService: UserService, private uiService:UiService,
     private dataService:DataService) { }
 
   ngOnInit() {
-
+    this.compareWith = this.compareWithFn;
+    this.group = this.user.id_group;
     this.dataService.getGroups().then( groups => {
       this.groups = groups;
     });
@@ -38,6 +41,10 @@ export class EditUserPage implements OnInit {
     });
   }
 
+  compareWithFn(o1, o2) {
+    return o1 === o2;
+  };
+
   dismiss() {
     this.modalCtrl.dismiss(false);
   }
@@ -51,7 +58,7 @@ export class EditUserPage implements OnInit {
     const role = this.edit_userForm.get('role').value;
     const group = this.edit_userForm.get('group').value;
 
-    console.log("AAAA:",this.user.id_role,"EEEE:",this.user.id_group);
+    console.log(group);
     
 
     const userr = {
@@ -61,7 +68,7 @@ export class EditUserPage implements OnInit {
       user: user,
       is_active: active,
       id_role: role,
-      id_group: group
+      id_group: group == null? this.user.id_group : group
     }
 
     this.userService.editUser(this.user.id, userr);

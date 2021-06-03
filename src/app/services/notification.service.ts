@@ -26,9 +26,12 @@ export class NotificationService {
         });
         // console.log("AWWWW",notification);
 
-        this.http.post(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
+        this.http.post<any>(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
+          
+          resolve(res.ok);
 
-          resolve(res);
+        }, err => {
+          resolve(err.ok)
 
         });
       });
@@ -43,9 +46,9 @@ export class NotificationService {
         const headers = new HttpHeaders({
           'x-token': token
         });
-        console.log("value:",value);
+        console.log("value:",value,"Notification:", notification.id);
         
-        this.http.post(`${URL}/notifications/fav`, {notification_id: notification.id_notification, value: value}, { headers: headers }).subscribe( res => {
+        this.http.post(`${URL}/notifications/fav`, {notification_id: notification.id, value: value}, { headers: headers }).subscribe( res => {
           console.log(res);
           
           resolve(res);

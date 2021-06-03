@@ -20,7 +20,7 @@
       <p class="texto-gris" >Estoy de acuerdo al ticar que leeré los contenidos del siguiente archivo adjunto.</p>
     </ion-item>
     <ion-item lines="none" [disabled]="!terminosAceptados" (click)="download()"  text-wrap>
-      <ion-img slot="start" class="file-icon" src="../../../assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
+      <ion-img slot="start" class="file-icon" src="assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
       <ion-label >{{attachment.substr(12)}}</ion-label>
       
     </ion-item>

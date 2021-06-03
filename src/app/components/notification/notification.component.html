@@ -17,7 +17,7 @@
   <p text-wrap >{{content}}</p>
   <ion-list *ngIf="attachment != null">
     <ion-item>
-      <ion-img class="file-icon" src="../../../assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
+      <ion-img class="file-icon" src="assets/file-icons/SVG/{{attachment.substr(attachment.lastIndexOf('.') + 1)}}.svg"></ion-img>
       <ion-label >{{attachment.substring(12)}}</ion-label>
     </ion-item>
   </ion-list>

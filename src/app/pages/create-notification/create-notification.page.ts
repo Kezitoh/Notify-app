@@ -79,7 +79,7 @@ export class CreateNotificationPage implements OnInit {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
 
     const groups = this.notificationForm.get('groups').value;
     const users = this.notificationForm.get('users').value;
@@ -91,9 +91,10 @@ export class CreateNotificationPage implements OnInit {
     // this.notificationForm.get();
     const title = this.notificationForm.get('title').value;
     const text = this.notificationForm.get('text').value;
-    const type_name = this.notificationForm.get('type').value;
+    const type = this.notificationForm.get('type').value;
 
-    const type = this.types.find(nombre => nombre.name == type_name);
+    // console.log("typardo",type);
+    
 
     let attachment = this.attachment;
     if (attachment != undefined) {
@@ -129,7 +130,7 @@ export class CreateNotificationPage implements OnInit {
 
 
     this.notification = {
-      id_type: type.id,
+      id_type: type,
       text: text,
       title: title,
       users: (users != undefined) ? users : [],
@@ -138,7 +139,13 @@ export class CreateNotificationPage implements OnInit {
       // attachments: this.attachments.join('|')
     };
 
-    this.notificationService.create(this.notification);
+
+    const resultado = await this.notificationService.create(this.notification);
+    if(!resultado) {
+      this.uiService.presentAlert('Error','Fallo en la creación de notificación','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+      return false;
+    }
+    
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();

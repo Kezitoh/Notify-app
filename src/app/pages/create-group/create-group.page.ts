@@ -23,7 +23,7 @@ export class CreateGroupPage implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     const name = this.groupForm.get('name').value;
     const description = this.groupForm.get('description').value
     const active = this.groupForm.get('active').value;
@@ -34,7 +34,13 @@ export class CreateGroupPage implements OnInit {
       is_active: active
     }
 
-    this.dataService.createGroup(group);
+    
+    const resultado = await this.dataService.createGroup(group);
+
+    if(!resultado) {
+      this.uiService.presentAlert('Error','Fallo en la creación de grupo','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+      return false;
+    }
 
     this.groupForm.reset();
     this.uiService.presentToast("Grupo creado correctamente", "success");

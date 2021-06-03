@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   @Input("filter") filter: boolean = false;
   @Input('filterType') filterType: string = "";
   @Input('add') add: boolean = false;
+  @Input('backButtonRoute') backButtonRoute;
 
   constructor(private router: Router) { }
 
@@ -30,6 +31,10 @@ export class HeaderComponent implements OnInit {
         break;
     }
 
+  }
+
+  backButton() {
+    this.router.navigateByUrl(this.backButtonRoute);
   }
 
   // TODO: Filtrar, valga la redundancia, las páginas que tendrán la opción a filtro.

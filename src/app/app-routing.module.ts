@@ -51,15 +51,18 @@ const routes: Routes = [
   },
   {
     path: 'create-group',
-    loadChildren: () => import('./pages/create-group/create-group.module').then( m => m.CreateGroupPageModule)
+    loadChildren: () => import('./pages/create-group/create-group.module').then( m => m.CreateGroupPageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'create-type',
-    loadChildren: () => import('./pages/create-type/create-type.module').then( m => m.CreateTypePageModule)
+    loadChildren: () => import('./pages/create-type/create-type.module').then( m => m.CreateTypePageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'downloads',
-    loadChildren: () => import('./pages/downloads/downloads.module').then( m => m.DownloadsPageModule)
+    loadChildren: () => import('./pages/downloads/downloads.module').then( m => m.DownloadsPageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'notification-tracking-modal',
@@ -71,15 +74,18 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    loadChildren: () => import('./pages/users/users.module').then( m => m.UsersPageModule)
+    loadChildren: () => import('./pages/users/users.module').then( m => m.UsersPageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'types',
-    loadChildren: () => import('./pages/types/types.module').then( m => m.TypesPageModule)
+    loadChildren: () => import('./pages/types/types.module').then( m => m.TypesPageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'groups',
-    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
+    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule),
+    canLoad: [UsuarioGuard]
   },
   {
     path: 'type-modal',

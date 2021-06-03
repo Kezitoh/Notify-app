@@ -26,12 +26,12 @@ export class NotificationAdminModalPage implements OnInit {
   ngOnInit() {
 
     const attachments = this.notificationService.getAttachments(this.notification);
-    // console.log(attachments);
+     console.log(attachments);
 
     if (attachments != null) {
       this.attachment = this.notificationService.getAttachments(this.notification);
       //   this.attachments = attachments;
-      //   console.log("att",this.attachments);
+         console.log("att",this.attachment);
     }
 
 

@@ -19,7 +19,7 @@
       <ion-label position="floating">Tipo <ion-text color="danger">*</ion-text>
       </ion-label>
       <ion-select required  interface="popover" formControlName="type" value="" multiple="false" placeholder="Selecciona tipo">
-        <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
+        <ion-select-option *ngFor="let type of types" [value]="type.id">{{type.name}}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -65,7 +65,7 @@
         <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
     
           <ion-img class="file-icon"
-            src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+            src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
           </ion-img>
           <ion-text color="primary">
             {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
@@ -86,7 +86,7 @@
           <ion-item (click)="preview(attachment.path)">
     
             <ion-img class="file-icon"
-              src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+              src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
             </ion-img>
             <ion-text color="primary">
               {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
