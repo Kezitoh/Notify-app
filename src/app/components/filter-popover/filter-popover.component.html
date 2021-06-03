@@ -14,6 +14,20 @@
         <ion-label>{{item.name}}</ion-label>
         <ion-checkbox (ionChange)="checked($event)" [checked]="item.checked" [value]="item.id" ></ion-checkbox>
       </ion-item>
+      <ion-item-divider>
+        <ion-label>Fecha</ion-label>
+      </ion-item-divider>
+        <ion-radio-group name="fecha" [value]="fecha">
+          <ion-item>
+            <ion-label>Ascendente</ion-label>
+            <ion-radio value="asc"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Descendente</ion-label>
+            <ion-radio value="desc"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      
     </ion-list>
     
   </ion-list>

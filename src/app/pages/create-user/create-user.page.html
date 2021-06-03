@@ -44,6 +44,14 @@
       <ion-toggle required formControlName="active"checked="true" ></ion-toggle>
     </ion-item>
 
+    <ion-item lines="none">
+      <p class="texto-gris">La contraseña del usuario se inicializará con el siguiente formato: 6 primeros dígitos del usuarios + Inicial nombre + Inicial primer apellido</p>
+      
+    </ion-item>
+    <ion-item>
+      <p class="texto-gris">Ejemplo: Usuario - 12345678A, Nombre y primer apellido - Javier Piedras -> 123456JP</p>
+    </ion-item>
+
     <ion-button class="footer" expand="full" color="primary" type="submit" [disabled]="userForm.invalid">
       Crear usuario
     </ion-button>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { PopoverController } from '@ionic/angular';
 
@@ -11,9 +11,13 @@ export class FilterPopoverComponent implements OnInit {
 
   @Input('filterType') filterType: string = "";
 
+  @Input('fecha') fecha: any = "desc";
+
+  @Output('data') outputData: any;
+
   data: any[] = []
   allButtonDisabled = false;
-
+  
   constructor(private dataService:DataService,
     public popoverCtrl:PopoverController) { }
 

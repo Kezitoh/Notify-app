@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import * as EventEmitter from 'events';
 import { Notification } from '../../interfaces/interfaces';
 import { UserService } from '../../services/user.service';
 import { FilterComponent } from '../filter/filter.component';
@@ -15,7 +16,8 @@ export class NotificationsComponent implements OnInit {
 
   @Input() enFavoritos: boolean = false;
 
-  notifications: Notification[];
+  notificationsOG : any [];// Array original completo
+  notifications: Notification[];// Array modificable por búsqueda
   refresher: any;
 
   constructor(private userService: UserService,
@@ -32,31 +34,33 @@ export class NotificationsComponent implements OnInit {
         case "user":
           this.userService.getUsers(filtros.filters).then(res => {
             console.log(res);
-            this.notifications = res;
+            this.notificationsOG = res;
           });
           break;
         case "admin":
           this.userService.getNotifications(filtros.filters).then(res => {
             console.log(res);
-            this.notifications = res;
+            this.notificationsOG = res;
           });
           break;
         default:
           this.userService.getUserNotifications(filtros.filters).then(res => {
             console.log(res);
-            this.notifications = res;
+            this.notificationsOG = res;
           });
 
           break;
       }
+      this.notifications = this.notificationsOG;
 
       console.log("filtro aplicado?");
 
     });
 
 
+    // this.notifications = 
     this.getNotifications();
-
+    
 
   }
 
@@ -95,7 +99,8 @@ export class NotificationsComponent implements OnInit {
 
       this.userService.getNotifications().then(notifications => {
         
-        this.notifications = notifications
+        this.notificationsOG = notifications
+        this.notifications = this.notificationsOG;
       });
       return;
     } else {
@@ -106,11 +111,26 @@ export class NotificationsComponent implements OnInit {
 
         }
 
-        this.notifications = notifications;
+        this.notificationsOG = notifications;
+        this.notifications = this.notificationsOG;
         console.log(notifications);
 
       });
     }
+    
+  }
+
+  loadNotifs(notificaciones) {
+    this.notifications = notificaciones;
+  }
+
+  // Busca solo por inicio
+  onSearchChange(event) {
+    console.log(event.target.value);
+    const reg = new RegExp(event.target.value,"gi")
+    const filtro = this.notificationsOG.filter((notification) => !notification.title.search(reg));
+    this.loadNotifs(filtro);
+    
   }
 
 }

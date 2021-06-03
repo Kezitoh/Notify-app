@@ -1,6 +1,7 @@
 <app-header [add]=true title="Usuarios"></app-header>
 
 <ion-content>
+  <ion-searchbar placeholder="Filtrar usuarios" inputmode="search" type="text" (ionChange)="onSearchChange($event)" [debounce]="250" showCancelButton="focus"></ion-searchbar>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" id="refresh">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
