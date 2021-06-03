@@ -17,7 +17,8 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class DataService implements OnInit { //Servicio de recuperación de datos variados
+export class DataService implements OnInit {
+   //Servicio de recuperación de datos variados
 
   constructor(private http: HttpClient, private userService: UserService,
     private transfer: FileTransfer, private file: File,
@@ -91,7 +92,7 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
 
       return new Promise<any>(resolve => {
 
-        this.http.post(`${URL}/groups/create`, { 'name': group.name, 'description': group.description }, { headers: header }).subscribe(res => {
+        this.http.post(`${URL}/groups/create`, { 'name': group.name, 'description': group.description, 'active': group.active }, { headers: header }).subscribe(res => {
 
           resolve(res);
 
@@ -237,6 +238,101 @@ export class DataService implements OnInit { //Servicio de recuperación de dato
         this.filePath.resolveNativePath(file).then(res => resolve({ androidPath: file, path: res }));
 
       });
+    });
+  }
+
+
+  deleteType(id: number) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/types/delete`, { 'id': id }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+  
+  editType(id:number, type: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/types/edit`, { id: id, values: type  }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+  
+  toggleActiveType(id: number, value: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/types/toggleActive`, { 'id': id, 'value': value }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+
+  deleteGroup(id: number) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/groups/delete`, { 'id': id }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+  editGroup(id: number, group: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/groups/edit`, { id: id, values: group }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
+    });
+  }
+  toggleActiveGroup(id: number, value: any) {
+    this.getHttpHeader().then(header => {
+
+      return new Promise<any>(resolve => {
+
+        this.http.post(`${URL}/groups/toggleActive`, { 'id': id, 'value': value }, { headers: header }).subscribe(res => {
+
+          resolve(res);
+
+        });
+
+      });
+
     });
   }
 

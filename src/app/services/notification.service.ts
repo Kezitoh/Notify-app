@@ -134,4 +134,25 @@ export class NotificationService {
     return this.userService.token;
     }
 
+
+    toggleActiveNotification(id: any, value: any) {
+  
+        return new Promise<any>(resolve => {
+
+            this.getToken().then(token => {
+              const headers = new HttpHeaders({
+                'x-token': token
+              });
+  
+          this.http.post(`${URL}/notifications/toggleActive`, { 'id': id, 'value': value }, { headers: headers }).subscribe(res => {
+  
+            resolve(res);
+  
+          });
+  
+        });
+  
+      });
+    }
+
 }

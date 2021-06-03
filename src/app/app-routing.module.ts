@@ -80,7 +80,8 @@ const routes: Routes = [
   {
     path: 'groups',
     loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
-  },  {
+  },
+  {
     path: 'type-modal',
     loadChildren: () => import('./modals/type-modal/type-modal.module').then( m => m.TypeModalPageModule)
   },
@@ -91,6 +92,18 @@ const routes: Routes = [
   {
     path: 'user-modal',
     loadChildren: () => import('./modals/user-modal/user-modal.module').then( m => m.UserModalPageModule)
+  },
+  {
+    path: 'edit-user',
+    loadChildren: () => import('./modals/edit-user/edit-user.module').then( m => m.EditUserPageModule)
+  },
+  {
+    path: 'edit-group',
+    loadChildren: () => import('./modals/edit-group/edit-group.module').then( m => m.EditGroupPageModule)
+  },
+  {
+    path: 'edit-type',
+    loadChildren: () => import('./modals/edit-type/edit-type.module').then( m => m.EditTypePageModule)
   },
 
 

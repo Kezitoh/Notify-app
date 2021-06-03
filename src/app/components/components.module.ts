@@ -8,12 +8,13 @@ import { FilterComponent } from './filter/filter.component';
 import { FilterPopoverComponent } from './filter-popover/filter-popover.component';
 import { NotificationPopoverComponent } from './notification-popover/notification-popover.component';
 import { NotificationAdminComponent } from './notification-admin/notification-admin.component';
+import { OptionsPopoverComponent } from './options-popover/options-popover.component';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, NotificationComponent, NotificationsComponent, FilterComponent, FilterPopoverComponent, NotificationPopoverComponent, NotificationAdminComponent],
-  exports: [HeaderComponent, NotificationsComponent, FilterComponent, NotificationPopoverComponent, NotificationAdminComponent],
+  declarations: [HeaderComponent, NotificationComponent, NotificationsComponent, FilterComponent, FilterPopoverComponent, NotificationPopoverComponent, NotificationAdminComponent, OptionsPopoverComponent],
+  exports: [HeaderComponent, NotificationsComponent, FilterComponent, NotificationPopoverComponent, NotificationAdminComponent, OptionsPopoverComponent],
   imports: [
     CommonModule,
     IonicModule

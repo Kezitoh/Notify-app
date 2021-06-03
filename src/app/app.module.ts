@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -17,13 +17,17 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FilterComponent } from './components/filter/filter.component';
+import { TypesPage } from './pages/types/types.page';
+import { UsersPage } from './pages/users/users.page';
+import { GroupsPage } from './pages/groups/groups.page';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage, FileTransfer, File, FileChooser, FilePath, PreviewAnyFile, AndroidPermissions, FilterComponent, NotificationsComponent],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage, FileTransfer, File, FileChooser, FilePath, PreviewAnyFile, AndroidPermissions, FilterComponent, TypesPage, UsersPage, GroupsPage, NotificationsComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

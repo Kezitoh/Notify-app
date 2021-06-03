@@ -88,4 +88,20 @@ export class NotificationPopoverComponent implements OnInit {
     this.popoverCtrl.dismiss();
   }
 
+  toggleActive() {
+
+    this.notification.is_active = !this.notification.is_active;
+
+    let value;
+    if(this.notification.is_active){
+      value = 1;
+    }else{
+      value = 0;
+    }
+
+    this.notificationService.toggleActiveNotification(this.notification.id, value);
+
+    this.popoverCtrl.dismiss();
+  }
+
 }

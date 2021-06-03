@@ -1,11 +1,20 @@
-<app-header title="Grupos"></app-header>
+<app-header [add]="true" title="Grupos"></app-header>
 
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" id="refresh">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Estira para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Refrescando...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <ion-item (click)="open_modal(group)" *ngFor="let group of groups">
-      <ion-label>{{group.name}}</ion-label>
-      <ion-toggle></ion-toggle>
+    <ion-item  *ngFor="let group of groups">
+      <ion-label button (click)="open_modal(group)">{{group.name}}</ion-label>
+      <ion-button (click)="open_menu(group,$event)" expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 

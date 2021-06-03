@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { UserModalPage } from '../../modals/user-modal/user-modal.page';
+import { EditUserPage } from '../../modals/edit-user/edit-user.page';
+import { OptionsPopoverComponent } from '../../components/options-popover/options-popover.component';
 
 @Component({
   selector: 'app-users',
@@ -11,22 +13,36 @@ import { UserModalPage } from '../../modals/user-modal/user-modal.page';
 export class UsersPage implements OnInit {
 
   users: any[];
+  refresher: any;
 
-  constructor(private userService:UserService,
-    private modalCtrl:ModalController) { }
+  constructor(private userService: UserService,
+    private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
+    this.refresher = document.getElementById('refresh');
+  }
 
   ngOnInit() {
 
-    this.userService.getUsers().then( users => {
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.userService.getUsers().then(users => {
       console.log(users);
 
       this.users = users;
-      
-    });
 
+    });
   }
 
-  async open_modal( user ) {
+  doRefresh(event) {
+    this.getUsers();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
+  async open_modal(user) {
     const modal = await this.modalCtrl.create({
       component: UserModalPage,
       componentProps: {
@@ -35,6 +51,35 @@ export class UsersPage implements OnInit {
     });
 
     await modal.present();
+  }
+
+  async open_menu(user, event) {
+    const popover = await this.popoverCtrl.create({
+      component: OptionsPopoverComponent,
+      componentProps: {
+        data: user,
+        type: 'user'
+      },
+      event: event
+    });
+
+    await popover.present();
+
+  }
+
+  async actualizarLista() {
+    var event = new Event('ionRefresh');
+    this.refresher.dispatchEvent(event);
+    // this.refresher.dispatchEvent(event);
+    // this.zone.run((e)=>{
+    this.getUsers();
+
+    console.log("actualizado!");
+
+    // });
+
+
+
   }
 
 }

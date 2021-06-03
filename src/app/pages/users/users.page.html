@@ -1,11 +1,22 @@
-<app-header title="Usuarios"></app-header>
+<app-header [add]=true title="Usuarios"></app-header>
 
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" id="refresh">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Estira para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Refrescando...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <ion-item (click)="open_modal(user)" *ngFor="let user of users">
-      <ion-label>{{user.name +" "+user.surname}}</ion-label>
+    <ion-item  *ngFor="let user of users">
+      <ion-label button (click)="open_modal(user)">{{user.name +" "+user.surname}}</ion-label>
+      <ion-button (click)="open_menu(user, $event)" expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
     </ion-item>
+    
   </ion-list>
 
 </ion-content>

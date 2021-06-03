@@ -78,3 +78,14 @@ ion-modal.fullscreen {
   bottom: 0;
   height: 50px;
 }
+.active-button ion-icon.action-sheet-icon.sc-ion-action-sheet-md.md.hydrated {
+  color: #008000;
+  &[aria-label="close circle"] {
+    color: #c50000;
+  }  
+}
+
+button.action-sheet-button.ion-activatable.ion-focusable.action-sheet-destructive.trash-button.sc-ion-action-sheet-md {
+  color: red;
+  --color: red;
+}

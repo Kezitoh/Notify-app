@@ -19,16 +19,19 @@ export class CreateGroupPage implements OnInit {
     this.groupForm = new FormGroup({
       name: new FormControl(),
       description: new FormControl(),
+      active: new FormControl()
     });
   }
 
   onSubmit() {
     const name = this.groupForm.get('name').value;
     const description = this.groupForm.get('description').value
+    const active = this.groupForm.get('active').value;
 
     const group = {
       name: name,
-      description: description
+      description: description,
+      is_active: active
     }
 
     this.dataService.createGroup(group);
