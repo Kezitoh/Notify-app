@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UiService } from '../../services/ui.service';
-import { AlertController, MenuController, NavController, ModalController } from '@ionic/angular';
+import {
+  AlertController,
+  MenuController,
+  NavController,
+  ModalController,
+} from '@ionic/angular';
 import { PasswordChangePage } from '../../modals/password-change/password-change.page';
 import { LoadingController } from '@ionic/angular';
 
@@ -12,19 +17,25 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-
   loginForm;
 
   logRegSlide = {
-    allowTouchMove: false
+    allowTouchMove: false,
   };
+  logged: boolean;
 
-  constructor(private userService: UserService, private uiService: UiService, private navCtrl: NavController, private menuController: MenuController, private alertCtrl: AlertController, private modalCtrl: ModalController, public loadingController: LoadingController) {
-
+  constructor(
+    private userService: UserService,
+    private uiService: UiService,
+    private navCtrl: NavController,
+    private menuController: MenuController,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    public loadingController: LoadingController
+  ) {
     this.loginForm = new FormGroup({
       user: new FormControl(),
-      password: new FormControl()
+      password: new FormControl(),
     });
   }
 
@@ -32,62 +43,54 @@ export class LoginPage implements OnInit {
     this.menuController.enable(false);
   }
 
-
   async login() {
     const loadingLogin = await this.loadingController.create({
       message: 'Por favor espere...',
-      duration: 2000
+      duration: 2000,
     });
     loadingLogin.present().then(() => {
       let user = this.loginForm.get('user').value;
       let password = this.loginForm.get('password').value;
       this.userService.login(user, password).then((res) => {
-  
         loadingLogin.dismiss();
-        if (res) {
-          console.log("entro por aqui");
-          this.navCtrl.navigateRoot('/inbox', { animated: true, replaceUrl: true });
+        this.logged = this.userService.usuario.has_logged == 1 ? true : false;
+        console.log(this.logged);
+
+        if (this.logged) {
+          console.log('entro por aqui');
+          this.navCtrl.navigateRoot('/inbox', {
+            animated: true,
+            replaceUrl: true,
+          });
+        } else {
+          this.responseForm(res, 'Usuario y/o contraseña incorrectos');
         }
-  
-        this.responseForm(res, "Usuario y/o contraseña incorrectos");
-  
-  
-  
       });
     });
-
-    
   }
 
-
-
-
   async responseForm(res: any, msg?: string) {
-
     if (!res) {
-      this.uiService.presentToast(msg, "danger");
+      this.uiService.presentToast(msg, 'danger');
       return false;
     }
 
-    if (! await this.userService.usuario.has_logged) {
-      if (! await this.propFirstTimeAlert()) {
+    if (!this.logged) {
+      if (!(await this.propFirstTimeAlert())) {
         return false;
       }
       // TODO: Actualizar has_logged a 1
     }
-    this.navCtrl.navigateRoot('/inbox', { animated: true });
+    // this.navCtrl.navigateRoot('/inbox', { animated: true });
     return true;
-
   }
 
-  forgotPass() {
-
-  }
+  forgotPass() {}
 
   async propFirstTimeAlert() {
-    const header = "¡Hola, " + this.userService.usuario.name + "!";
-    const subheader = "Vemos que eres nuevo por aquí";
-    const message = "Para continuar, cambia tu contraseña por una más segura a continuación.";
+    const header = 'Bienvenido, ';
+    const subheader = this.userService.usuario.name +' '+ this.userService.usuario.surname;
+    const message ='<b>Vemos que eres nuevo por aquí.</b><br><br>Para continuar, debes crear una contraseña segura a continuación.';
     let res;
     const alert = await this.alertCtrl.create({
       header: header,
@@ -101,20 +104,19 @@ export class LoginPage implements OnInit {
             const modal = await this.modalCtrl.create({
               component: PasswordChangePage,
               componentProps: {
-                'user': this.userService.usuario.user
-              }
+                user: this.userService.usuario.user,
+              },
             });
-            modal.onDidDismiss().then(data => {
+            modal.onDidDismiss().then((data) => {
               res = data.data;
             });
             return await modal.present();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
     return res;
   }
-
 }

@@ -8,10 +8,13 @@ import { CreateNotificationPageRoutingModule } from './create-notification-routi
 
 import { CreateNotificationPage } from './create-notification.page';
 import { ComponentsModule } from '../../components/components.module';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
   imports: [
     CommonModule,
+    IonicSelectableModule,
+
     FormsModule,
     IonicModule,
     CreateNotificationPageRoutingModule,

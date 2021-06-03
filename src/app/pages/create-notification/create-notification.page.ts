@@ -80,6 +80,8 @@ export class CreateNotificationPage implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.notificationForm.get('type').value);
+    
 
     const groups = this.notificationForm.get('groups').value;
     const users = this.notificationForm.get('users').value;
@@ -94,6 +96,8 @@ export class CreateNotificationPage implements OnInit {
     const type_name = this.notificationForm.get('type').value;
 
     const type = this.types.find(nombre => nombre.name == type_name);
+    console.log("tipooooooo", type_name);
+    
 
     let attachment = this.attachment;
     if (attachment != undefined) {
@@ -129,7 +133,7 @@ export class CreateNotificationPage implements OnInit {
 
 
     this.notification = {
-      id_type: type.id,
+      id_type: type_name.id,
       text: text,
       title: title,
       users: (users != undefined) ? users : [],

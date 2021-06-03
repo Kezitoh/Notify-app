@@ -39,6 +39,7 @@ export class UserService {
 
       this.http.post(`${URL}/login`, data).subscribe(async resp => {
         
+        
         if (!resp['ok']) {
           this.token = null;
           this.storage.clear();
@@ -111,6 +112,8 @@ export class UserService {
           this.navCtrl.navigateRoot('/login');
           resolve(false);
         }
+        console.log(resp);
+
         this.usuario = resp;
 
         this.usuario$.emit(this.usuario);//Emite al usuario al menú en app component para que muestre su nombre

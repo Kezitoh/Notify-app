@@ -21,12 +21,13 @@ import { TypesPage } from './pages/types/types.page';
 import { UsersPage } from './pages/users/users.page';
 import { GroupsPage } from './pages/groups/groups.page';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { IonicSelectableModule } from "ionic-selectable";
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, IonicStorageModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule, IonicStorageModule.forRoot(), IonicSelectableModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage, FileTransfer, File, FileChooser, FilePath, PreviewAnyFile, AndroidPermissions, FilterComponent, TypesPage, UsersPage, GroupsPage, NotificationsComponent],
   bootstrap: [AppComponent],
 })
