@@ -30,5 +30,6 @@ npm-debug.log*
 /plugins
 /www
 /electron
-/android
 /release-builds
+/build
+/android
