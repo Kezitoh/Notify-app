@@ -13,35 +13,37 @@ export class NotificationTrackingModalPage implements OnInit {
 
   @Input() notification: any;
 
-  
+
   users_notifications: any[] = [];
-  no_leidos : any[] = [];
+  no_leidos: any[] = [];
   leidos: any[] = [];
-  dests:number;
+  numeroDestinatarios: number;
 
   constructor(private modalCtrl: ModalController,
     private notificationService: NotificationService,
-    private loadingController:LoadingController) { }
+    private loadingController: LoadingController) { }
 
-  ngOnInit() { 
+  ngOnInit() {
 
     //TODO: Mostrar loading mientras carga
 
-    this.notificationService.getUsers_NotificationsByNotifications(this.notification.id).then( resp => {
+    this.notificationService.getUsers_NotificationsByNotifications(this.notification.id).then(resp => {
       this.users_notifications = resp.Users_Notifications;
-      this.dests = this.users_notifications.length;
+      this.numeroDestinatarios = this.users_notifications.length;
       console.log(this.users_notifications.length);
-      
+
       const copy = resp.Users_Notifications;
-      
+
       const cut = copy.findIndex(element => element.datetime_read != null);
       if (cut !== -1) {
-        
+
         this.leidos = copy.splice(cut);
-      }      
+      }
       this.no_leidos = copy;
+
+
     });
-    
+
 
   }
 

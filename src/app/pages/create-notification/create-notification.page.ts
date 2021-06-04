@@ -6,6 +6,7 @@ import { Notification } from '../../interfaces/interfaces';
 import { PreviewAnyFile } from '@ionic-native/preview-any-file/ngx';
 import { MenuController, Platform } from '@ionic/angular';
 import { UiService } from '../../services/ui.service';
+import { UserService } from '../../services/user.service';
 
 declare var window: any;
 
@@ -16,9 +17,9 @@ declare var window: any;
 })
 export class CreateNotificationPage implements OnInit {
   notificationForm: FormGroup;
-  groups: any[];
-  types: any[];
-  users: any[];
+  groups: any[] = [];
+  types: any[] = [];
+  users: any[] = [];
   notification: Notification;
   cordova: boolean;
   // attachments: any[] = [];
@@ -33,7 +34,8 @@ export class CreateNotificationPage implements OnInit {
     private dataService: DataService,
     private notificationService: NotificationService,
     private uiService: UiService,
-    public platform: Platform
+    public platform: Platform,
+    private userService:UserService
   ) {
     this.notificationForm = new FormGroup({
       title: new FormControl(),
@@ -67,14 +69,21 @@ export class CreateNotificationPage implements OnInit {
   }
 
   ngOnInit() {
+    // this.types = [{id: 1, name: 'felipe'},{id: 2, name: 'romualdo'},{id: 3, name: 'ioioio'}]
     this.dataService.getTypes().then((types) => {
-      this.types = types;
+      
+      this.types = types.filter((item) => item.is_active == 1);
+      console.log(types);
+      
     });
     this.dataService.getGroups().then((groups) => {
-      this.groups = groups;
+      this.groups = groups.filter((item) => item.is_active == 1);
+      
     });
-    this.dataService.getUsers().then((users) => {
-      this.users = users;
+    this.userService.getUsers().then((users) => {
+      this.users = users.filter((item) => item.is_active == 1);
+      console.log(users);
+      
     });
 
     this.cordova = this.isCordova();
@@ -163,7 +172,7 @@ export class CreateNotificationPage implements OnInit {
 console.log(attachment);
 
     this.notification = {
-      id_type: type,
+      id_type: type.id,
       text: text,
       title: title,
       users: user_ids != undefined ? user_ids : [],

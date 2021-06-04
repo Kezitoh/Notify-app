@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
 import { UiService } from 'src/app/services/ui.service';
 import { UserService } from '../../services/user.service';
+import { UsersPage } from '../../pages/users/users.page';
 
 @Component({
   selector: 'app-edit-user',
@@ -12,7 +13,7 @@ import { UserService } from '../../services/user.service';
 })
 export class EditUserPage implements OnInit {
   
-  @Input('user') user;
+  @Input('user') user: any;
 
   edit_userForm: FormGroup;
   groups: any[];
@@ -22,9 +23,11 @@ export class EditUserPage implements OnInit {
 
   constructor(private modalCtrl: ModalController,
     private userService: UserService, private uiService:UiService,
-    private dataService:DataService) { }
+    private dataService:DataService,
+    private usersPage:UsersPage) { }
 
   ngOnInit() {
+
     this.compareWith = this.compareWithFn;
     this.group = this.user.id_group;
     this.role = this.user.id_role;
@@ -51,16 +54,19 @@ export class EditUserPage implements OnInit {
     this.modalCtrl.dismiss(false);
   }
 
-  onSubmit() {
+  async onSubmit() {
     const name = this.edit_userForm.get('name').value;
     const user = this.edit_userForm.get('user').value;
     const surname = this.edit_userForm.get('surname').value;
     const email = this.edit_userForm.get('email').value;
-    const active = this.edit_userForm.get('active').value;
+    let active = this.edit_userForm.get('active').value;
+    if(!active) {
+      active = 0;
+    }else {
+      active = 1
+    }
     const role = this.edit_userForm.get('role').value;
     const group = this.edit_userForm.get('group').value;
-
-    console.log(group);
     
 
     const userr = {
@@ -69,11 +75,14 @@ export class EditUserPage implements OnInit {
       surname: surname,
       user: user,
       is_active: active,
-      id_role: role,
+      id_role: role == null? this.user.is_role : role,
       id_group: group == null? this.user.id_group : group
     }
 
-    this.userService.editUser(this.user.id, userr);
+    await this.userService.editUser(this.user.id, userr).then(() => {
+
+      this.usersPage.actualizarLista();
+    });
 
     this.uiService.presentToast("Usuario editado correctamente", "success");
 

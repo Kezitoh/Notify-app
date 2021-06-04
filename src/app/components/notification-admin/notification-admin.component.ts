@@ -24,6 +24,10 @@ export class NotificationAdminComponent implements OnInit {
     private popoverCtrl:PopoverController) { }
 
   ngOnInit() {
+
+    this.notification.is_active = this.traduccionBoolean(this.notification.is_active);
+    console.log(this.notification.is_active);
+    
     // console.log("a", this.notification.attachment);
     
     if(this.notification.attachment != null){
@@ -38,6 +42,15 @@ export class NotificationAdminComponent implements OnInit {
     }
     
 
+  }
+
+  traduccionBoolean(elemento) {
+    if (elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
   }
 
   async open_menu(event) {

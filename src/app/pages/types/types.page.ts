@@ -12,7 +12,7 @@ import { OptionsPopoverComponent } from '../../components/options-popover/option
 })
 export class TypesPage implements OnInit {
 
-  types: any[];
+  types: any[] = [];
   refresher: any;
 
   constructor(private dataService: DataService,
@@ -22,11 +22,24 @@ export class TypesPage implements OnInit {
 
   ngOnInit() {
     this.getTypes();
+    
   }
 
-  getTypes() {
-    this.dataService.getTypes().then(types => {
+  traduccionBoolean(elemento) {
+    if (elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
+  }
+
+  async getTypes() {this.dataService.getTypes().then(types => {
       this.types = types;
+      
+      this.types.forEach((type) => {
+        type.is_active = this.traduccionBoolean(type.is_active);
+      });
     });
   }
 

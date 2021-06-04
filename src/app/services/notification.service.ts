@@ -19,17 +19,9 @@ export class NotificationService {
 
   create(notification: Notification) {
     return new Promise<any>((resolve) => {
-      let data = {
-        type: notification.id_type,
-        title: notification.title,
-        text: notification.text,
-        attachment: notification.attachment,
-        user: notification.users,
-        group: notification.groups,
-      };
-      console.log(JSON.stringify(data));
+    
+      console.log(notification);
       
-
       this.getToken().then((token) => {
         const headers = new HttpHeaders({
           'x-token': token,
@@ -37,6 +29,7 @@ export class NotificationService {
         // console.log("AWWWW",notification);
 
         this.http.post<any>(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
+          console.log(res);
           
           resolve(res.ok);
 

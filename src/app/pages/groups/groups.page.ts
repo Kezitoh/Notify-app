@@ -12,7 +12,7 @@ import { OptionsPopoverComponent } from '../../components/options-popover/option
 })
 export class GroupsPage implements OnInit {
 
-  groups: any[];
+  groups: any[] = [];
   refresher: any;
 
   constructor(private dataService: DataService,
@@ -26,6 +26,15 @@ export class GroupsPage implements OnInit {
 
   }
 
+  traduccionBoolean(elemento) {
+    if (elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
+  }
+
   doRefresh(event) {
     this.getGroups();
     setTimeout(() => {
@@ -37,6 +46,9 @@ export class GroupsPage implements OnInit {
   getGroups() {
     this.dataService.getGroups().then(groups => {
       this.groups = groups;
+      this.groups.forEach((group) => {
+        group.is_active = this.traduccionBoolean(group.is_active);
+      });
     });
   }
 

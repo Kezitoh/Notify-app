@@ -4,7 +4,6 @@ import { NotificationTrackingModalPage } from '../../modals/notification-trackin
 import { NotificationService } from '../../services/notification.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,14 +18,25 @@ export class NotificationPopoverComponent implements OnInit {
   @Input('notification') notification: any;
 
   constructor(private modalCtrl: ModalController,
-    private notificationService:NotificationService,
+    private notificationService: NotificationService,
     private alertCtrl: AlertController,
     private popoverCtrl: PopoverController,
-    public notificationsComponent:NotificationsComponent,
-    private loadingCtrl:LoadingController) { }
+    public notificationsComponent: NotificationsComponent,
+    private loadingCtrl: LoadingController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.notification.is_active = this.traduccionBoolean(this.notification.is_active);
+    console.log(this.notification);
+  }
 
+  traduccionBoolean(elemento) {
+    if (elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
+  }
 
   delet() {
     this.showDeleteAlert();
@@ -43,32 +53,32 @@ export class NotificationPopoverComponent implements OnInit {
           text: 'Ok',
           handler: async () => {
             const loader = await this.loadingCtrl.create({
-              duration:2000,
+              duration: 2000,
               translucent: true,
               spinner: 'bubbles',
               showBackdrop: false
             });
             await loader.present();
-            this.notificationService.delete(this.notification).then(()=>{
-              this.notificationsComponent.actualizarLista().then(()=> {
+            this.notificationService.delete(this.notification).then(() => {
+              this.notificationsComponent.actualizarLista().then(() => {
                 loader.dismiss();
               });
             });
             console.log("Borrado");
-            
+
           },
-          
+
         },
         {
           text: 'Cancelar',
-          handler: () => {this.alertCtrl.dismiss();}
+          handler: () => { this.alertCtrl.dismiss(); }
         }
       ]
     });
-    
+
     await alert.present();
-    
-    
+
+
   }
 
   async tracking() {
@@ -90,12 +100,14 @@ export class NotificationPopoverComponent implements OnInit {
 
   toggleActive() {
 
+    // this.notification.is_active =this.traduccionBoolean(this.notification.is_active);
+
     this.notification.is_active = !this.notification.is_active;
 
     let value;
-    if(this.notification.is_active){
+    if (this.notification.is_active) {
       value = 1;
-    }else{
+    } else {
       value = 0;
     }
 

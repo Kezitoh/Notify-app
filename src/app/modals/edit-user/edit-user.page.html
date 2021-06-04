@@ -27,22 +27,22 @@
 
     <ion-item>
       <ion-label position="floating">Usuario</ion-label>
-      <ion-input formControlName="user" type="text" [(ngModel)]="user.user"></ion-input>
+      <ion-input formControlName="user"  maxlength="9"  type="text" [(ngModel)]="user.user"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input formControlName="name" type="text" [(ngModel)]="user.name"></ion-input>
+      <ion-input formControlName="name"  maxlength="25"  type="text" [(ngModel)]="user.name"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Apellidos</ion-label>
-      <ion-input formControlName="surname" type="text" [(ngModel)]="user.surname"></ion-input>
+      <ion-input formControlName="surname"  maxlength="25"  type="text" [(ngModel)]="user.surname"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">E-Mail </ion-label>
-      <ion-input formControlName="email" type="text" [(ngModel)]="user.email"></ion-input>
+      <ion-input formControlName="email"  maxlength="50"  type="email" [(ngModel)]="user.email"></ion-input>
     </ion-item>
 
     <ion-item>

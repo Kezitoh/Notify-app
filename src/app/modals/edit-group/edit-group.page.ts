@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { UiService } from '../../services/ui.service';
+import { GroupsPage } from '../../pages/groups/groups.page';
 
 @Component({
   selector: 'app-edit-group',
@@ -16,7 +17,8 @@ export class EditGroupPage implements OnInit {
   edit_groupForm: FormGroup;
 
   constructor(private modalCtrl: ModalController,
-    private dataService: DataService, private uiService:UiService) { }
+    private dataService: DataService, private uiService:UiService,
+    private groupsPage:GroupsPage) { }
 
   ngOnInit() {
     this.edit_groupForm = new FormGroup({
@@ -30,11 +32,16 @@ export class EditGroupPage implements OnInit {
     this.modalCtrl.dismiss(false);
   }
 
-  onSubmit() {
+  async onSubmit() {
 
     const name = this.edit_groupForm.get('name').value;
     const description = this.edit_groupForm.get('description').value
-    const active = this.edit_groupForm.get('active').value;
+    let active = this.edit_groupForm.get('active').value;
+    if(!active) {
+      active = 0;
+    }else {
+      active = 1
+    }
 
     const group = {
       name: name,
@@ -42,7 +49,10 @@ export class EditGroupPage implements OnInit {
       is_active: active
     }
 
-    this.dataService.editGroup(this.group.id, group);
+    await this.dataService.editGroup(this.group.id, group).then(() => {
+
+      this.groupsPage.actualizarLista();
+    });
 
     this.uiService.presentToast("Grupo editado correctamente", "success");
 

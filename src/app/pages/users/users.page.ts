@@ -24,15 +24,30 @@ export class UsersPage implements OnInit {
 
   ngOnInit() {
 
-    this.getUsers();
+    console.log("B",this.getUsers());
+     
+  
   }
 
-  getUsers() {
-    this.userService.getUsers().then(users => {
+  traduccionBoolean(elemento) {
+    if (elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
+  }
+
+  async getUsers() {
+    await this.userService.getUsers().then(users => {
       console.log(users);
 
       this.usersOG = users;
+      this.usersOG.forEach((user) => {
+        user.is_active = this.traduccionBoolean(user.is_active);
+      });
       this.users = this.usersOG
+      
 
     });
   }
@@ -73,10 +88,13 @@ export class UsersPage implements OnInit {
 
   async actualizarLista() {
     var event = new Event('ionRefresh');
-    this.refresher.dispatchEvent(event);
+    await this.refresher.dispatchEvent(event);
     // this.refresher.dispatchEvent(event);
     // this.zone.run((e)=>{
-    this.getUsers();
+    console.log("A",this.getUsers());
+     
+    
+    
 
     console.log("actualizado!");
 

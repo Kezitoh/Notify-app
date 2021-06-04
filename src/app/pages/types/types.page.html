@@ -10,10 +10,10 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item  *ngFor="let type of types">
+    <ion-item color="{{type.is_active? '':'danger'}}" *ngFor="let type of types">
       <ion-label button (click)="open_modal(type)">{{type.name}}</ion-label>
       <ion-button (click)="open_menu(type, $event)" expand="block" fill="clear" shape="round">
-        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+        <ion-icon slot="icon-only" color="{{type.is_active? '':'light'}}" name="ellipsis-horizontal"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>

@@ -11,10 +11,10 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item  *ngFor="let user of users">
+    <ion-item color="{{user.is_active? '':'danger'}}" *ngFor="let user of users">
       <ion-label button (click)="open_modal(user)">{{user.name +" "+user.surname}}</ion-label>
       <ion-button (click)="open_menu(user, $event)" expand="block" fill="clear" shape="round">
-        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+        <ion-icon slot="icon-only" color="{{user.is_active? '':'light'}}" name="ellipsis-horizontal"></ion-icon>
       </ion-button>
     </ion-item>
     

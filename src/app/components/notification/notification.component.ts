@@ -28,7 +28,11 @@ export class NotificationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.favorito = this.notification.fav;
+
+    this.favorito = this.traduccionBoolean(this.notification.fav);
+
+    console.log(this.favorito);
+    
 
     if (this.notification.attachment != null) {
       // this.attachments = this.notificationService.getAttachments(this.notification);
@@ -48,6 +52,8 @@ export class NotificationComponent implements OnInit {
     let fav;
 
     this.favorito = !this.favorito;
+    console.log(this.favorito);
+    
 
     if (this.favorito) {
       fav = 1;
@@ -55,7 +61,7 @@ export class NotificationComponent implements OnInit {
       fav = 0;
     }
 
-    this.notificationService.setFavorite(this.notification, fav).then(() => {
+    this.notificationService.setFavorite(this.notification, this.favorito).then(() => {
       if (fav) {
         this.uiService.presentToast('Añadida noticia a favoritos', 'warning');
         return;
@@ -74,6 +80,10 @@ export class NotificationComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(() => {
+
+      notification.is_read = this.traduccionBoolean(notification.is_read);
+      console.log(notification.is_read);
+      
       if (!notification.is_read) {
         this.notificationService.setRead(notification.user_notification_id);
       }
@@ -81,4 +91,15 @@ export class NotificationComponent implements OnInit {
 
     return await modal.present();
   }
+
+
+  traduccionBoolean(elemento) {
+    if(elemento == 1) {
+      elemento = true;
+    } else {
+      elemento = false;
+    }
+    return elemento;
+  }
+
 }

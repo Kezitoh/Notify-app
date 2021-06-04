@@ -107,7 +107,7 @@ export class NotificationsComponent implements OnInit {
       this.userService.getUserNotifications().then(notifications => {
         
         if (this.enFavoritos) {
-          notifications = notifications.filter(notification => notification.fav === 1);
+          notifications = notifications.filter(notification => notification.fav == true);
 
         }
 

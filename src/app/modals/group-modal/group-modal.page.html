@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="dismiss()"> <ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>{{group.name}}</ion-title>
   </ion-toolbar>
@@ -9,16 +11,35 @@
 
 <ion-content>
 
-  <ion-list>
+  <ion-list lines="none">
     <ion-item>
       <ion-label position="stacked">Descripción</ion-label>
-      <p text-wrap >{{group.description}}</p>
+      <p text-wrap>{{group.description}}</p>
     </ion-item>
 
-    <ion-item>
+    <!-- <ion-item>
       <ion-label class="flex-20" >Activo:</ion-label>
       <ion-icon name="{{group.is_active? 'checkmark-circle': 'close-circle'}}"></ion-icon>
-    </ion-item>
+    </ion-item> -->
+
+    <ion-list>
+
+      <ion-item class="ion-no-margin">
+        <ion-label><b>Usuarios</b></ion-label>
+      </ion-item>
+
+      <ion-item *ngFor="let user of groupUsers">
+        <ion-label>
+          <ion-text color="{{user.is_active? '':'danger'}}">
+            {{user.name+" "+user.surname}}
+          </ion-text>
+        </ion-label>
+
+      </ion-item>
+
+    </ion-list>
+
+
   </ion-list>
 
 </ion-content>

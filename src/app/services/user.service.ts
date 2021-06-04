@@ -206,22 +206,22 @@ export class UserService {
   }
 
 
-  getUsers(filters?: any[]) {
+  getUsers(params?: any, filters? :any[]) {
 
-    let params: any = {
-    }
+    console.log(params);
+    
     if (filters) {
-      params = {
-        'filters[]': filters
-      }
+      params.push({filters: filters});
     }
 
     return new Promise<any>(resolve => {
 
       this.getHttpHeader().then(header => {
 
-        this.http.get<User[]>(`${URL}/users`, { headers: header, params: params }).subscribe(res => {
-          resolve(res);
+        this.http.get<any>(`${URL}/users`, { headers: header, params: params }).subscribe(res => {
+          console.log(res);
+          
+          resolve(res.users);
         });
 
       });
@@ -295,10 +295,10 @@ export class UserService {
   }
 
   deleteUser(id: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
-
+    
+    return new Promise<any>(resolve => {
+      this.getHttpHeader().then(header => {
+      
         this.http.post(`${URL}/users/delete`, { 'id': id }, { headers: header }).subscribe(res => {
 
           resolve(res);
@@ -310,12 +310,11 @@ export class UserService {
     });
   }
 
-
   editUser(id: number, user: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
-
+    
+    return new Promise<any>(resolve => {
+      
+      this.getHttpHeader().then(header => {
         this.http.post(`${URL}/users/edit`, { id: id, values: user }, { headers: header }).subscribe(res => {
 
           resolve(res);

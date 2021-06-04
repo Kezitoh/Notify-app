@@ -9,6 +9,7 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LoadingController } from '@ionic/angular';
+import { UiService } from './ui.service';
 declare var window: any;
 
 
@@ -22,7 +23,8 @@ export class DataService implements OnInit {
 
   constructor(private http: HttpClient, private userService: UserService,
     private transfer: FileTransfer, private file: File,
-    private fileChooser: FileChooser, private filePath: FilePath, private androidPermissions: AndroidPermissions, public loadingCtrl: LoadingController) {
+    private fileChooser: FileChooser, private filePath: FilePath, private androidPermissions: AndroidPermissions, public loadingCtrl: LoadingController,
+    private uiService:UiService) {
 
   }
 
@@ -43,7 +45,8 @@ export class DataService implements OnInit {
     return new Promise<any>(resolve => {
       this.getHttpHeader().then(header => {
         this.http.get(`${URL}/types`, { headers: header }).subscribe(res => {
-
+          console.log(res);
+          
           resolve(res);
 
         });
@@ -68,23 +71,6 @@ export class DataService implements OnInit {
 
     });
   }
-
-  getUsers() { //Obtiene todos los usuarios
-
-    return new Promise<any>(resolve => {
-      this.getHttpHeader().then(header => {
-        this.http.get(`${URL}/users`, { headers: header }).subscribe(res => {
-
-          resolve(res);
-
-        });
-
-      });
-
-    });
-
-  }
-
 
   createGroup(group) {
 
@@ -247,14 +233,17 @@ export class DataService implements OnInit {
 
 
   deleteType(id: number) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/types/delete`, { 'id': id }, { headers: header }).subscribe(res => {
 
           resolve(res);
 
+        },err => {
+          this.uiService.presentAlert("Error al borrar el tipo de notificación", 'Este tipo de notificación contiene una o más notificaciones y no puede ser borrado', "Pruebe a borrar o cambiar la notificación de tipo de notificación.");
+          resolve(err);
         });
 
       });
@@ -263,9 +252,9 @@ export class DataService implements OnInit {
   }
 
   editType(id: number, type: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/types/edit`, { id: id, values: type }, { headers: header }).subscribe(res => {
 
@@ -279,9 +268,9 @@ export class DataService implements OnInit {
   }
 
   toggleActiveType(id: number, value: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/types/toggleActive`, { 'id': id, 'value': value }, { headers: header }).subscribe(res => {
 
@@ -295,14 +284,17 @@ export class DataService implements OnInit {
   }
 
   deleteGroup(id: number) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/groups/delete`, { 'id': id }, { headers: header }).subscribe(res => {
 
           resolve(res);
 
+        },err => {
+          this.uiService.presentAlert("Error al borrar el grupo", 'Este grupo contiene uno o más usuarios y no puede ser borrado', "Pruebe a borrar o cambiar al usuario del grupo.");
+          resolve(err);
         });
 
       });
@@ -310,9 +302,9 @@ export class DataService implements OnInit {
     });
   }
   editGroup(id: number, group: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/groups/edit`, { id: id, values: group }, { headers: header }).subscribe(res => {
 
@@ -325,9 +317,9 @@ export class DataService implements OnInit {
     });
   }
   toggleActiveGroup(id: number, value: any) {
-    this.getHttpHeader().then(header => {
-
-      return new Promise<any>(resolve => {
+    
+    return new Promise<any>(resolve => {
+        this.getHttpHeader().then(header => {
 
         this.http.post(`${URL}/groups/toggleActive`, { 'id': id, 'value': value }, { headers: header }).subscribe(res => {
 
