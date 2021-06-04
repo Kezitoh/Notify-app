@@ -15,7 +15,6 @@ declare var window: any;
   styleUrls: ['./create-notification.page.scss'],
 })
 export class CreateNotificationPage implements OnInit {
-
   notificationForm: FormGroup;
   groups: any[];
   types: any[];
@@ -25,12 +24,16 @@ export class CreateNotificationPage implements OnInit {
   // attachments: any[] = [];
   attachment: any;
   previews: any[] = [];
-  base:any;
+  base: any;
   attachpc: any;
+  attachpc64: any;
 
-  constructor(private dataService: DataService,
+  constructor(
+    private dataService: DataService,
     private notificationService: NotificationService,
-    private uiService: UiService, public platform: Platform) {
+    private uiService: UiService,
+    public platform: Platform
+  ) {
     this.notificationForm = new FormGroup({
       title: new FormControl(),
       text: new FormControl(),
@@ -40,13 +43,10 @@ export class CreateNotificationPage implements OnInit {
     });
   }
 
-  
-   prueba(file){
-    var peerImage = (< HTMLFormElement > document.getElementById('file-upload')).files[0];     
-    this.attachpc = peerImage.name
-    this.getBase64(peerImage);
-    
-    
+  async attachPc() {
+    var attach = (<HTMLFormElement>document.getElementById('file-upload')).files[0];
+    this.attachpc = attach.name;
+    this.attachpc64 = this.getBase64(attach);
   }
 
   getBase64(event) {
@@ -56,8 +56,8 @@ export class CreateNotificationPage implements OnInit {
     reader.readAsDataURL(file);
     this.base = reader.onload = function () {
       //me.modelvalue = reader.result;
-      console.log(reader.result);
-      return reader.result
+      console.log(JSON.stringify(reader.result));
+      return reader.result;
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
@@ -65,56 +65,65 @@ export class CreateNotificationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getTypes().then(types => {
+    this.dataService.getTypes().then((types) => {
       this.types = types;
     });
-    this.dataService.getGroups().then(groups => {
+    this.dataService.getGroups().then((groups) => {
       this.groups = groups;
     });
-    this.dataService.getUsers().then(users => {
+    this.dataService.getUsers().then((users) => {
       this.users = users;
     });
 
     this.cordova = this.isCordova();
-
   }
 
   onSubmit() {
     console.log(this.notificationForm.get('type').value);
-    
 
     const groups = this.notificationForm.get('groups').value;
     const users = this.notificationForm.get('users').value;
 
-    console.debug("groups", groups);
-    console.log("users", users);
-
+    console.debug('groups', groups);
+    console.log('users', users);
 
     // this.notificationForm.get();
     const title = this.notificationForm.get('title').value;
     const text = this.notificationForm.get('text').value;
     const type_name = this.notificationForm.get('type').value;
 
-    const type = this.types.find(nombre => nombre.name == type_name);
-    console.log("tipooooooo", type_name);
-    
-
-    let attachment = this.attachment;
-    if (attachment != undefined) {
-      const path = attachment.path;
-      let name: string = attachment.path;
-      name = name.substr(name.lastIndexOf('/') + 1);
-
-      let date = new Date();
-      const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
-
-      attachment = now + name;
-
-      this.dataService.upload(path, now);
-
+    const type = this.types.find((nombre) => nombre.name == type_name);
+    console.log('tipooooooo', type_name);
+    let attachment;
+    if (this.isCordova()) {
+      attachment = this.attachment;
+      if (attachment != undefined) {
+        const path = attachment.path;
+        let name: string = attachment.path;
+        name = name.substr(name.lastIndexOf('/') + 1);
+  
+        let date = new Date();
+        const now =
+          '' +
+          date.getFullYear() +
+          (date.getMonth() + 1) +
+          date.getDate() +
+          date.getHours() +
+          date.getMinutes() +
+          date.getSeconds();
+  
+        attachment = now + name;
+  
+        this.dataService.upload(path, now);
+      }
+    }else{
+      this.attachPc().then(()=>{
+        attachment = this.attachpc64;
+        console.log("noti",attachment);
+        
+      })
     }
-
-
+    
 
     // SELECCIÓN MÚLTIPLE DE ATTACHMENTS
     // this.attachments.forEach((attachment, i) => {
@@ -130,44 +139,38 @@ export class CreateNotificationPage implements OnInit {
     // },this.attachments);
 
     // console.log("a",this.attachments);
-
+console.log(attachment);
 
     this.notification = {
       id_type: type_name.id,
       text: text,
       title: title,
-      users: (users != undefined) ? users : [],
-      groups: (groups != undefined) ? groups : [],
-      attachment: (attachment != undefined) ? attachment : ''
+      users: users != undefined ? users : [],
+      groups: groups != undefined ? groups : [],
+      attachment: attachment != undefined ? attachment : '',
       // attachments: this.attachments.join('|')
     };
+    console.log("notificaciooon!",this.notification);
+    
 
     this.notificationService.create(this.notification);
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();
-
-
   }
 
   async addAttachment() {
-
-    this.dataService.chooseFile().then(file => {
-
-      this.attachment = file
+    this.dataService.chooseFile().then((file) => {
+      this.attachment = file;
       // this.attachments.push(file);
-
     });
-
   }
 
   isCordova() {
-    if (window.hasOwnProperty("cordova")) {
+    if (window.hasOwnProperty('cordova')) {
       return true;
-
     }
     return false;
-
   }
 
   delete(item?) {
@@ -176,21 +179,23 @@ export class CreateNotificationPage implements OnInit {
   }
 
   preview(file: string) {
-
     file = file.replace(/ /g, '%20');
 
-    window.PreviewAnyFile.previewPath(win => {
-      if (win == "SUCCESS") {
-        console.log('success')
-      } else if (win == "CLOSING") {
-        console.log('closing')
-      } else if (win == "NO_APP") {
-        console.log('no suitable app to open the file (mainly will appear on android')
-      } else {
-        console.log('error')
-      }
-    },
-      error => console.error("open failed", error),
+    window.PreviewAnyFile.previewPath(
+      (win) => {
+        if (win == 'SUCCESS') {
+          console.log('success');
+        } else if (win == 'CLOSING') {
+          console.log('closing');
+        } else if (win == 'NO_APP') {
+          console.log(
+            'no suitable app to open the file (mainly will appear on android'
+          );
+        } else {
+          console.log('error');
+        }
+      },
+      (error) => console.error('open failed', error),
       file
     );
   }
@@ -200,6 +205,4 @@ export class CreateNotificationPage implements OnInit {
     this.attachment = undefined;
     // this.attachments = [];
   }
-
-
 }

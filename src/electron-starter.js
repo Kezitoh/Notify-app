@@ -1,4 +1,6 @@
 const { app, BrowserWindow, shell, dialog, electron } = require("electron");
+const contextMenu = require('electron-context-menu');
+
 
 // Module to control application life.
 // Module to create native browser window.
@@ -92,6 +94,13 @@ app.on("activate", function() {
   if (mainWindow === null) {
     createWindow();
   }
+});
+app.whenReady().then(() => {
+
+  createWindow();
+
+  contextMenu({ showInspectElement: false, showSearchWithGoogle: false, spellcheck: false, learnSpelling: false, lookUpSelection: false });
+
 });
 
 // In this file you can include the rest of your app's specific main process
