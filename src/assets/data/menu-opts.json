@@ -21,16 +21,6 @@
             "icon": "star"
 
         },
-
-        {
-
-            "title": "Archivados",
-
-            "url": "/archived",
-
-            "icon": "archive"
-
-        },
         {
             "title": "Descargas",
             "url": "/downloads",

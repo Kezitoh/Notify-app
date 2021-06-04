@@ -25,7 +25,7 @@ export class CreateTypePage implements OnInit {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
 
     const name = this.typeForm.get('name').value;
     const description = this.typeForm.get('description').value
@@ -37,7 +37,13 @@ export class CreateTypePage implements OnInit {
       active: active
     }
 
-    this.dataService.createType(type);
+
+    const resultado = await this.dataService.createType(type);
+
+    if(!resultado) {
+      this.uiService.presentAlert('Error','Fallo en la creación de tipo','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+      return false;
+    }
 
     this.typeForm.reset();
     this.uiService.presentToast("Tipo creado correctamente", "success");

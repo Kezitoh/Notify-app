@@ -13,6 +13,8 @@ export class UserModalPage implements OnInit {
   constructor(private modalCtrl:ModalController) { }
 
   ngOnInit() {
+    console.log(this.user);
+    
   }
 
   dismiss() {

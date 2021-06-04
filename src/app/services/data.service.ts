@@ -18,7 +18,7 @@ const URL = environment.url;
   providedIn: 'root'
 })
 export class DataService implements OnInit {
-   //Servicio de recuperación de datos variados
+  //Servicio de recuperación de datos variados
 
   constructor(private http: HttpClient, private userService: UserService,
     private transfer: FileTransfer, private file: File,
@@ -88,14 +88,16 @@ export class DataService implements OnInit {
 
   createGroup(group) {
 
-    this.getHttpHeader().then(header => {
+    return new Promise<any>(resolve => {
 
-      return new Promise<any>(resolve => {
+      this.getHttpHeader().then(header => {
 
-        this.http.post(`${URL}/groups/create`, { 'name': group.name, 'description': group.description, 'active': group.active }, { headers: header }).subscribe(res => {
+        this.http.post<any>(`${URL}/groups/create`, { 'name': group.name, 'description': group.description, 'active': group.active }, { headers: header }).subscribe(res => {
 
-          resolve(res);
+          resolve(res.ok);
 
+        }, err => {
+          resolve(err.ok);
         });
 
       });
@@ -106,18 +108,20 @@ export class DataService implements OnInit {
 
   createType(type) {
 
-    this.getHttpHeader().then(header => {
+    return new Promise<any>(resolve => {
 
-      return new Promise<any>(resolve => {
+      this.getHttpHeader().then(header => {
 
-        this.http.post(`${URL}/types/create`, { 'name': type.name, 'description': type.description, 'active': type.active }, { headers: header }).subscribe(res => {
+        this.http.post<any>(`${URL}/types/create`, { 'name': type.name, 'description': type.description, 'active': type.active }, { headers: header }).subscribe(res => {
 
-          resolve(res);
+          resolve(res.ok);
+
+        }, err => {
+          resolve(err.ok)
 
         });
 
       });
-
     });
 
 
@@ -257,13 +261,13 @@ export class DataService implements OnInit {
 
     });
   }
-  
-  editType(id:number, type: any) {
+
+  editType(id: number, type: any) {
     this.getHttpHeader().then(header => {
 
       return new Promise<any>(resolve => {
 
-        this.http.post(`${URL}/types/edit`, { id: id, values: type  }, { headers: header }).subscribe(res => {
+        this.http.post(`${URL}/types/edit`, { id: id, values: type }, { headers: header }).subscribe(res => {
 
           resolve(res);
 
@@ -273,7 +277,7 @@ export class DataService implements OnInit {
 
     });
   }
-  
+
   toggleActiveType(id: number, value: any) {
     this.getHttpHeader().then(header => {
 

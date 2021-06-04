@@ -12,7 +12,7 @@
 
     <ion-item>
       <ion-label position="floating">Rol</ion-label>
-      <ion-select formControlName="role" [value]="user.id_role" multiple="false" placeholder="Selecciona un rol">
+      <ion-select formControlName="role" ngModel="{{user.id_role}}" multiple="false" placeholder="Selecciona un rol">
         <ion-select-option  value="1" >Administrador</ion-select-option>
         <ion-select-option  value="2" >Usuario</ion-select-option>
       </ion-select>     
@@ -20,7 +20,7 @@
 
     <ion-item>
       <ion-label position="floating">Grupo</ion-label>
-      <ion-select formControlName="group" [value]="user.id_group" multiple="false" placeholder="Selecciona un grupo">
+      <ion-select formControlName="group" [compareWith]="compareWith" value="{{group}}" multiple="false" placeholder="Selecciona un grupo">
         <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
       </ion-select>    
     </ion-item>

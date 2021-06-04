@@ -53,7 +53,6 @@
 
     <ion-row *ngFor="let no_leido of no_leidos">
       <ion-col size="12">{{no_leido.nombre}}</ion-col>
-      
     </ion-row>
 
     <ion-item lines="none">
@@ -74,9 +73,7 @@
       <ion-col size="6">{{leido.nombre}}</ion-col>
       <ion-col class="date" size="3">{{leido.datetime_read ? (leido.datetime_read | date:'dd/MM/yyyy hh:mm'):'--' }}
       </ion-col>
-      <ion-col class="date" size="3">{{leido.datetime_downloaded ? (leido.datetime_downloaded | date:'dd/MM/yyyy
-        hh:mm'):'--'}}</ion-col>
-      
+      <ion-col class="date" size="3">{{leido.datetime_downloaded ? (leido.datetime_downloaded | date:'dd/MM/yyyyhh:mm'):'--'}}</ion-col>
     </ion-row>
 
   </ion-grid>

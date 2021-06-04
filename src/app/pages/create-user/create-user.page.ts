@@ -36,14 +36,19 @@ export class CreateUserPage implements OnInit {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
     const role = this.userForm.get('role').value;
     const group = this.userForm.get('group').value;
-    const user = this.userForm.get('user').value;
-    const name = this.userForm.get('name').value;
-    const surname = this.userForm.get('surname').value;
-    const email = this.userForm.get('email').value;
+    const user :string  = this.userForm.get('user').value;
+    const name :string = this.userForm.get('name').value;
+    const surname :string  = this.userForm.get('surname').value;
+    const email :string  = this.userForm.get('email').value;
     const active = this.userForm.get('active').value;
+
+    const password = user.substr(0,6)+name.substr(0,1)+surname.substr(0,1);
+
+    console.log("contra",password);
+    
 
     const usuario : User = {
       id_group: this.userForm.get('group').value,
@@ -52,11 +57,16 @@ export class CreateUserPage implements OnInit {
       name: this.userForm.get('name').value,
       surname: this.userForm.get('surname').value,
       email: this.userForm.get('email').value,
-      is_activated: this.userForm.get('active').value
+      is_activated: this.userForm.get('active').value,
+      password: password
     };
 
-    this.userService.register(usuario);
+    const resultado: any = await this.userService.register(usuario);
 
+    if(!resultado) {
+      this.uiService.presentAlert('Error','Fallo en la creación de usuario','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+      return false;
+    }
     this.userForm.reset();
     this.uiService.presentToast("Usuario creado correctamente", "success");
 

@@ -46,6 +46,11 @@
 
       
       <ion-item>
+        <ion-label>Todos</ion-label>
+        <ion-checkbox value="all" formControlName="all" [(ngModel)]="allSelected" ></ion-checkbox>
+      </ion-item>
+
+      <ion-item [disabled]="allSelected">
         <ion-label position="floating">Grupos</ion-label>
         <ionic-selectable
         [required]
@@ -95,14 +100,10 @@
       </ion-list-header>
 
       <ion-item-sliding>
-        <ion-item
-          *ngIf="attachment != undefined"
-          (click)="preview(attachment.path)"
-        >
-          <ion-img
-            class="file-icon"
-            src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg"
-          >
+        <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
+
+          <ion-img class="file-icon"
+            src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
           </ion-img>
           <ion-text color="primary">
             {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
@@ -122,7 +123,7 @@
           <ion-item (click)="preview(attachment.path)">
     
             <ion-img class="file-icon"
-              src="../../../assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+              src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
             </ion-img>
             <ion-text color="primary">
               {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}

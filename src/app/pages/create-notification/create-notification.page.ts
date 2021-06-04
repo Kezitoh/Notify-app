@@ -27,6 +27,7 @@ export class CreateNotificationPage implements OnInit {
   base: any;
   attachpc: any;
   attachpc64: any;
+  allSelected: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -40,6 +41,7 @@ export class CreateNotificationPage implements OnInit {
       type: new FormControl(),
       groups: new FormControl(),
       users: new FormControl(),
+      all: new FormControl(),
     });
   }
 
@@ -86,25 +88,40 @@ export class CreateNotificationPage implements OnInit {
     
     let user_ids = [];
 
-    if(users != null) {
-      users.forEach((user) => {
-        user_ids.push(user.id);        
-      });
-
-    }
     
     let group_ids = [];
-
-    if(groups != null) {
-      groups.forEach((group) => {
-        group_ids.push(group.id);
-      });
-
-    }
-
+    
+    
     
     console.debug("groups", groups);
     console.log("users", users);
+    
+    const all = this.notificationForm.get('all').value;
+    
+    
+    if(!all) {
+      if(users != null) {
+        users.forEach((user) => {
+          user_ids.push(user.id);        
+        });
+  
+      }
+      if(groups != null) {
+        groups.forEach((group) => {
+          group_ids.push(group.id);
+        });
+  
+      }
+      
+    }else {
+      this.users.forEach((user) => {
+        user_ids.push(user.id);
+      });
+
+      
+
+    }
+
 
 
     // this.notificationForm.get();
@@ -146,7 +163,7 @@ export class CreateNotificationPage implements OnInit {
 console.log(attachment);
 
     this.notification = {
-      id_type: type.id,
+      id_type: type,
       text: text,
       title: title,
       users: user_ids != undefined ? user_ids : [],
@@ -157,11 +174,13 @@ console.log(attachment);
     console.log("notificaciooon!",this.notification);
     
 
-    const res = await this.notificationService.create(this.notification);
-    if(!res) {
-      this.uiService.presentToast('Error creando notificación', 'danger');
-      return false;  
+
+    const resultado = await this.notificationService.create(this.notification);
+    if(!resultado) {
+      this.uiService.presentAlert('Error','Fallo en la creación de notificación','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+      return false;
     }
+    
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();

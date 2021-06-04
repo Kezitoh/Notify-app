@@ -38,8 +38,6 @@ export class UserService {
     return new Promise<any>(resolve => {
 
       this.http.post(`${URL}/login`, data).subscribe(async resp => {
-        
-        
         if (!resp['ok']) {
           this.token = null;
           this.storage.clear();
@@ -57,25 +55,31 @@ export class UserService {
 
   register(user: User) {
 
-    // return new Promise<boolean>(resolve => {
-    this.http.post(`${URL}/register`, { id_group: user.id_group, id_role: user.id_role, is_active: user.is_activated, user: user.user, name: user.name, surname: user.surname, email: user.email })
-      .subscribe(resp => {
+    return new Promise<any>(resolve => {
+      this.http.post<any>(`${URL}/register`, { id_group: user.id_group, id_role: user.id_role, is_active: user.is_activated, user: user.user, name: user.name, surname: user.surname, email: user.email, password: user.password })
+        .subscribe(resp => {
+
+          console.log(resp);
+
+          resolve(resp.ok);
+
+          // if (resp['error']) {
+          //   this.token = null;
+          //   this.storage.clear();
+          //   resolve(false);
+          // }
+
+          // resolve(this.login(user.user, user.password));
 
 
-        // if (resp['error']) {
-        //   this.token = null;
-        //   this.storage.clear();
-        //   resolve(false);
-        // }
+        }, err => {
+          resolve(err.ok)
 
-        // resolve(this.login(user.user, user.password));
+        });
+      // , error => {
+      //   console.log(error);
 
-
-      });
-    // , error => {
-    //   console.log(error);
-
-    // });
+    });
     // });
 
   }
@@ -147,9 +151,9 @@ export class UserService {
 
   }
   getUserNotifications(filters?: any[]) {
-    
-    
-    
+
+
+
 
     let params: any = {
       user: this.usuario.id
@@ -302,13 +306,13 @@ export class UserService {
     });
   }
 
-  
-  editUser(id:number, user: any) {
+
+  editUser(id: number, user: any) {
     this.getHttpHeader().then(header => {
 
       return new Promise<any>(resolve => {
 
-        this.http.post(`${URL}/users/edit`, { id: id, values: user  }, { headers: header }).subscribe(res => {
+        this.http.post(`${URL}/users/edit`, { id: id, values: user }, { headers: header }).subscribe(res => {
 
           resolve(res);
 

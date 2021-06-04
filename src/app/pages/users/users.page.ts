@@ -12,7 +12,9 @@ import { OptionsPopoverComponent } from '../../components/options-popover/option
 })
 export class UsersPage implements OnInit {
 
-  users: any[];
+
+  usersOG: any[]; // Array original completo
+  users: any[]; // Array modificable por búsqueda
   refresher: any;
 
   constructor(private userService: UserService,
@@ -29,13 +31,15 @@ export class UsersPage implements OnInit {
     this.userService.getUsers().then(users => {
       console.log(users);
 
-      this.users = users;
+      this.usersOG = users;
+      this.users = this.usersOG
 
     });
   }
 
   doRefresh(event) {
     this.getUsers();
+    
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
@@ -77,9 +81,18 @@ export class UsersPage implements OnInit {
     console.log("actualizado!");
 
     // });
+  }
 
+  loadUsers(users) {
+    this.users = users;
+  }
 
-
+  // Busca que contenga secuencia de carácteres coincidentes
+  onSearchChange(event) {
+    console.log(event.target.value);
+    const filtro = this.usersOG.filter((user) => (user.name+' '+user.surname).toLowerCase().includes(event.target.value.toLowerCase()));
+    this.loadUsers(filtro);
+    
   }
 
 }

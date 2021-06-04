@@ -11,8 +11,13 @@
 
   <ion-list>
     <ion-item>
-      <ion-label position="floating">Descripción</ion-label>
+      <ion-label position="stacked">Descripción</ion-label>
       <p text-wrap >{{type.description}}</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label  class="flex-20">Activo:</ion-label>
+      <ion-icon name="{{type.is_active? 'checkmark-circle': 'close-circle'}}"></ion-icon>
     </ion-item>
   </ion-list>
 

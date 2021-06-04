@@ -37,8 +37,11 @@ export class NotificationService {
         // console.log("AWWWW",notification);
 
         this.http.post<any>(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
-
+          
           resolve(res.ok);
+
+        }, err => {
+          resolve(err.ok)
 
         });
       });
@@ -49,21 +52,16 @@ export class NotificationService {
     return new Promise<any>((resolve) => {
       this.getToken().then((token) => {
         const headers = new HttpHeaders({
-          'x-token': token,
+          'x-token': token
         });
-        console.log('value:', value);
-
-        this.http
-          .post(
-            `${URL}/notifications/fav`,
-            { notification_id: notification.id_notification, value: value },
-            { headers: headers }
-          )
-          .subscribe((res) => {
-            console.log(res);
-
-            resolve(res);
-          });
+        console.log("value:",value,"Notification:", notification.id);
+        
+        this.http.post(`${URL}/notifications/fav`, {notification_id: notification.id, value: value}, { headers: headers }).subscribe( res => {
+          console.log(res);
+          
+          resolve(res);
+        });
+        
       });
     });
   }
