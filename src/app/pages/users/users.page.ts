@@ -46,7 +46,7 @@ export class UsersPage implements OnInit {
       this.usersOG.forEach((user) => {
         user.is_active = this.traduccionBoolean(user.is_active);
       });
-      this.users = this.usersOG
+      this.users = this.usersOG.slice(0)
       
 
     });
