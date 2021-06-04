@@ -36,7 +36,8 @@ export class NotificationService {
         });
         // console.log("AWWWW",notification);
 
-        this.http.post<any>(`${URL}/notifications/create`, { 'type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups }, { headers: headers }).subscribe(res => {
+        this.http.post<any>(`${URL}/notifications/create`, { 'id_type': notification.id_type, 'title': notification.title, 'text': notification.text, 'attachment': notification.attachment, 'user': notification.users, 'group': notification.groups, 'attachpc':notification.attachpc }, { headers: headers }).subscribe(res => {
+          console.log("resultadoooooooooooo",res);
           
           resolve(res.ok);
 

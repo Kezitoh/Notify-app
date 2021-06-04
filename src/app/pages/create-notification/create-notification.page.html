@@ -100,14 +100,14 @@
       </ion-list-header>
 
       <ion-item-sliding>
-        <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
+        <ion-item *ngIf="attachment != undefined || cordova" (click)="preview(attachment.path)">
 
-          <ion-img class="file-icon"
+          <!-- <ion-img class="file-icon" 
             src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
           </ion-img>
           <ion-text color="primary">
             {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
-          </ion-text>
+          </ion-text> -->
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option (click)="delete()" color="light">

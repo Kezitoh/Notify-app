@@ -28,6 +28,7 @@ export class CreateNotificationPage implements OnInit {
   attachpc: any;
   attachpc64: any;
   allSelected: boolean = false;
+  
 
   constructor(
     private dataService: DataService,
@@ -47,23 +48,39 @@ export class CreateNotificationPage implements OnInit {
 
   async attachPc() {
     var attach = (<HTMLFormElement>document.getElementById('file-upload')).files[0];
-    this.attachpc = attach.name;
-    this.attachpc64 = this.getBase64(attach);
+    let date = new Date();
+        const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
+    this.attachpc = now + attach.name;
+    this.getBase64(attach).then(()=>{
+      this.attachpc64 = JSON.stringify(this.base);
+
+    })
+    
+  }
+  setAttach(e){
+    
+    this.attachment = e;
+    
   }
 
-  getBase64(event) {
+   async getBase64(event) {
     let me = this;
     let file = event;
     let reader = new FileReader();
+    let base;
     reader.readAsDataURL(file);
-    this.base = reader.onload = function () {
+    reader.onload = ()=> {
       //me.modelvalue = reader.result;
-      console.log(JSON.stringify(reader.result));
-      return reader.result;
+      this.setAttach(JSON.stringify(reader.result))
+      
+      base =  JSON.stringify(reader.result);
+      return base;
     };
+    
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+    
   }
 
   ngOnInit() {
@@ -130,20 +147,30 @@ export class CreateNotificationPage implements OnInit {
     const type = this.notificationForm.get('type').value;
     
 
-    let attachment = this.attachment;
-    if (attachment != undefined) {
-      const path = attachment.path;
-      let name: string = attachment.path;
-      name = name.substr(name.lastIndexOf('/') + 1);
+    let attachment;
+  
+    if (!this.isCordova()) {
+      attachment = this.attachment
 
-      let date = new Date();
-      const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
-
-      attachment = now + name;
-
-      this.dataService.upload(path, now);
-
+            
+    }else{
+      console.log("por aqui?");
+      
+      attachment = this.attachment
+      if (attachment != undefined) {
+        const path = attachment.path;
+        let name: string = attachment.path;
+        name = name.substr(name.lastIndexOf('/') + 1);
+  
+        let date = new Date();
+        const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
+  
+        attachment = now + name;
+  
+        this.dataService.upload(path, now);
+  
     }
+  }
     
 
     // SELECCIÓN MÚLTIPLE DE ATTACHMENTS
@@ -160,18 +187,19 @@ export class CreateNotificationPage implements OnInit {
     // },this.attachments);
 
     // console.log("a",this.attachments);
-console.log(attachment);
 
     this.notification = {
-      id_type: type,
+      id_type: type.id,
       text: text,
       title: title,
       users: user_ids != undefined ? user_ids : [],
       groups: group_ids != undefined ? group_ids : [],
       attachment: attachment != undefined ? attachment : '',
+      attachpc:this.attachpc
       // attachments: this.attachments.join('|')
     };
-    console.log("notificaciooon!",this.notification);
+    console.log("notificacion!!",JSON.stringify(this.notification));
+    
     
 
 
