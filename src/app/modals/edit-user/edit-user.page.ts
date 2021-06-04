@@ -17,6 +17,7 @@ export class EditUserPage implements OnInit {
   edit_userForm: FormGroup;
   groups: any[];
   group: any;
+  role: any;
   compareWith : any ;
 
   constructor(private modalCtrl: ModalController,
@@ -26,6 +27,7 @@ export class EditUserPage implements OnInit {
   ngOnInit() {
     this.compareWith = this.compareWithFn;
     this.group = this.user.id_group;
+    this.role = this.user.id_role;
     this.dataService.getGroups().then( groups => {
       this.groups = groups;
     });

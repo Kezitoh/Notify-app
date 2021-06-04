@@ -65,6 +65,8 @@ export class LoginPage implements OnInit {
         } else {
           this.responseForm(res, 'Usuario y/o contraseña incorrectos');
         }
+      }).catch(err => {
+        this.responseForm(false, 'Usuario y/o contraseña incorrectos');
       });
     });
   }
