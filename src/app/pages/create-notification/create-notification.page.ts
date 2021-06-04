@@ -88,7 +88,7 @@ export class CreateNotificationPage implements OnInit {
 
     if(users != null) {
       users.forEach((user) => {
-        user_ids.push(user.id);
+        user_ids.push(user.id);        
       });
 
     }
@@ -149,8 +149,8 @@ console.log(attachment);
       id_type: type.id,
       text: text,
       title: title,
-      users: users != undefined ? users : [],
-      groups: groups != undefined ? groups : [],
+      users: user_ids != undefined ? user_ids : [],
+      groups: group_ids != undefined ? group_ids : [],
       attachment: attachment != undefined ? attachment : '',
       // attachments: this.attachments.join('|')
     };

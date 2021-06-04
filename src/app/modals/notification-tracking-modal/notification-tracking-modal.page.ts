@@ -35,7 +35,10 @@ export class NotificationTrackingModalPage implements OnInit {
       const copy = resp.Users_Notifications;
       
       const cut = copy.findIndex(element => element.datetime_read != null);
-      this.leidos = copy.splice(cut);
+      if (cut !== -1) {
+        
+        this.leidos = copy.splice(cut);
+      }      
       this.no_leidos = copy;
     });
     
