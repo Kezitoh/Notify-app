@@ -47,6 +47,11 @@ export class UserService {
         await this.guardarToken(resp['token']);
         resolve(true);
 
+      }, err => {
+        this.token = null;
+        this.storage.clear();
+        resolve(false);
+
       });
 
     });
@@ -288,7 +293,6 @@ export class UserService {
 
     });
   }
-
 
   deleteUser(id: any) {
     this.getHttpHeader().then(header => {
