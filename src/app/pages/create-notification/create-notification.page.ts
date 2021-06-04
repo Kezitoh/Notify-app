@@ -78,50 +78,54 @@ export class CreateNotificationPage implements OnInit {
     this.cordova = this.isCordova();
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log(this.notificationForm.get('type').value);
 
-    const groups = this.notificationForm.get('groups').value;
-    const users = this.notificationForm.get('users').value;
+    const groups: any[] = this.notificationForm.get('groups').value;
+    const users: any[] = this.notificationForm.get('users').value;
+    
+    let user_ids = [];
 
-    console.debug('groups', groups);
-    console.log('users', users);
+    if(users != null) {
+      users.forEach((user) => {
+        user_ids.push(user.id);
+      });
+
+    }
+    
+    let group_ids = [];
+
+    if(groups != null) {
+      groups.forEach((group) => {
+        group_ids.push(group.id);
+      });
+
+    }
+
+    
+    console.debug("groups", groups);
+    console.log("users", users);
+
 
     // this.notificationForm.get();
     const title = this.notificationForm.get('title').value;
     const text = this.notificationForm.get('text').value;
-    const type_name = this.notificationForm.get('type').value;
+    const type = this.notificationForm.get('type').value;
+    
 
-    const type = this.types.find((nombre) => nombre.name == type_name);
-    console.log('tipooooooo', type_name);
-    let attachment;
-    if (this.isCordova()) {
-      attachment = this.attachment;
-      if (attachment != undefined) {
-        const path = attachment.path;
-        let name: string = attachment.path;
-        name = name.substr(name.lastIndexOf('/') + 1);
-  
-        let date = new Date();
-        const now =
-          '' +
-          date.getFullYear() +
-          (date.getMonth() + 1) +
-          date.getDate() +
-          date.getHours() +
-          date.getMinutes() +
-          date.getSeconds();
-  
-        attachment = now + name;
-  
-        this.dataService.upload(path, now);
-      }
-    }else{
-      this.attachPc().then(()=>{
-        attachment = this.attachpc64;
-        console.log("noti",attachment);
-        
-      })
+    let attachment = this.attachment;
+    if (attachment != undefined) {
+      const path = attachment.path;
+      let name: string = attachment.path;
+      name = name.substr(name.lastIndexOf('/') + 1);
+
+      let date = new Date();
+      const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
+
+      attachment = now + name;
+
+      this.dataService.upload(path, now);
+
     }
     
 
@@ -142,7 +146,7 @@ export class CreateNotificationPage implements OnInit {
 console.log(attachment);
 
     this.notification = {
-      id_type: type_name.id,
+      id_type: type.id,
       text: text,
       title: title,
       users: users != undefined ? users : [],
@@ -153,7 +157,11 @@ console.log(attachment);
     console.log("notificaciooon!",this.notification);
     
 
-    this.notificationService.create(this.notification);
+    const res = await this.notificationService.create(this.notification);
+    if(!res) {
+      this.uiService.presentToast('Error creando notificación', 'danger');
+      return false;  
+    }
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();
