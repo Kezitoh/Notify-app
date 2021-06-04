@@ -27,6 +27,7 @@ export class CreateNotificationPage implements OnInit {
   previews: any[] = [];
   base:any;
   attachpc: any;
+  allSelected: boolean = false;
 
   constructor(private dataService: DataService,
     private notificationService: NotificationService,
@@ -37,6 +38,7 @@ export class CreateNotificationPage implements OnInit {
       type: new FormControl(),
       groups: new FormControl(),
       users: new FormControl(),
+      all: new FormControl(),
     });
   }
 
@@ -81,11 +83,24 @@ export class CreateNotificationPage implements OnInit {
 
   async onSubmit() {
 
-    const groups = this.notificationForm.get('groups').value;
-    const users = this.notificationForm.get('users').value;
+    const all = this.notificationForm.get('all').value;
 
-    console.debug("groups", groups);
-    console.log("users", users);
+    let groups = [];
+    let users = [];
+
+    if(!all) {
+      groups = this.notificationForm.get('groups').value;
+      users = this.notificationForm.get('users').value;
+    }else {
+      this.users.forEach((user) => {
+        users.push(user.id);
+      });
+
+      console.log(users);
+      
+
+    }
+
 
 
     // this.notificationForm.get();

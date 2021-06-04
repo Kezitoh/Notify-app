@@ -18,52 +18,59 @@
     <ion-item>
       <ion-label position="floating">Tipo <ion-text color="danger">*</ion-text>
       </ion-label>
-      <ion-select required  interface="popover" formControlName="type" value="" multiple="false" placeholder="Selecciona tipo">
+      <ion-select required interface="popover" formControlName="type" value="" multiple="false"
+        placeholder="Selecciona tipo">
         <ion-select-option *ngFor="let type of types" [value]="type.id">{{type.name}}</ion-select-option>
       </ion-select>
     </ion-item>
 
-    
+
     <ion-list>
       <ion-list-header>
-        <ion-label>Destinatarios <ion-text color="danger">*</ion-text></ion-label>
+        <ion-label>Destinatarios <ion-text color="danger">*</ion-text>
+        </ion-label>
       </ion-list-header>
-      
+
       <ion-item>
+        <ion-label>Todos</ion-label>
+        <ion-checkbox value="all" formControlName="all" [(ngModel)]="allSelected" ></ion-checkbox>
+      </ion-item>
+
+      <ion-item [disabled]="allSelected">
         <ion-label position="floating">Grupos</ion-label>
-        <ion-select [required] formControlName="groups" value="" multiple="true" placeholder="Selecciona grupos">
+        <ion-select formControlName="groups" value="" multiple="true" placeholder="Selecciona grupos">
           <ion-select-option *ngFor="let group of groups " [value]="group.id">{{group.name}}</ion-select-option>
         </ion-select>
       </ion-item>
-      
-      <ion-item>
+
+      <ion-item [disabled]="allSelected">
         <ion-label position="floating">Usuarios</ion-label>
-        <ion-select  [required] formControlName="users" value="" multiple="true" placeholder="Selecciona usuarios">
+        <ion-select formControlName="users" value="" multiple="true" placeholder="Selecciona usuarios">
           <ion-select-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-select-option>
         </ion-select>
       </ion-item>
-      
+
     </ion-list>
 
     <ion-list>
-    
+
       <ion-list-header>
         <ion-label>Adjunto</ion-label>
         <ion-button *ngIf="cordova" (click)="addAttachment()">
           <ion-icon slot="icon-only" name="add"></ion-icon>
         </ion-button>
-    
+
         <div *ngIf="!cordova" class="ion-padding">
           <label for="file-upload" class="custom-file-upload">Añadir adjunto</label>
-          <input id="file-upload" type="file"  (change)="prueba($event)"/>
-<br>
+          <input id="file-upload" type="file" (change)="prueba($event)" />
+          <br>
           {{attachpc}}
         </div>
       </ion-list-header>
-    
-      <ion-item-sliding >
+
+      <ion-item-sliding>
         <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
-    
+
           <ion-img class="file-icon"
             src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
           </ion-img>
@@ -77,8 +84,8 @@
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
-    
-    
+
+
       <!-- Selección múltiple de attachments -->
       <!-- <ion-item-sliding *ngFor="let attachment of attachments; let item = index">
         
@@ -102,11 +109,11 @@
         </ng-container>
       </ion-item-sliding> -->
     </ion-list>
-    
+
     <ion-button class="footer" expand="full" color="primary" type="submit" [disabled]="notificationForm.invalid">
       Crear notificación
     </ion-button>
-    
+
   </form>
-  
+
 </ion-content>

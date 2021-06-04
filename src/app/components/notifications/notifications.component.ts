@@ -127,8 +127,8 @@ export class NotificationsComponent implements OnInit {
   // Busca solo por inicio
   onSearchChange(event) {
     console.log(event.target.value);
-    const reg = new RegExp(event.target.value,"gi")
-    const filtro = this.notificationsOG.filter((notification) => !notification.title.search(reg));
+    // const reg = new RegExp(event.target.value,"gi")
+    const filtro = this.notificationsOG.filter((notification) => notification.title.toLowerCase().includes(event.target.value.toLowerCase()));
     this.loadNotifs(filtro);
     
   }
