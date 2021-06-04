@@ -46,7 +46,7 @@
 
       
       <ion-item>
-        <ion-label>Todos</ion-label>
+        <ion-label>Seleccionar todos los usuarios</ion-label>
         <ion-checkbox value="all" formControlName="all" [(ngModel)]="allSelected" ></ion-checkbox>
       </ion-item>
 
@@ -66,7 +66,7 @@
       </ion-item>
 
      
-      <ion-item>
+      <ion-item  [disabled]="allSelected">
         <ion-label position="floating">Usuarios</ion-label>
         <ionic-selectable
           [required]
