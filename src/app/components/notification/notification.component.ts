@@ -61,7 +61,9 @@ export class NotificationComponent implements OnInit {
       fav = 0;
     }
 
-    this.notificationService.setFavorite(this.notification, this.favorito).then(() => {
+    
+
+    this.notificationService.setFavorite(this.notification, fav).then(() => {
       if (fav) {
         this.uiService.presentToast('Añadida noticia a favoritos', 'warning');
         return;

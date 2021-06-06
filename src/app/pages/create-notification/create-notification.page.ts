@@ -35,7 +35,7 @@ export class CreateNotificationPage implements OnInit {
     private notificationService: NotificationService,
     private uiService: UiService,
     public platform: Platform,
-    private userService:UserService
+    private userService: UserService
   ) {
     this.notificationForm = new FormGroup({
       title: new FormControl(),
@@ -48,9 +48,15 @@ export class CreateNotificationPage implements OnInit {
   }
 
   async attachPc() {
-    var attach = (<HTMLFormElement>document.getElementById('file-upload')).files[0];
-    this.attachpc = attach.name;
-    this.attachpc64 = this.getBase64(attach);
+    // const { dialog } = require('electron');
+    // console.log(
+    //   dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
+    // );
+    // var attach = (<HTMLFormElement>document.getElementById('file-upload')).files[0];
+    // this.attachpc = attach.name;
+    // console.log("Attachment",attach);
+
+    // this.attachpc64 = this.getBase64(attach);
   }
 
   getBase64(event) {
@@ -69,24 +75,27 @@ export class CreateNotificationPage implements OnInit {
   }
 
   ngOnInit() {
+    this.prueba();
     // this.types = [{id: 1, name: 'felipe'},{id: 2, name: 'romualdo'},{id: 3, name: 'ioioio'}]
     this.dataService.getTypes().then((types) => {
-      
       this.types = types.filter((item) => item.is_active == 1);
       console.log(types);
-      
     });
     this.dataService.getGroups().then((groups) => {
       this.groups = groups.filter((item) => item.is_active == 1);
-      
     });
     this.userService.getUsers().then((users) => {
       this.users = users.filter((item) => item.is_active == 1);
       console.log(users);
-      
     });
 
     this.cordova = this.isCordova();
+  }
+
+  prueba() {
+    if (this.platform.is('cordova')) {
+      console.log('CORDOVA');
+    }
   }
 
   async onSubmit() {
@@ -94,50 +103,37 @@ export class CreateNotificationPage implements OnInit {
 
     const groups: any[] = this.notificationForm.get('groups').value;
     const users: any[] = this.notificationForm.get('users').value;
-    
+
     let user_ids = [];
 
-    
     let group_ids = [];
-    
-    
-    
-    console.debug("groups", groups);
-    console.log("users", users);
-    
+
+    console.debug('groups', groups);
+    console.log('users', users);
+
     const all = this.notificationForm.get('all').value;
-    
-    
-    if(!all) {
-      if(users != null) {
+
+    if (!all) {
+      if (users != null) {
         users.forEach((user) => {
-          user_ids.push(user.id);        
+          user_ids.push(user.id);
         });
-  
       }
-      if(groups != null) {
+      if (groups != null) {
         groups.forEach((group) => {
           group_ids.push(group.id);
         });
-  
       }
-      
-    }else {
+    } else {
       this.users.forEach((user) => {
         user_ids.push(user.id);
       });
-
-      
-
     }
-
-
 
     // this.notificationForm.get();
     const title = this.notificationForm.get('title').value;
     const text = this.notificationForm.get('text').value;
     const type = this.notificationForm.get('type').value;
-    
 
     let attachment = this.attachment;
     if (attachment != undefined) {
@@ -146,14 +142,19 @@ export class CreateNotificationPage implements OnInit {
       name = name.substr(name.lastIndexOf('/') + 1);
 
       let date = new Date();
-      const now = "" + date.getFullYear() + (date.getMonth() + 1) + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds();
+      const now =
+        '' +
+        date.getFullYear() +
+        (date.getMonth() + 1) +
+        date.getDate() +
+        date.getHours() +
+        date.getMinutes() +
+        date.getSeconds();
 
       attachment = now + name;
 
       this.dataService.upload(path, now);
-
     }
-    
 
     // SELECCIÓN MÚLTIPLE DE ATTACHMENTS
     // this.attachments.forEach((attachment, i) => {
@@ -169,7 +170,7 @@ export class CreateNotificationPage implements OnInit {
     // },this.attachments);
 
     // console.log("a",this.attachments);
-console.log(attachment);
+    console.log(attachment);
 
     this.notification = {
       id_type: type.id,
@@ -180,16 +181,18 @@ console.log(attachment);
       attachment: attachment != undefined ? attachment : '',
       // attachments: this.attachments.join('|')
     };
-    console.log("notificaciooon!",this.notification);
-    
-
+    console.log('notificaciooon!', this.notification);
 
     const resultado = await this.notificationService.create(this.notification);
-    if(!resultado) {
-      this.uiService.presentAlert('Error','Fallo en la creación de notificación','Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.' );
+    if (!resultado) {
+      this.uiService.presentAlert(
+        'Error',
+        'Fallo en la creación de notificación',
+        'Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.'
+      );
       return false;
     }
-    
+
     this.uiService.presentToast('Notificación creada exitosamente!', 'success');
 
     this.resetForm();

@@ -266,7 +266,8 @@ export class UserService {
 
       this.http.get(`${URL}/reset?user=${user}&code=${code}`).subscribe(res => {
 
-
+        console.log(res);
+        
         resolve(res);
 
       });
@@ -277,7 +278,7 @@ export class UserService {
   }
 
   resetPassword(user, password, passwordConfirmation, code) {
-    const data = { user: user, password: password, password_confirmation: passwordConfirmation, code: code };
+    const data = { user: user, password: password, password_confirmation: passwordConfirmation};
 
     return new Promise<any>((resolve, reject) => {
 

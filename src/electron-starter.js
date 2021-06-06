@@ -95,13 +95,14 @@ app.on("activate", function() {
     createWindow();
   }
 });
-app.whenReady().then(() => {
 
-  createWindow();
+// app.whenReady().then(() => {
 
-  contextMenu({ showInspectElement: false, showSearchWithGoogle: false, spellcheck: false, learnSpelling: false, lookUpSelection: false });
+//   createWindow();
 
-});
+//   contextMenu({ showInspectElement: false, showSearchWithGoogle: false, spellcheck: false, learnSpelling: false, lookUpSelection: false });
+
+// });
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
