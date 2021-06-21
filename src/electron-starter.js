@@ -21,10 +21,6 @@ function createWindow() {
     maximizable: true,
     width: parseInt(dimensions.width * 1),
     height: parseInt(dimensions.height * 1),
-    minWidth: parseInt(dimensions.width * 1),
-    minHeight: parseInt(dimensions.height * 1),
-    maxWidth: 3000,
-    maxHeight: 2000,
     webPreferences: {
       spellcheck: false
     }

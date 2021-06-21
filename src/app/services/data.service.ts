@@ -14,7 +14,6 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LoadingController, Platform } from '@ionic/angular';
 import { UiService } from './ui.service';
-import { Observable } from 'build/Notify-win32-ia32/resources/app/node_modules/rxjs';
 declare var window: any;
 
 const URL = environment.url;
