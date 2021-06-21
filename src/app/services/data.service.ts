@@ -184,14 +184,12 @@ export class DataService implements OnInit {
         if (status.hasPermission) {
           await this.download(url);
         } else {
-          this.uiService.presentToast("bbbbbb");
           await this.androidPermissions
             .requestPermission(
               this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
             )
             .then(async (status) => {
               if (status.hasPermission) {
-                this.uiService.presentToast("ccccc");
                 await this.download(url);
               }
             });
@@ -220,13 +218,13 @@ export class DataService implements OnInit {
       .then(
         async (entry) => {
           console.log('download complete: ' + entry.toURL());
-          this.uiService.presentToast("SUUu: "+entry.toURL());
+          
           await this.openFile(entry.toURL());
         },
         (error) => {
           // handle error
           JSON.stringify(error);
-          this.uiService.presentToast(error.target);
+          this.uiService.presentToast("Error descargando el archivo.");
           console.error(error);
         }
       );
