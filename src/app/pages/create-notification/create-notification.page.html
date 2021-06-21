@@ -95,18 +95,18 @@
           >
           <input id="file-upload" type="file" (change)="attachPc()" />
           <br />
-          {{attachpc}}
+          <!-- {{attachpc}}  -->
         </div>
       </ion-list-header>
 
       <ion-item-sliding>
-        <ion-item *ngIf="attachment != undefined" (click)="preview(attachment.path)">
+        <ion-item *ngIf="attachment != undefined || attachpc != undefined" (click)="attachment != null? preview(attachment.path) : preview(attachpc.name)">
 
           <ion-img class="file-icon"
-            src="assets/file-icons/SVG/{{attachment.path.substr(attachment.path.lastIndexOf('.')+1)}}.svg">
+            src="{{ attachment != null? 'assets/file-icons/SVG/'+attachment.path.substr(attachment.path.lastIndexOf('.')+1)+'.svg' : 'assets/file-icons/SVG/'+attachpc.name.substr(attachpc.name.lastIndexOf('.')+1)+'.svg'}}">
           </ion-img>
           <ion-text color="primary">
-            {{attachment.path.substr(attachment.path.lastIndexOf('/')+1)}}
+            {{  attachment != null? attachment.path.substr(attachment.path.lastIndexOf('/')+1) : attachpc.name.substr(attachpc.name.lastIndexOf('/')+1) }}
           </ion-text>
         </ion-item>
         <ion-item-options side="end">

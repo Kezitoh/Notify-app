@@ -18,7 +18,7 @@ function createWindow() {
   const dimensions = display.workAreaSize;
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    maximizable: false,
+    maximizable: true,
     width: parseInt(dimensions.width * 1),
     height: parseInt(dimensions.height * 1),
     minWidth: parseInt(dimensions.width * 1),

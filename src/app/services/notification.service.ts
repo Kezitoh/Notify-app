@@ -145,7 +145,7 @@ export class NotificationService {
   getAttachments(notification: Notification) {
     // let attachments = notification.attachments.split('|');
     // attachments.forEach((attachment, i)=>{
-    //   attachments[i] = attachment.substr(12)
+    //   attachments[i] = attachment
     // });
     // return attachments;
     let attachment = notification.attachment;

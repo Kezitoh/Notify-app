@@ -27,7 +27,6 @@ export class CreateNotificationPage implements OnInit {
   previews: any[] = [];
   base: any;
   attachpc: any;
-  attachpc64: any;
   allSelected: boolean = false;
 
   constructor(
@@ -52,11 +51,12 @@ export class CreateNotificationPage implements OnInit {
     // console.log(
     //   dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
     // );
-    // var attach = (<HTMLFormElement>document.getElementById('file-upload')).files[0];
-    // this.attachpc = attach.name;
-    // console.log("Attachment",attach);
+    var attach = (<HTMLFormElement>document.getElementById('file-upload'))
+      .files[0];
+    this.attachpc = attach;
+    console.log('Attachment', this.attachpc);
 
-    // this.attachpc64 = this.getBase64(attach);
+    //this.attachpc64 = this.getBase64(attach);
   }
 
   getBase64(event) {
@@ -75,7 +75,7 @@ export class CreateNotificationPage implements OnInit {
   }
 
   ngOnInit() {
-    this.prueba();
+    this.dataService.esCordova();
     // this.types = [{id: 1, name: 'felipe'},{id: 2, name: 'romualdo'},{id: 3, name: 'ioioio'}]
     this.dataService.getTypes().then((types) => {
       this.types = types.filter((item) => item.is_active == 1);
@@ -90,12 +90,6 @@ export class CreateNotificationPage implements OnInit {
     });
 
     this.cordova = this.isCordova();
-  }
-
-  prueba() {
-    if (this.platform.is('cordova')) {
-      console.log('CORDOVA');
-    }
   }
 
   async onSubmit() {
@@ -135,25 +129,29 @@ export class CreateNotificationPage implements OnInit {
     const text = this.notificationForm.get('text').value;
     const type = this.notificationForm.get('type').value;
 
-    let attachment = this.attachment;
-    if (attachment != undefined) {
+    let attachment;
+    
+    if (this.dataService.esCordova()) {
+      attachment = this.attachment;
+    } else if (!this.dataService.esCordova()) {
+      attachment = this.attachpc;
+    }
+    
+    let now = this.getDate();
+
+    if ( this.dataService.esCordova() && attachment != undefined) {
       const path = attachment.path;
       let name: string = attachment.path;
       name = name.substr(name.lastIndexOf('/') + 1);
-
-      let date = new Date();
-      const now =
-        '' +
-        date.getFullYear() +
-        (date.getMonth() + 1) +
-        date.getDate() +
-        date.getHours() +
-        date.getMinutes() +
-        date.getSeconds();
-
+      
       attachment = now + name;
-
+      
       this.dataService.upload(path, now);
+
+    } else if (!this.dataService.esCordova() && attachment != undefined) {
+      this.dataService.uploadFromPC(attachment, now);
+
+      attachment = now + attachment.name;
     }
 
     // SELECCIÓN MÚLTIPLE DE ATTACHMENTS
@@ -188,7 +186,7 @@ export class CreateNotificationPage implements OnInit {
       this.uiService.presentAlert(
         'Error',
         'Fallo en la creación de notificación',
-        'Parece que hubo un error con la creación del registro, vuelve a intentarlo y comprueba que los datos insertados son correctos.'
+        'Parece que hubo un error con la creación del registro, vuelve a intentarlo y comesCordova que los datos insertados son correctos.'
       );
       return false;
     }
@@ -198,6 +196,22 @@ export class CreateNotificationPage implements OnInit {
     this.resetForm();
   }
 
+  getDate() {
+    let date = new Date();
+    const now =
+      '' +
+      date.getFullYear() +
+      (date.getMonth() + 1) +
+      date.getDate() +
+      date.getHours() +
+      date.getMinutes() +
+      date.getSeconds()+
+      '_';
+
+    return now;
+  }
+
+  //Parece ser inútil, pero por si acaso lo dejaré como está
   async addAttachment() {
     this.dataService.chooseFile().then((file) => {
       this.attachment = file;

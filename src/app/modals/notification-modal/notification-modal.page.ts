@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Notification } from 'src/app/interfaces/interfaces';
 import { NotificationService } from '../../services/notification.service';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export class NotificationModalPage implements OnInit {
   terminosAceptados: boolean = false;
 
   constructor(private modalCtrl: ModalController, private notificationService: NotificationService,
-    private dataService: DataService) { }
+    private dataService: DataService, public platform: Platform) { }
 
   ngOnInit() {
 
@@ -55,12 +55,18 @@ export class NotificationModalPage implements OnInit {
     // const url = "/download?filename="+this.attachments[index];
 
 
-    return this.dataService.getPermission(url).then(() => {
-      if(!this.notification.is_downloaded) {
-        this.notificationService.setDownloaded(this.notification.user_notification_id);
-      }
+    if(this.dataService.esCordova()){
 
-    });
+      return this.dataService.getPermission(url).then(() => {
+        if(!this.notification.is_downloaded) {
+          this.notificationService.setDownloaded(this.notification.user_notification_id);
+        }
+  
+      });
+
+    } else if(!this.dataService.esCordova()) {
+      this.dataService.downloadFromPC(this.attachment);
+    }
   }
 
 }
